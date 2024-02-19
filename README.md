@@ -9,7 +9,6 @@ Tramada es un proyecto que busca implementar un sistema para mejorar el control 
 - Seguimiento en tiempo real del inventario de materias primas.
 - Registro y control de entradas y salidas de materiales.
 - Generación de informes y reportes sobre el estado del inventario.
-- Integración con sistemas de gestión empresarial (ERP) existentes.
 
 ## Diagrama BPMN
 
