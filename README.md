@@ -18,10 +18,10 @@ A continuación, se muestra un diagrama BPMN que ilustra la solución propuesta 
 
 ## Tecnologías Utilizadas
 
-- Lenguaje de Programación: [Ejemplo: Python]
-- Base de Datos: [Ejemplo: MySQL]
-- Frameworks/Librerías: [Ejemplo: Flask, React]
-- Herramientas de Control de Versiones: [Ejemplo: Git, GitHub]
+- Lenguaje de Programación: Sin definir
+- Base de Datos: Sin definir
+- Frameworks/Librerías: Sin definir
+- Herramientas de Control de Versiones: Git, Github.
 
 ## Instalación
 
