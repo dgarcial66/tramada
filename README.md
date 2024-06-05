@@ -14,7 +14,7 @@ Tramada es un proyecto que busca implementar un sistema para mejorar el control 
 
 A continuación, se muestra un diagrama BPMN que ilustra la solución propuesta para el control y manejo de materias primas en el proyecto Tramada:
 
-![Diagrama BPMN](image.png)
+![Diagrama BPMN](./documentacion/image.png)
 
 ## Tecnologías Utilizadas
 
