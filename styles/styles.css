@@ -388,11 +388,11 @@ main {
 }
 
 .menu-clientes h1 {
-    font-size: 2.8rem;
+    font-size: 3.0rem;
     font-family: "Aubrey", system-ui;
     font-weight: 400;
     font-style: normal;
-    color: #7a4e49;
+    color: #A0A603;
 
 }
 
@@ -430,9 +430,19 @@ button {
     display: flex;
     align-items: center;
     margin-left: -650px;
-    margin-top: 80px;
-    gap: 50px;
+    margin-top: 40px;
+    gap: 34px;
     flex-direction: column;
+    font-size: 1.2rem;
+    color: black;
+    }
+.title-grafico{
+
+    font-family: "Aubrey", system-ui;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 3.0rem;
+    color: #A0A603;
 
 }
 
@@ -479,7 +489,7 @@ button {
 }
 
 .tabla-clientes {
-    margin-top: -85%;
+    margin-top: -80%;
     margin-left: 22%;
 
 }
