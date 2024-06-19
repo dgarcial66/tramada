@@ -9,16 +9,18 @@
     --marginGap8: 8px;
 }
 
-*{
+* {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
-html{
+
+html {
     font-size: 62.5%;
     font-family: "Roboto", sans-serif;
 }
-body{
+
+body {
     overflow: hidden;
 }
 
@@ -27,6 +29,17 @@ body{
 .container-logo figure {
     max-width: 490px;
     margin: 0 auto;
+}
+
+.container-icono {
+    margin: 0 auto;
+}
+
+.container-icono img {
+    max-width: 227px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
 }
 
 /* Estilos para el main de inicio de sesión */
@@ -87,7 +100,7 @@ main {
 .content-form--login input {
     width: 320px;
     height: 38px;
-    border: solid 1px ;
+    border: solid 1px;
     border-radius: var(--marginGap8);
     margin-top: var(--marginGap8);
 }
@@ -95,10 +108,10 @@ main {
 .content-form--login form button {
     width: 320px;
     height: 38px;
-    border: solid 1px ;
+    border: solid 1px;
     border-radius: var(--marginGap8);
     background-color: var(--backgroundButton);
-    
+
     cursor: pointer;
 }
 
@@ -109,4 +122,142 @@ main {
 
 .content-description--registre {
     font-size: 1.4rem;
+}
+
+/* estilos header */
+.iconos-menu {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: solid 1px rgb(36, 15, 15);
+    background-color: #A0A603;
+
+}
+
+.logo-menu img {
+    width: 300px;
+    margin: 12px 8px 0px;
+}
+
+.perfil-menu img {
+    max-width: 50px;
+    margin: 15% 12px 8px 0px;
+}
+
+/* estilos main para la vista home*/
+
+.main-home {
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+}
+
+.Menu {
+    width: 15%;
+    border-right: solid 1px rgb(36, 15, 15);
+    background-color: #7a4e49;
+}
+
+.Menu ul {
+    font-size: 1.8rem;
+    padding: 24px;
+
+}
+.Menu a{
+    text-decoration: none;
+    color: black;
+
+}
+
+.list-menu li {
+    font-size: 3.5rem;
+    margin-top: 32px;
+    list-style: none;
+    font-family: "Aubrey", system-ui;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.list-menu li:hover {
+    cursor: pointer;
+    color: #A0A603;
+}
+
+.container-main-home {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 5%;
+}
+
+.container-logo-home {
+    display: flex;
+    justify-content: space-between;
+}
+
+
+.container-logo-home h1 {
+    font-size: 5.2rem;
+    margin: 70px 0 0 40px;
+    font-family: "Aubrey", system-ui;
+    font-weight: 600;
+    font-style: normal;
+
+}
+
+.container-logo-home img {
+    width: 190px;
+    margin: 20px 40px 0 0;
+}
+
+.container-logos-menu {
+    display: flex;
+    justify-content: center;
+    gap: 100px;
+}
+
+.container-logos-menu section {
+    text-align: center;
+    border: solid 2px;
+    padding: 18px;
+    border-radius: 8px;
+}
+
+.container-logos-menu section:hover {
+    color: #A0A603;
+    cursor: pointer;
+}
+
+.container-logos-menu section img {
+    margin-bottom: 28px;
+
+}
+.container-logos-menu a	{
+    text-decoration: none;
+    color: black;
+}
+/* estilos de la tabla productos */
+.tabla-productos{
+    width: 100%;
+}
+
+.estilo-tabla{
+    border: solid 1px;
+    border-color: white;
+    margin: 5% auto;
+    background-color: rgb(206, 199, 199);
+
+}
+.estilo-tabla th, .estilo-tabla td{
+    border: solid 1px;
+    border-color: #7a4e49;
+    padding: 15px;
+    font-size: 1.8rem;
+    text-align: center;
+}
+.estilo-head-tabla{
+    background-color: #A0A603;
+}
+.estilo-tabla button{
+    padding: 5px;
+    width: 100px;
 }

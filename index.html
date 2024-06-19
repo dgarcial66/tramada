@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,11 +10,17 @@
     <link rel="stylesheet" href="./styles/styles.css">
     <title>Tramada tejidos</title>
 </head>
+
 <body>
     <header>
         <section class="container-logo">
             <figure>
                 <img src="./assets/logo.png" alt="logo de empresa">
+            </figure>
+        </section>
+        <section class="container-icono">
+            <figure>
+                <img src="./assets/Icono.png" alt="icono de empresa">
             </figure>
         </section>
     </header>
@@ -25,7 +32,7 @@
                     <h1>Iniciar Sesión</h1>
                 </div>
                 <div class="content-form--login">
-                    <form action="#">
+                    <form action="./views/home.html">
                         <div>
                             <label for="username">Usuario</label>
                             <input type="text" name="username">
@@ -34,8 +41,9 @@
                             <label for="password">Contraseña</label>
                             <input type="password" name="password">
                         </div>
-                        
-                        <button>Iniciar Sesión</button>
+                        <a href="./views/home.html">
+                            <button>Iniciar Sesión</button>
+                        </a>
                     </form>
                     <div class="content-description--registre">
                         <p>¿No tienes una cuenta? <a href="#">Registrate</a>.</p>
@@ -45,4 +53,5 @@
         </section>
     </main>
 </body>
+
 </html>
