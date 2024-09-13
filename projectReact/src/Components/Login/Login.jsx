@@ -1,7 +1,7 @@
 import "./login.css"
 import { useState } from "react"
 
-export function Formulario({ setUser }){
+export function Formulario({ setUser, setIsRegister }){
     const [nombre, setNombre] = useState("")
     const [contraseña, setContraseña] = useState("")
     const [error, setError] = useState(false)
@@ -39,7 +39,7 @@ export function Formulario({ setUser }){
                 placeholder="ingrese su contraseña"
                 />
                 <button>iniciar sesion</button>
-                <button>registrarse</button>
+                <button onClick={() => setIsRegister(true)}>registrarse</button>
                 {error && <p>todos los campos son obligatorios</p>}
             </form>
             

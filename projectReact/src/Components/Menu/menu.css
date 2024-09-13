@@ -1,0 +1,46 @@
+.container-padre{    
+        display: flex;
+        justify-content: center;
+        gap: 100px;
+    
+}    
+
+.container-padre div{
+    border: 1px solid black;
+    text-align: center;
+    border: solid 2px;
+    padding: 18px;
+    border-radius: 8px;
+
+}
+
+.container-padre h2{
+    font-size: 0.8rem;
+}
+.container-padre h1{
+    display: flex;
+    justify-content: center;
+}
+
+.container-padre img{
+    width: 50px;
+}
+.iconos-menu {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: solid 1px rgb(238, 211, 238);
+    background-color: rgb(238, 211, 238);
+    width: 100%;
+
+
+}
+
+.logo-menu img {
+    width: 300px;
+    margin: 12px 8px 0px;
+}
+
+.perfil-menu img {
+    max-width: 50px;
+    margin: 15% 12px 8px 0px;
+}
