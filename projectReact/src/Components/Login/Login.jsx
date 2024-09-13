@@ -1,4 +1,4 @@
-import "./formulario.css"
+import "./login.css"
 import { useState } from "react"
 
 export function Formulario({ setUser }){
