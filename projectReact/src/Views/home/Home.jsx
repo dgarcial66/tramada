@@ -1,12 +1,17 @@
 import {Menu} from '../../Components/Menu/Menu.jsx'
-export function Home ({ user, setUser }) {
+import { MenuProductos } from '../MenuProductos/MenuProductos.jsx'
+export function Home ({ user, setUser, ClickProducts, setClickProducts}) {
 
   const handlelogout = () =>{
     setUser([])
   }
     return(
       <>
-      <Menu/>
+      {
+      setClickProducts
+      ?<Productos ClickProducts={ClickProducts} setClickProducts={setClickProducts}/>
+      :<Menu/>
+      }
       </>
     )
 }

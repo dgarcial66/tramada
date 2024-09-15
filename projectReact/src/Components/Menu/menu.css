@@ -17,9 +17,10 @@
 .container-padre h2{
     font-size: 0.8rem;
 }
-.container-padre h1{
+.titulo{
     display: flex;
     justify-content: center;
+    padding: 20px;
 }
 
 .container-padre img{
