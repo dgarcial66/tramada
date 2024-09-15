@@ -1,7 +1,5 @@
-
 import { Home } from './Views/home/Home.jsx'
 import { useState } from 'react'
-import './App.css'
 import LoginRegister from './Views/LoginRegister/LoginRegister';
 
 
