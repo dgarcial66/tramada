@@ -7,7 +7,7 @@ import "./menu.css"
 
 export function Menu ({ setUser }){
     const [ClickProducts, setClickProducts] = useState(false);
-  const navigate = useNavigate();
+    const navigate = useNavigate()
     return(
         <>
         {ClickProducts ? (
@@ -29,7 +29,7 @@ export function Menu ({ setUser }){
                 </figure>
                 <figure className="container-hijo">
                   <img
-                  onClick={() => navigate('/clientes')}
+                  onClick={() => navigate('/clients')}
                     className="Clientes"
                     src="https://img.icons8.com/?size=100&id=2906&format=png&color=000000"
                     alt="icono-clientes"
