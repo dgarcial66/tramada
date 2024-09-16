@@ -21,6 +21,18 @@
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
   }
+
+  .button-back {
+    width: 28px;
+    height: 28px;
+    background-image: url(https://i.pinimg.com/564x/ec/f8/52/ecf852e701d03dfa2266d1b6a8262f08.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    border: none;
+    margin: 12px;
+    cursor: pointer;
+  }
   
   .form-group {
     display: flex;

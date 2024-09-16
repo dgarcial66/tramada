@@ -1,17 +1,18 @@
+import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import {Menu} from '../../Components/Menu/Menu.jsx'
-import { MenuProductos } from '../MenuProductos/MenuProductos.jsx'
 export function Home ({ user, setUser, ClickProducts, setClickProducts}) {
+  const navigate = useNavigate()
 
-  const handlelogout = () =>{
-    setUser([])
-  }
-    return(
-      <>
-      {
-      setClickProducts
-      ?<Productos ClickProducts={ClickProducts} setClickProducts={setClickProducts}/>
-      :<Menu/>
-      }
-      </>
-    )
+  useEffect(() => {
+    if(Object.values(user).every(value => value === '' || value === null || value === undefined)) {
+      navigate('/')
+    }
+  }, [])
+
+  return(
+    <>
+      <Menu setUser={setUser}/>
+    </>
+  )
 }

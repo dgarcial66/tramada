@@ -1,11 +1,11 @@
 .container-padre{    
-        display: flex;
-        justify-content: center;
-        gap: 100px;
-    
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 60px;
 }    
 
-.container-padre div{
+.container-padre figure{
     border: 1px solid black;
     text-align: center;
     border: solid 2px;
@@ -23,9 +23,6 @@
     padding: 20px;
 }
 
-.container-padre img{
-    width: 50px;
-}
 .iconos-menu {
     display: flex;
     justify-content: space-between;
@@ -36,12 +33,39 @@
 
 }
 
+.logo-menu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo-menu figure {
+    height: 38px;
+}
+
 .logo-menu img {
-    width: 300px;
-    margin: 12px 8px 0px;
+    width: 240px;
+}
+.perfil-menu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin: 0;
+}
+
+.perfil-menu button {
+    height: 32px;
+    margin: 0;
 }
 
 .perfil-menu img {
-    max-width: 50px;
-    margin: 15% 12px 8px 0px;
+    max-width: 38px;
+    border-radius: 50%;
 }
+
+.container-hijo {
+    width: 140px;
+    cursor: pointer;
+}
+

@@ -1,72 +1,76 @@
 import { useState } from "react";
+import { Header } from "../Header/Header";
 import "./productos.css"; // Importamos el archivo CSS
+import { useNavigate } from "react-router-dom";
 
-export function Productos() {
-  const [productos, setProductos] = useState([]); 
-  const [nombre, setNombre] = useState(""); 
-  const [precio, setPrecio] = useState(""); 
+export function Products() {
+  const [products, setProducts] = useState([]); 
+  const [name, setName] = useState(""); 
+  const [price, setPrice] = useState(""); 
   const [search, setSearch] = useState(""); 
-  const [editIndex, setEditIndex] = useState(null); 
+  const [editIndex, setEditIndex] = useState(null);
+  const navigate = useNavigate()
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (editIndex !== null) {
       
-      const updatedProducts = [...productos];
-      updatedProducts[editIndex] = { nombre, precio };
-      setProductos(updatedProducts);
+      const updatedProducts = [...products];
+      updatedProducts[editIndex] = { name: name, price: price };
+      setProducts(updatedProducts);
       setEditIndex(null);
     } else {
       
-      setProductos([...productos, { nombre, precio }]);
+      setProducts([...products, { name: name, price: price }]);
     }
-    setNombre("");
-    setPrecio("");
+    setName("");
+    setPrice("");
   };
 
 
   const handleEdit = (index) => {
-    const product = productos[index];
-    setNombre(product.nombre);
-    setPrecio(product.precio);
+    const product = products[index];
+    setName(product.name);
+    setPrice(product.price);
     setEditIndex(index);
   };
 
  
   const handleDelete = (index) => {
-    setProductos(productos.filter((_, i) => i !== index));
+    setProducts(products.filter((_, i) => i !== index));
   };
 
  
-  const filteredProducts = productos.filter((product) =>
-    product.nombre.toLowerCase().includes(search.toLowerCase())
+  const filteredProducts = products.filter((product) =>
+    product.name.toLowerCase().includes(search.toLowerCase())
   );
 
   return (
+    <>
+      <Header />
+      <button className='button-back' onClick={() => navigate('/home')} /> 
     <div className="menu-productos-container">
       <h1>Gestión de Productos</h1>
-
-      {}
       <form onSubmit={handleSubmit} className="form-producto">
         <div className="form-group">
           <label>Nombre del Producto</label>
           <input
             type="text"
-            value={nombre}
-            onChange={(e) => setNombre(e.target.value)}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
             required
             className="input-text"
-          />
+            />
         </div>
         <div className="form-group">
           <label>Precio</label>
           <input
             type="number"
-            value={precio}
-            onChange={(e) => setPrecio(e.target.value)}
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
             required
             className="input-text"
-          />
+            />
         </div>
         <button type="submit" className="btn-submit">
           {editIndex !== null ? "Modificar" : "Agregar"} Producto
@@ -92,7 +96,7 @@ export function Productos() {
         <ul className="product-list">
           {filteredProducts.map((product, index) => (
             <li key={index} className="product-item">
-              {product.nombre} - ${product.precio}
+              {product.name} - ${product.price}
               <div className="product-actions">
                 <button onClick={() => handleEdit(index)} className="btn-edit">
                   Editar
@@ -109,5 +113,6 @@ export function Productos() {
         </ul>
       )}
     </div>
+  </>
   );
 }
