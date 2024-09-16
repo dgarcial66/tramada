@@ -1,9 +1,12 @@
 import { useState } from "react"
-import { Header } from "../Header/Header"
 import { useNavigate } from "react-router-dom";
+import { handleDelete, handleEdit } from '../../utils/utils'
+import { Header } from "../Header/Header"
 
 export function FormRegister ({ 
     handleSubmit,
+    products,
+    setProducts,
     name,
     price, 
     editIndex, 
@@ -13,11 +16,12 @@ export function FormRegister ({
     setPrice,
     setEditIndex,
     setSearch,
-    handleEdit,
-    handleDelete,
     code,
+    setCode,
     stock,
+    setStock,
     category,
+    setCategory,
     weight,
     setWeight,
     textButton,
@@ -29,17 +33,23 @@ export function FormRegister ({
     setCo,
     co,
     user,
-    setUser
+    setUser,
+    clients,
+    setClients,
+    filteredClients
 }) {
-    const navigate = useNavigate() 
+    const navigate = useNavigate()
+    const filterLists = filteredProducts?.length ? filteredProducts : filteredClients;
 
-    
+    console.log(filteredProducts);
+    console.log(filteredClients);
+    console.log(filterLists);
     return (
         <>
         <Header user={user} setUser={setUser} />
         <button className="button-back" onClick={() => navigate('/home')} />
         <div className="menu-productos-container">
-          <h1>Gestión de Productos</h1>
+          <h1>Gestión de {textButton}</h1>
   
           {/* Formulario para agregar o modificar productos */}
           <form onSubmit={handleSubmit} className="form-producto">
@@ -161,7 +171,7 @@ export function FormRegister ({
   
           {/* Buscador */}
           <div className="search-container">
-            <label>Buscar Producto</label>
+            <label>Buscar {textButton}</label>
             <input
               type="text"
               value={search}
@@ -171,21 +181,50 @@ export function FormRegister ({
           </div>
   
           {/* Lista de productos */}
-          <h2>Lista de Productos</h2>
-          {filteredProducts?.length === 0 ? (
-            <p>No hay productos disponibles.</p>
+          <h2>Lista de {textButton}</h2>
+          {!filterLists?.length ? (
+            <p>No hay {textButton} disponibles.</p>
           ) : (
-            <ul className="product-list">
-              {filteredProducts?.map((product, index) => (
+              <ul className="product-list">
+              {filterLists?.map((item, index) => (
                 <li key={index} className="product-item">
-                  {product.name} - ${product.price} - Código: {product.code} - 
-                  Stock: {product.stock} - Categoría: {product.category} - Peso: {product.weight} kg
+                  {filteredProducts?.length ? (
+              <>
+                {item.name} - ${item.price} - Código: {item.code} - 
+                Stock: {item.stock} - Categoría: {item.category} - Peso: {item.weight} kg
+              </>
+            ) : (
+              <>
+                Nombre: {item.name} - Gerente: {item.co} - Dirección: {item.address} - 
+                Teléfono: {item.numberPhone}
+              </>
+            )}
                   <div className="product-actions">
-                    <button onClick={() => handleEdit(index)} className="btn-edit">
+                    <button onClick={() => handleEdit({
+                        products,
+                        clients,
+                        index,
+                        setName,
+                        setPrice,
+                        setCode,
+                        setStock,
+                        setCategory,
+                        setWeight,
+                        setEditIndex,
+                        setAddress,
+                        setNumberPhone,
+                        setCo,
+                      })} className="btn-edit">
                       Editar
                     </button>
                     <button
-                      onClick={() => handleDelete(index)}
+                      onClick={() => handleDelete({
+                        products,
+                        clients,
+                        index,
+                        setProducts,
+                        setClients,
+                      })}
                       className="btn-delete"
                     >
                       Eliminar
@@ -194,6 +233,7 @@ export function FormRegister ({
                 </li>
               ))}
             </ul>
+          
           )}
         </div>
       </>

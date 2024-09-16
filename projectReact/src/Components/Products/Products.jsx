@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FormRegister } from "../FormRegister/FormRegister.jsx";
-import { handleEdit } from '../../utils/utils.js'
-import { handleDelete } from '../../utils/utils.js'
+import { handleEdit, handleDelete } from '../../utils/utils.js'
 import "./productos.css"; // Importamos el archivo CSS
 
 export function Products({user, setUser}) {
@@ -59,11 +58,17 @@ export function Products({user, setUser}) {
       setPrice={setPrice}
       setEditIndex={setEditIndex}
       setSearch={setSearch}
-      handleEdit={() => handleEdit(products)}
+      setCode={setCode}
+      setStock={setStock}
+      setCategory={setCategory}
+      setWeight={setWeight}
+      handleEdit={(products) => handleEdit(products)}
       handleDelete={handleDelete}
       textButton={'Producto'}
       user={user}
       setUser={setUser}
+      products={products}
+      setProducts={setProducts}
     />
   </>
   );

@@ -5,7 +5,7 @@ import { handleEdit } from "../../utils/utils";
 import { handleDelete } from "../../utils/utils.js"
 
 export function ListClients({ user, setUser}) {
-    const [products, setProducts] = useState([]); 
+    const [clients, setClients] = useState([]); 
     const [name, setName] = useState(""); 
     const [address, setAddress] = useState(""); 
     const [search, setSearch] = useState("");
@@ -21,19 +21,20 @@ export function ListClients({ user, setUser}) {
         }
       }, [user, navigate])
       console.log(user);
+
     const handleSubmit = (e) => {
     e.preventDefault();
-    const newProduct = { name, address, numberPhone, co };
+    const newClients = { name, address, numberPhone, co };
 
     if (editIndex !== null) {
-        const updatedProducts = [...products];
-        updatedProducts[editIndex] = newProduct;
-        setProducts(updatedProducts);
+        const updatedClients = [...clients];
+        updatedClients[editIndex] = newClients;
+        setClients(updatedClients);
         setEditIndex(null);
-        console.log('Áqui 1');
+        console.log('Áqui 1: ', updatedClients[editIndex]);
     } else {
         
-        setProducts([...products, newProduct]);
+        setClients([...clients, newClients]);
         console.log('Áqui 2');
     }
     setName("");
@@ -42,6 +43,9 @@ export function ListClients({ user, setUser}) {
     setCo('');
     console.log('Áqui 3');
     };
+
+    const filteredClients = clients.filter((client) => client.name.toLowerCase().includes(search.toLowerCase()));
+    console.log(filteredClients);
     return(
         <FormRegister 
             handleSubmit={handleSubmit} 
@@ -64,6 +68,9 @@ export function ListClients({ user, setUser}) {
             setCo={setCo}
             user={user}
             setUser={setUser}
+            clients={clients}
+            setClients={setClients}
+            filteredClients={filteredClients}
         />
     );
 }
