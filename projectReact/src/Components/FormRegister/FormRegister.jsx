@@ -27,14 +27,16 @@ export function FormRegister ({
     setNumberPhone,
     numberPhone,
     setCo,
-    co
+    co,
+    user,
+    setUser
 }) {
     const navigate = useNavigate() 
 
     
     return (
         <>
-        <Header />
+        <Header user={user} setUser={setUser} />
         <button className="button-back" onClick={() => navigate('/home')} />
         <div className="menu-productos-container">
           <h1>Gestión de Productos</h1>

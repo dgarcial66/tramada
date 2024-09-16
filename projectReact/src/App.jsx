@@ -19,8 +19,8 @@ function App() {
     const routes = useRoutes([
       { path: '/', element: <LoginRegister setUser={setUser} user={user} />},
       { path: '/home', element: <Home user={user} setUser={setUser} /> },
-      { path: '/products', element: <Products /> },
-      { path: 'clients', element: <ListClients />}
+      { path: '/products', element: <Products user={user} setUser={setUser}/> },
+      { path: 'clients', element: <ListClients user={user} setUser={setUser} />}
     ])
     return routes;
   }

@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FormRegister } from "../FormRegister/FormRegister";
 import { handleEdit } from "../../utils/utils";
 import { handleDelete } from "../../utils/utils.js"
 
-export function ListClients({  }) {
+export function ListClients({ user, setUser}) {
     const [products, setProducts] = useState([]); 
     const [name, setName] = useState(""); 
     const [address, setAddress] = useState(""); 
@@ -15,6 +15,12 @@ export function ListClients({  }) {
     const [ isListClient, setIsListClient ] = useState(true);
     const navigate = useNavigate()
 
+    useEffect(() => {
+        if(Object.values(user).every(value => value === '' || value === null || value === undefined)) {
+          navigate('/')
+        }
+      }, [user, navigate])
+      console.log(user);
     const handleSubmit = (e) => {
     e.preventDefault();
     const newProduct = { name, address, numberPhone, co };
@@ -56,6 +62,8 @@ export function ListClients({  }) {
             setAddress={setAddress}
             setNumberPhone={setNumberPhone}
             setCo={setCo}
+            user={user}
+            setUser={setUser}
         />
     );
 }
