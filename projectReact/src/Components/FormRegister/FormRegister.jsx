@@ -49,7 +49,6 @@ export function FormRegister ({
 }) {
     const navigate = useNavigate()
     const filterLists = filteredProducts?.length ? filteredProducts : filteredClients;
-    console.log(filteredMaterials.length);
     
     if(isListClient || filteredProducts){
 
