@@ -15,7 +15,8 @@ export function Menu ({ setUser }){
         ) : (
           <>
           <Header setUser={setUser} />
-            <section>
+            <section className="container-menu">
+              <img className="menu-logo-main" src="../../../asset/Icono.PNG" alt="" />
               <h1 className="titulo">MENU PRINCIPAL</h1>
               <div className="container-padre">
                 <figure className="container-hijo">

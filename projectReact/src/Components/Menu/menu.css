@@ -1,3 +1,10 @@
+.container-menu {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 .container-padre{    
     display: flex;
     justify-content: center;
@@ -46,6 +53,11 @@
 .logo-menu img {
     width: 240px;
 }
+
+.menu-logo-main {
+    width: 200px;
+}
+
 .perfil-menu {
     display: flex;
     justify-content: center;
