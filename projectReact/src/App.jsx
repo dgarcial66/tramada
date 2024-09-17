@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useRoutes, BrowserRouter } from 'react-router-dom'
-import { Home } from './Views/home/Home.jsx'
+import { Home } from './Views/Home/Home.jsx'
 import LoginRegister from './Views/LoginRegister/LoginRegister';
 import { Products } from './Components/Products/Products.jsx'
 import { ListClients } from './Components/ListClients/ListClients.jsx';
