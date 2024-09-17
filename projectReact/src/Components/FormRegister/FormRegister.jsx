@@ -26,6 +26,7 @@ export function FormRegister ({
     setWeight,
     textButton,
     isListClient,
+    setIsListClient,
     setAddress,
     address,
     setNumberPhone,
@@ -36,15 +37,23 @@ export function FormRegister ({
     setUser,
     clients,
     setClients,
-    filteredClients
+    filteredClients,
+    isListMaterials,
+    typeMaterial,
+    setTypeMaterial,
+    color,
+    setColor,
+    filteredMaterials,
+    materials,
+    setMaterials
 }) {
     const navigate = useNavigate()
     const filterLists = filteredProducts?.length ? filteredProducts : filteredClients;
+    console.log(filteredMaterials.length);
+    
+    if(isListClient || filteredProducts){
 
-    console.log(filteredProducts);
-    console.log(filteredClients);
-    console.log(filterLists);
-    return (
+      return (
         <>
         <Header user={user} setUser={setUser} />
         <button className="button-back" onClick={() => navigate('/home')} />
@@ -63,6 +72,20 @@ export function FormRegister ({
                 className="input-text"
               />
             </div>
+            {
+              isListMaterials && (
+                <div className="form-group">
+                  <label>Tipo de Material</label>
+                  <input
+                    type="text"
+                    value={stock}
+                    onChange={(e) => setStock(e.target.value)}
+                    required
+                    className="input-text"
+                    />
+                </div>
+              )
+            }
             {
                 isListClient &&
                 <>
@@ -238,4 +261,131 @@ export function FormRegister ({
         </div>
       </>
     )
+  } 
+
+  if(isListMaterials) {
+    return(
+      <>
+        <Header user={user} setUser={setUser} />
+        <button className="button-back" onClick={() => navigate('/home')} />
+        <div className="menu-productos-container"> 
+
+          <h1>Gestión de {textButton}</h1>
+  
+          {/* Formulario para agregar o modificar productos */}
+        <form onSubmit={handleSubmit} className="form-producto">
+          <div className="form-group">
+            <label>Nombre del {textButton}</label>
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+              className="input-text"
+            />
+          </div>
+          <div className="form-group">
+            <label>Tipo del {textButton}</label>
+            <input
+              type="text"
+              value={typeMaterial}
+              onChange={(e) => setTypeMaterial(e.target.value)}
+              required
+              className="input-text"
+            />
+          </div>
+          <div className="form-group">
+            <label>Color</label>
+            <input
+              type="text"
+              value={color}
+              onChange={(e) => setColor(e.target.value)}
+              required
+              className="input-text"
+            />
+          </div>
+          <div className="form-group">
+            <label>Stock</label>
+            <input
+              type="text"
+              value={stock}
+              onChange={(e) => setStock(e.target.value)}
+              required
+              className="input-text"
+            />
+          </div>
+          <div className="form-group">
+            <label>Peso (kg)</label>
+            <input
+              type="text"
+              value={weight}
+              onChange={(e) => setWeight(e.target.value)}
+              required
+              className="input-text"
+            />
+          </div>
+          <button type="submit" className="btn-submit">
+            {editIndex !== null ? "Modificar" : "Agregar"} {textButton}
+          </button>
+        </form>
+
+        <div className="search-container">
+            <label>Buscar {textButton}</label>
+            <input
+              type="text"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="input-text"
+            />
+          </div>
+
+          <h2>Lista de {textButton}</h2>
+          
+          {
+            filteredMaterials.length > 0 ? (
+
+              <ul className="product-list">
+            {filteredMaterials?.map((item, index) => (
+              <li key={index} className="product-item">
+                <>
+                  Nombre del Material: {item.name} - Tipo de Material{item.typeMaterial} - Color: {item.color} - 
+                  Stock: {item.stock} - Peso: {item.weight} kg
+                </>
+          
+                <div className="product-actions">
+                  <button onClick={() => handleEdit({
+                      materials,
+                      index,
+                      setName,
+                      setStock,
+                      setTypeMaterial,
+                      setColor,
+                      setWeight,
+                      setEditIndex,
+                      setCo,
+                    })} className="btn-edit">
+                    Editar
+                  </button>
+                  <button
+                    onClick={() => handleDelete({
+                      materials,
+                      index,
+                      setMaterials
+                    })}
+                    className="btn-delete"
+                  >
+                    Eliminar
+                  </button>
+                </div>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>No hay {textButton} disponibles.</p>
+        )
+          }
+        </div>
+        </>
+    )
+  }
 }

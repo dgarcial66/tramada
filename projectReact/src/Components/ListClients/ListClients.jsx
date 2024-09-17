@@ -20,7 +20,6 @@ export function ListClients({ user, setUser}) {
           navigate('/')
         }
       }, [user, navigate])
-      console.log(user);
 
     const handleSubmit = (e) => {
     e.preventDefault();
@@ -31,17 +30,13 @@ export function ListClients({ user, setUser}) {
         updatedClients[editIndex] = newClients;
         setClients(updatedClients);
         setEditIndex(null);
-        console.log('Áqui 1: ', updatedClients[editIndex]);
     } else {
-        
         setClients([...clients, newClients]);
-        console.log('Áqui 2');
     }
     setName("");
     setAddress("");
     setNumberPhone("");
     setCo('');
-    console.log('Áqui 3');
     };
 
     const filteredClients = clients.filter((client) => client.name.toLowerCase().includes(search.toLowerCase()));
@@ -70,6 +65,7 @@ export function ListClients({ user, setUser}) {
             setUser={setUser}
             clients={clients}
             setClients={setClients}
+            setIsListClient={setIsListClient}
             filteredClients={filteredClients}
         />
     );

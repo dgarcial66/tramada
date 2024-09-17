@@ -29,7 +29,7 @@ export function Menu ({ setUser }){
                 </figure>
                 <figure className="container-hijo">
                   <img
-                  onClick={() => navigate('/clients')}
+                    onClick={() => navigate('/clients')}
                     className="Clientes"
                     src="https://img.icons8.com/?size=100&id=2906&format=png&color=000000"
                     alt="icono-clientes"
@@ -46,6 +46,7 @@ export function Menu ({ setUser }){
                 </figure>
                 <figure className="container-hijo">
                   <img
+                    onClick={() => navigate('/rawMaterials')}
                     className="Insumos"
                     src="https://img.icons8.com/?size=100&id=1326&format=png&color=000000"
                     alt="icono-insumos"
