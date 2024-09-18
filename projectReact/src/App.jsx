@@ -5,6 +5,8 @@ import LoginRegister from './Views/LoginRegister/LoginRegister';
 import { Products } from './Components/Products/Products.jsx'
 import { ListClients } from './Components/ListClients/ListClients.jsx';
 import { RawMaterials } from './Components/RawMaterials/RawMaterials.jsx';
+import { OrdenProduccion } from './Components/OrdenProduccion/OrdenProduccion.jsx';
+import { Config } from './Components/Configuracion/Config.jsx';
 
 //ClickProducts={ClickProducts} setClickProducts={setClickProducts}
 
@@ -22,7 +24,9 @@ function App() {
       { path: '/home', element: <Home user={user} setUser={setUser} /> },
       { path: '/products', element: <Products user={user} setUser={setUser}/> },
       { path: '/clients', element: <ListClients user={user} setUser={setUser} />},
-      { path: '/rawMaterials', element: <RawMaterials user={user} setUser={setUser} />}
+      { path: '/rawMaterials', element: <RawMaterials user={user} setUser={setUser} />},
+      { path: '/OrdenProduccion', element: <OrdenProduccion user={user} setUser={setUser}/> },
+      { path: '/Config', element: <Config user={user} setUser={setUser}/>}
     ])
     return routes;
   }
