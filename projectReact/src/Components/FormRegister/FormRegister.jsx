@@ -49,6 +49,7 @@ export function FormRegister ({
 }) {
     const navigate = useNavigate()
     const filterLists = filteredProducts?.length ? filteredProducts : filteredClients;
+  
     
     if(isListClient || filteredProducts){
 
@@ -189,6 +190,7 @@ export function FormRegister ({
             <button type="submit" className="btn-submit">
               {editIndex !== null ? "Modificar" : "Agregar"} {textButton}
             </button>
+            <button type="button" className="btn-submit" onClick={() => navigate('/OrdenProduccion')}>Orden de produccion</button>
           </form>
   
           {/* Buscador */}
