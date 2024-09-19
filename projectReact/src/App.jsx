@@ -7,7 +7,7 @@ import { ListClients } from './Components/ListClients/ListClients.jsx';
 import { RawMaterials } from './Components/RawMaterials/RawMaterials.jsx';
 import { OrdenProduccion } from './Components/OrdenProduccion/OrdenProduccion.jsx';
 import { Config } from './Components/Configuracion/Config.jsx';
-
+import { Suppliers } from './Components/suppliers/Suppliers.jsx';
 //ClickProducts={ClickProducts} setClickProducts={setClickProducts}
 
 function App() {
@@ -26,7 +26,8 @@ function App() {
       { path: '/clients', element: <ListClients user={user} setUser={setUser} />},
       { path: '/rawMaterials', element: <RawMaterials user={user} setUser={setUser} />},
       { path: '/OrdenProduccion', element: <OrdenProduccion user={user} setUser={setUser}/> },
-      { path: '/Config', element: <Config user={user} setUser={setUser}/>}
+      { path: '/Config', element: <Config user={user} setUser={setUser}/>},
+      { path: '/suppliers', element: <Suppliers user={user} setUser={setUser} /> },
     ])
     return routes;
   }

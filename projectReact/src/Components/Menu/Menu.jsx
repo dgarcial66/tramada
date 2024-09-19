@@ -38,7 +38,8 @@ export function Menu ({ setUser }){
                   <h2>CLIENTES</h2>
                 </figure>
                 <figure className="container-hijo">
-                  <img
+                <img
+                  onClick={() => navigate('/suppliers')}
                     className="Proveedor"
                     src="https://img.icons8.com/?size=100&id=61849&format=png&color=000000"
                     alt="icono-Proveedor"

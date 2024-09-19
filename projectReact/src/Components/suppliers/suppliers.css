@@ -1,0 +1,124 @@
+.suppliers-container1 {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: pink;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  h1 {
+    text-align: center;
+    color: #333;
+  }
+  
+  .form-supplier1 {
+    font-size: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    
+  }
+  
+  .form-group1 {
+    display: flex;
+    flex-direction: column;
+    
+  }
+  
+  .label-text1 {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    
+  }
+  
+  .input-text {
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .btn-submit1 {
+    padding: 10px 15px;
+    background-color: rgb(241, 241, 178);
+    color: purple;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    align-self: flex-end;
+  }
+  
+  .btn-submit:hover {
+    background-color: #45a049;
+  }
+  
+  .search-container1 {
+    padding-bottom: 20px;;
+    max-width: 1000px;
+    margin: 0 auto;
+    
+  }
+  .ppp {
+    padding-bottom: 20px;;
+    width: 53%;
+    margin: 0 auto;
+  }
+  
+  .supplier-list1 {
+    list-style-type: none;
+    padding: 0;
+    padding-bottom: 20px;;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  
+  .supplier-item {
+    display: flex;
+    justify-content: space-between;
+    background-color: #fff ;
+    font-size: 16px;
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .supplier-actions1 {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .btn-edit, .btn-delete {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .btn-edit {
+    background-color: #2196f3;
+    color: white;
+  }
+  
+  .btn-edit:hover {
+    background-color: #0b7dda;
+  }
+  
+  .btn-delete {
+    background-color: #f44336;
+    color: white;
+  }
+  
+  .btn-delete:hover {
+    background-color: #da190b;
+  }
+  
+  
