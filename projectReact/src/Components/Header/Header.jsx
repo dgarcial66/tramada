@@ -1,4 +1,8 @@
+import { useNavigate } from "react-router-dom";
+
 export const Header = ({setUser}) => {
+
+  const navigate = useNavigate();
 
     const handlelogout = () =>{
         setUser({
@@ -6,6 +10,8 @@ export const Header = ({setUser}) => {
           password: '',
           roles: ''
         })
+
+        navigate('/')
       }
 
     return(
