@@ -24,14 +24,10 @@ export function Registro() {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        // Aquí podrías hacer la lógica para agregar el nuevo usuario al JSON o enviarlo a un backend
-        // Simulación de registro exitoso
+
         setSuccess(true);
 
-        // Simulamos agregar al archivo JSON aquí (solo si no hay backend)
-        // Aquí enviarías una petición a tu backend si fuera necesario
 
-        // Después de un pequeño tiempo, redirigimos al login
         setTimeout(() => {
             navigate('/');
         }, 2000);
