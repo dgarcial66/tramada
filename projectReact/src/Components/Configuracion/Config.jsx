@@ -3,18 +3,43 @@ import { useNavigate } from 'react-router-dom';
 import { Header } from "../Header/Header";
 import './config.css'
 
-
-export function Config({ user, setUser}){
-    const [ activeForm, setActiveForm ] = useState(false);
+export function Config({ user, setUser }) {
+    const [activeForm, setActiveForm] = useState(false);
+    const [formData, setFormData] = useState({
+        name: user.name,
+        password: user.password,
+        role: user.role
+    });
     const navigate = useNavigate();
 
     const handleForm = () => {
         setActiveForm(!activeForm);
-    }
+    };
 
-    return(
+    const handleChange = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value
+        });
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        
+    
+        setUser({
+            ...user,
+            ...formData
+        });
+
+       
+        alert('Usuario actualizado con éxito');
+        navigate('/home');
+    };
+
+    return (
         <>
-            <Header setUser={setUser}/>
+            <Header setUser={setUser} />
             <button className="button-back" onClick={() => navigate('/home')} />
             <section className="container-config">
                 <h1>Configuración</h1>
@@ -25,21 +50,35 @@ export function Config({ user, setUser}){
                 </div>
             </section>
             {
-                activeForm && 
+                activeForm &&
                 <section className='container-form-config'>
                     <h2>Edita el usuario {user.name}</h2>
-                    <form action="submit">
+                    <form onSubmit={handleSubmit}>
                         <label htmlFor="name">Nombre</label>
-                        <input type="text"  defaultValue={user.name}/>
+                        <input 
+                            type="text"  
+                            name="name"
+                            value={formData.name}
+                            onChange={handleChange}
+                        />
                         <label htmlFor="password">Contraseña</label>
-                        <input type="text" defaultValue={user.password}/>
-                        <label htmlFor="rol">Rol</label>
-                        <input type="text" defaultValue={user.role}/>
-                            <button>Confirmar</button>
+                        <input 
+                            type="password" 
+                            name="password"
+                            value={formData.password}
+                            onChange={handleChange}
+                        />
+                        <label htmlFor="role">Rol</label>
+                        <input 
+                            type="text" 
+                            name="role"
+                            value={formData.role}
+                            onChange={handleChange}
+                        />
+                        <button type="submit">Confirmar</button>
                     </form>
-            </section>
+                </section>
             }
         </>
-    )
-
+    );
 }
