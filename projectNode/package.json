@@ -1,0 +1,27 @@
+{
+  "name": "tramada-tejidos-db",
+  "version": "1.0.0",
+  "description": "api para el manejo de la base de datos",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node --watch ./index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mikejoya/tramada.git"
+  },
+  "keywords": [
+    "Node",
+    "javascript",
+    "express"
+  ],
+  "author": "michael joya lopez, jesus david garcia lopez, rafael ramirez",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Mikejoya/tramada/issues"
+  },
+  "homepage": "https://github.com/Mikejoya/tramada#readme",
+  "dependencies": {
+    "express": "4.21.1"
+  }
+}
