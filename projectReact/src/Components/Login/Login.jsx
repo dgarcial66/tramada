@@ -1,40 +1,55 @@
 import "./login.css"
-import { useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { useState } from "react"
+import { ApiFetch } from "../../services/api.js"
 
 export function Login({ setUser, setIsRegister }){
-    const [name, setName] = useState("")
+    const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [error, setError] = useState(false)
     const [errorUser, setErrorUser] = useState(false)
-    const [userActive, setUserActive ] = useState([]);
+    const [errorPassword, setErrorPassword ] = useState(false);
 
-    const navigate = useNavigate()
-
-    useEffect(() => {
-        fetch('../../../database/database.json')
-        .then( res => res.json())
-        .then( data => setUserActive(data.users))
-    }, [])
+    const userAuth = async (body) => {
+        let string = '';
+        try {
+            const data = await ApiFetch.authUser(body)
+            setUser(data)
+            console.log(data);
+        } catch (error) {
+            console.log(error);
+            string = error.message.split('com').pop().trim();
+            console.log('AQUI PASA:', string);
+            console.log(string === 'no esta registrado.');
+            if(error.message === '400'){
+                console.log('DOBLE B');
+                setErrorUser(false);
+                setError(true);
+                setErrorPassword(false);
+            }else if(string === ' no esta registrado.'){
+                setErrorUser(false);
+                setError(false)
+                setErrorPassword(true);
+                string = '';
+            }else{
+                console.log('DOBLE P');
+                setErrorUser(true);
+                setError(false);
+                setErrorPassword(false);
+            }
+            
+        }
+    }
     
     const handleSubmit = (e) =>{
         e.preventDefault()
-        const userLogin =  userActive.filter(users => (users.name === name && users.password === password))
-        if(name === "" || password === "" ){
-            setError(true)
-            return
-        }else if(userLogin.length !== 0){
-            const infoUser = userLogin[0]
-            
-            setError(false)
-            setUser({
-                ...infoUser
-            })
-            navigate('/home')
-        }else{
-            setErrorUser(true)
-            return
+
+        const data = {
+            email: email,
+            password: password
         }
+
+        userAuth(data);
+        
     }
     return(
         <section>
@@ -44,25 +59,26 @@ export function Login({ setUser, setIsRegister }){
                 <h1>ingrese su usuario</h1>
             
                 <input type="text"
-                value={name}
-                onChange={e => setName(e.target.value)}
-                placeholder="nombre de usuario"
-                autoComplete="current-name"
+                    value={email}
+                    onChange={e => setEmail(e.target.value)}
+                    placeholder="nombre de usuario"
+                    autoComplete="current-email"
                 />
                 <input type="password"
-                value={password}
-                onChange={e => setPassword(e.target.value)}
-                placeholder="ingrese su contraseña"
-                autoComplete="current-password"
+                    value={password}
+                    onChange={e => setPassword(e.target.value)}
+                    placeholder="ingrese su contraseña"
+                    autoComplete="current-password"
                 />
                 <button>iniciar sesion</button>
-                {errorUser && <p>El usuario no existe!!</p>}
                 <button 
                     onClick={() => {
-                            setIsRegister(true)
-                        }
+                        setIsRegister(true)
                     }
+                }
                 >registrarse</button>
+                {errorUser && <p>El usuario no existe o la contraseña no es correcta!!</p>}
+                {errorPassword && <p>La contraseña no es correcta.</p>}
                 {error && <p>todos los campos son obligatorios</p>}
             </form>
 

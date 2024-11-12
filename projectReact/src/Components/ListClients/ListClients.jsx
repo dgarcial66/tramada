@@ -19,10 +19,10 @@ export function ListClients({ user, setUser}) {
         if(Object.values(user).every(value => value === '' || value === null || value === undefined)) {
           navigate('/')
         }
-      }, [user, navigate])
-
-    const handleSubmit = (e) => {
-    e.preventDefault();
+    }, [user, navigate])
+    
+    const handleSubmit = (e) => { 
+        e.preventDefault();
     const newClients = { name, address, numberPhone, co };
 
     if (editIndex !== null) {

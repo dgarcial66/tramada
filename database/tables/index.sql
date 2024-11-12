@@ -10,8 +10,8 @@ USE `tramada_db`;
 -- Crear tabla de usuario
 CREATE TABLE `usuario` (
     `id` BIGINT UNSIGNED NOT NULL,
-    `email` VARCHAR(255),
-    `contraseña` VARCHAR(255),
+    `email` VARCHAR(255) NOT NULL UNIQUE,
+    `password` VARCHAR(25) NOT NULL,
     `id_rol` INT(11) NOT NULL,
     PRIMARY KEY (id)
 );

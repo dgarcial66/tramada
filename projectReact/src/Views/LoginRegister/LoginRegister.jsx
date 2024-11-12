@@ -21,7 +21,7 @@ const LoginRegister = ({ user, setUser }) => {
       {
         !isRegister
         ? <Login setUser={setUser} isLogin={isLogin} setIsRegister={setIsRegister} user={user}/>
-        : <Registro/>
+        : <Registro setIsRegister={setIsRegister}/>
       }
     </div>
   );

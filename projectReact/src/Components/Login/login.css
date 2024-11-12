@@ -5,10 +5,11 @@
 }
 
 .formulario{
+    width: 400px;
+    height: 450px;
     display: flex;
     flex-direction: column;
     gap: 24px;
-    width: 400px;
     background: rgb(238, 211, 238);
     padding: 30px;
     margin: auto;

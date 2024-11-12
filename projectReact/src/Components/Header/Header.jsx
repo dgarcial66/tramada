@@ -6,8 +6,7 @@ export const Header = ({setUser}) => {
 
     const handlelogout = () =>{
         setUser({
-          name: '',
-          password: '',
+          email: '',
           roles: ''
         })
 
