@@ -1,0 +1,245 @@
+-- Crear base de datos
+CREATE DATABASE tramada_db;
+USE tramada_db;
+
+-- Crear tabla de usuario
+CREATE TABLE usuario (
+    id BIGINT UNSIGNED NOT NULL,
+    email VARCHAR(255),
+    contraseña VARCHAR(255),
+    id_rol INT(11) NOT NULL,
+    PRIMARY KEY (id)
+);
+
+-- Crear Trigger para asignar un UUID_SHORT en el campo id antes de insertar
+DELIMITER $$
+CREATE TRIGGER before_insert_user
+BEFORE INSERT ON usuario
+FOR EACH ROW
+BEGIN
+    SET NEW.id = UUID_SHORT();
+END $$
+DELIMITER ;
+
+-- Crear tabla de rol
+CREATE TABLE rol (
+    id INT NOT NULL,
+    nombre_rol VARCHAR(50),
+    PRIMARY KEY (id)
+);
+
+-- Crear tabla de proveedor
+CREATE TABLE proveedor (
+    id INT(10) NOT NULL AUTO_INCREMENT,
+    nombre_proveedor VARCHAR(255),
+    telefono VARCHAR(15), -- Ajustado a VARCHAR
+    tipo_insumo INT(10),
+    insumos_proveedor VARCHAR(255),
+    PRIMARY KEY (id)
+);
+
+-- Crear tabla de insumos
+CREATE TABLE insumos (
+    id INT(10) NOT NULL AUTO_INCREMENT,
+    nombre_insumo VARCHAR(255),
+    cantidad_comprada INT(10),
+    color VARCHAR(255),
+    peso DECIMAL(19, 2), -- Ajustado para mayor precisión
+    categoria VARCHAR(255),
+    fecha_entrada TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    cantidad_stock INT(10),
+    cantidad_entrada INT(10),
+    cantidad_salir INT(10),
+    total_cantidad INT(10),
+    total_peso_insumo DECIMAL(19, 2),
+    precio_insumo DECIMAL(19, 2),
+    id_proveedor INT(10) NOT NULL,
+    inventario_insumos_id INT(10) NOT NULL,
+    categoria_insumos_id INT(10) NOT NULL,
+    PRIMARY KEY (id)
+);
+
+-- Crear tabla de categoria_insumos
+CREATE TABLE categoria_insumos (
+    id INT(10) NOT NULL AUTO_INCREMENT,
+    nombre_categoria_insumo VARCHAR(255),
+    `id insumo` INT(10) NOT NULL,
+    PRIMARY KEY (id)
+);
+
+-- Crear tabla de categoria_productos
+CREATE TABLE categoria_productos (
+    id INT(10) NOT NULL AUTO_INCREMENT,
+    nombre_categoria_producto VARCHAR(255),
+    nombre_producto INT(10),
+    producto_id INT(10) NOT NULL,
+    PRIMARY KEY (id)
+);
+
+-- Crear tabla de productos
+CREATE TABLE productos (
+    id INT(10) NOT NULL AUTO_INCREMENT,
+    nombre_producto VARCHAR(255),
+    cantidad_insumos_producto VARCHAR(255),
+    peso_producto INT(10),
+    precio_producto DECIMAL(19, 2),
+    stock_producto INT(10),
+    total_unidades_producto INT(10),
+    fecha_entrada TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    actualizacion_fecha TIMESTAMP,
+    inventario_producto_id INT(10) NOT NULL,
+    PRIMARY KEY (id)
+);
+
+--Crear tabla de clientes
+CREATE TABLE clientes(
+   id int(11) NOT NULL AUTO_INCREMENT,
+   nombre_cliente varchar(50), 
+   telefono_cliente int(11),
+   direccion_cliente varchar(100),
+   tipo_pago int(11), 
+   PRIMARY KEY (id)
+ );
+
+--crear tabla de venta
+CREATE TABLE venta (
+   id int(11) NOT NULL AUTO_INCREMENT, 
+   fecha_venta TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
+   estado_pago varchar(50),
+   tipo_venta varchar(50), 
+   total_venta int(20), 
+   comentarios varchar(200),
+   clientes_id int(11) NOT NULL, 
+   PRIMARY KEY (id)
+ );
+
+--crear tabla de detalle_venta
+CREATE TABLE detalle_venta (
+   id int(10) NOT NULL AUTO_INCREMENT, 
+   cantidad int(11), 
+   precio_unitario int(11), 
+   precio_total int(11), 
+   venta_id int(11) NOT NULL, 
+   productos_id int(11) NOT NULL, 
+   PRIMARY KEY (id)
+);
+
+--crear tabla de pago
+CREATE TABLE pago (
+   id int(11), 
+   fecha_pago TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
+   monto int(11), 
+   metodo_pago varchar(50), 
+   comentarios varchar(200), 
+   venta_id int(11) NOT NULL,
+   PRIMARY KEY (id)
+);
+
+-- Crear tabla de perdida_productos
+CREATE TABLE perdida_productos (
+    id INT(10),
+    nombre_de_producto VARCHAR(255),
+    cantidad_perdida INT(10),
+    producto_id INT(10) NOT NULL
+);
+
+-- Crear tabla de perdida_insumos
+CREATE TABLE perdida_insumos (
+    id INT(10),
+    cantidad_perdida INT(10),
+    insumos_id INT(10) NOT NULL
+);
+
+-- Crear tabla de historial_precios_productos
+CREATE TABLE historial_precios_productos (
+    id INT(11) AUTO_INCREMENT,
+    precio DECIMAL(19, 2),
+    fecha_historial TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    producto_id INT(10) NOT NULL,
+    PRIMARY KEY (id)
+);
+
+-- Trigger para historial de precios de productos al insertar
+DELIMITER $$
+CREATE TRIGGER productosHistoricoPrecioProducto
+AFTER INSERT ON productos
+FOR EACH ROW
+BEGIN
+    INSERT INTO historial_precios_productos (precio, producto_id)
+    VALUES (NEW.precio_producto, NEW.id);
+END $$
+DELIMITER ;
+
+-- Trigger para historial de precios de productos al actualizar
+DELIMITER $$
+CREATE TRIGGER ActualizarHistoricoPreciosProductos
+BEFORE UPDATE ON productos
+FOR EACH ROW
+BEGIN
+    IF NEW.precio_producto <> OLD.precio_producto THEN
+        INSERT INTO historial_precios_productos (precio, fecha_historial, producto_id)
+        VALUES (NEW.precio_producto, CURRENT_TIMESTAMP, NEW.id);
+    END IF;
+END $$
+DELIMITER ;
+
+-- Crear tabla de historial_precios_insumos
+CREATE TABLE historial_precios_insumos (
+    id INT(10) AUTO_INCREMENT,
+    precio_insumo DECIMAL(19, 2),
+    fecha_historial TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    insumos_id INT(10) NOT NULL,
+    PRIMARY KEY (id)
+);
+
+-- Trigger para historial de precios de insumos al insertar
+DELIMITER $$
+CREATE TRIGGER insumosHistoricoPrecio
+AFTER INSERT ON insumos
+FOR EACH ROW
+BEGIN
+    INSERT INTO historial_precios_insumos (precio_insumo, insumos_id)
+    VALUES (NEW.precio_insumo, NEW.id);
+END $$
+DELIMITER ;
+
+-- Trigger para historial de precios de insumos al actualizar
+DELIMITER $$
+CREATE TRIGGER ActualizarHistoricoPreciosInsumos
+BEFORE UPDATE ON insumos
+FOR EACH ROW
+BEGIN
+    IF NEW.precio_insumo <> OLD.precio_insumo THEN
+        INSERT INTO historial_precios_insumos (precio_insumo, fecha_historial, insumos_id)
+        VALUES (NEW.precio_insumo, CURRENT_TIMESTAMP, NEW.id);
+    END IF;
+END $$
+DELIMITER ;
+
+-- Crear tabla de insumos_producto
+CREATE TABLE insumos_producto (
+    insumos_id INT(10) NOT NULL,
+    producto_id INT(10) NOT NULL,
+    id INT(11) AUTO_INCREMENT,
+    metros INT(11),
+    peso INT(11),
+    cantidad INT(11),
+    PRIMARY KEY (insumos_id, producto_id)
+);
+
+-- Definir las claves foráneas
+ALTER TABLE categoria_productos ADD CONSTRAINT FKcategoria_783744 FOREIGN KEY (producto_id) REFERENCES productos (id);
+ALTER TABLE perdida_productos ADD CONSTRAINT FKperdida_pr759061 FOREIGN KEY (producto_id) REFERENCES productos (id);
+ALTER TABLE perdida_insumos ADD CONSTRAINT FKperdida_in183794 FOREIGN KEY (insumos_id) REFERENCES insumos (id);
+ALTER TABLE historial_precios ADD CONSTRAINT FKhistorial_167528 FOREIGN KEY (producto_id) REFERENCES productos (id);
+ALTER TABLE Entity ADD CONSTRAINT FKEntity488897 FOREIGN KEY (`categoria insumosid categoria del insumo`) REFERENCES categoria_insumos (id);
+ALTER TABLE usuario ADD CONSTRAINT FKusuario340715 FOREIGN KEY (id_rol) REFERENCES rol (id);
+ALTER TABLE insumos ADD CONSTRAINT FKinsumos664014 FOREIGN KEY (categoria_insumos_id) REFERENCES categoria_insumos (id);
+ALTER TABLE insumos ADD CONSTRAINT FKinsumos264924 FOREIGN KEY (id_proveedor) REFERENCES `proveedor ` (id);
+ALTER TABLE `historial_precios_insumos ` ADD CONSTRAINT FKhistorial_619176 FOREIGN KEY (insumos_id) REFERENCES insumos (id);
+ALTER TABLE insumos_producto ADD CONSTRAINT FKinsumos_pr982984 FOREIGN KEY (insumos_id) REFERENCES insumos (id);
+ALTER TABLE insumos_producto ADD CONSTRAINT FKinsumos_pr203085 FOREIGN KEY (producto_id) REFERENCES productos (id);
+ALTER TABLE venta ADD CONSTRAINT FKventa321749 FOREIGN KEY (clientes_id) REFERENCES clientes (id);
+ALTER TABLE detalle_venta ADD CONSTRAINT FKdetalle_ve958938 FOREIGN KEY (venta_id) REFERENCES venta (id);
+ALTER TABLE detalle_venta ADD CONSTRAINT FKdetalle_ve318385 FOREIGN KEY (productos_id) REFERENCES productos (id);
+ALTER TABLE pago ADD CONSTRAINT FKpago371729 FOREIGN KEY (venta_id) REFERENCES venta (id);
