@@ -1,14 +1,31 @@
-import { useState } from "react";
-import { Formulario } from "../../Components/Login/Formulario"; 
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Login } from "../../Components/Login/Login"; 
+import { Registro } from "../../Components/Registro/Registro";
 
-const LoginRegister = ({ setUser }) => {
+const LoginRegister = ({ user, setUser }) => {
   const [isLogin, setIsLogin] = useState(true);
+  const [isRegister, setIsRegister] = useState(false);
+  const navigate = useNavigate();
+  
+  useEffect(() => {
+    if(!Object.values(user).every(value => value === '' || value === null || value === undefined)) {
+      navigate('/home')
+    }
+  }, [user, navigate])
 
-  return (
-    <div className="LoginRegister">
-      <Formulario setUser={setUser} isLogin={isLogin} />
+  console.log(Object.values(user).every(value => value === '' || value === null || value === undefined));
+
+   return (
+     <div className="LoginRegister">
+      {
+        !isRegister
+        ? <Login setUser={setUser} isLogin={isLogin} setIsRegister={setIsRegister} user={user}/>
+        : <Registro setIsRegister={setIsRegister}/>
+      }
     </div>
   );
+
 };
 
 export default LoginRegister; 

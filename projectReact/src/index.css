@@ -1,0 +1,15 @@
+/* Estilos globales */
+html {
+    margin: 0px;
+    padding: 0px;
+    font-family: "Roboto", sans-serif;
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0px;
+}
+
+a {
+    text-decoration: none;
+}

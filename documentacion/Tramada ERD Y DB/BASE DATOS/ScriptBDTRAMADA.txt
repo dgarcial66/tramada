@@ -1,0 +1,117 @@
+-- Crear tablas que no tienen referencias (padres)
+CREATE TABLE Rol (
+    codigo_rol int(10) NOT NULL AUTO_INCREMENT,
+    nombre_rol varchar(30),
+    PRIMARY KEY (codigo_rol)
+);
+
+CREATE TABLE Contraseña (
+    codigo int(10) NOT NULL AUTO_INCREMENT,
+    contraseña varchar(50),
+    PRIMARY KEY (codigo)
+);
+
+-- Crear la tabla Usuario que tiene referencias a Rol y Contraseña
+CREATE TABLE Usuario (
+    codigo int(10) NOT NULL AUTO_INCREMENT,
+    nombre varchar(50),
+    Rolcodigo_rol int(10) NOT NULL,
+    documento int(50),
+    Contraseñacodigo int(10) NOT NULL,
+    PRIMARY KEY (codigo),
+    CONSTRAINT FKUsuario284633 FOREIGN KEY (Rolcodigo_rol) REFERENCES Rol (codigo_rol),
+    CONSTRAINT FKUsuario817804 FOREIGN KEY (Contraseñacodigo) REFERENCES Contraseña (codigo)
+);
+
+-- Crear tabla Administrador que referencia a Usuario
+CREATE TABLE Administrador (
+    id int(10) NOT NULL AUTO_INCREMENT,
+    nombre varchar(100),
+    telefono int(10),
+    Usuariocodigo int(10) NOT NULL,
+    PRIMARY KEY (id),
+    CONSTRAINT FKAdministra571001 FOREIGN KEY (Usuariocodigo) REFERENCES Usuario (codigo)
+);
+
+-- Crear tabla Operario que también referencia a Usuario
+CREATE TABLE Operario (
+    id int(10) NOT NULL AUTO_INCREMENT,
+    nombre varchar(50),
+    telefono int(10),
+    Usuariocodigo int(10) NOT NULL,
+    PRIMARY KEY (id),
+    CONSTRAINT FKOperario772142 FOREIGN KEY (Usuariocodigo) REFERENCES Usuario (codigo)
+);
+
+-- Crear tabla Proveedor que no tiene referencias
+CREATE TABLE Proveedor (
+    codigo_pov int(10) NOT NULL AUTO_INCREMENT,
+    nombre varchar(30),
+    telefono int(30),
+    PRIMARY KEY (codigo_pov)
+);
+
+-- Crear tabla Categoria que no tiene referencias
+CREATE TABLE Categoria (
+    codigo int(10) NOT NULL AUTO_INCREMENT,
+    genero varchar(50),
+    color varchar(50),
+    tipo_prenda varchar(50),
+    PRIMARY KEY (codigo)
+);
+
+-- Crear tabla Inventario que no tiene referencias
+CREATE TABLE Inventario (
+    codigo int(10) NOT NULL AUTO_INCREMENT,
+    cantidad_producto int(10),
+    cantidad_insumo int(10),
+    registro_compras int(10),
+    registro_ventas int(10),
+    PRIMARY KEY (codigo)
+);
+
+-- Crear la tabla Orden de Producción que referencia a Administrador y Operario
+CREATE TABLE `Orden de Producción` (
+    codigo_orden int(10) NOT NULL AUTO_INCREMENT,
+    fecha_solicitud date,
+    cantidad_insumos int(30),
+    fecha_terminacion date,
+    Administradorid int(10) NOT NULL,
+    Operarioid int(10) NOT NULL,
+    PRIMARY KEY (codigo_orden),
+    CONSTRAINT FKOrden_de_P42097 FOREIGN KEY (Administradorid) REFERENCES Administrador (id),
+    CONSTRAINT FKOrden_de_P670663 FOREIGN KEY (Operarioid) REFERENCES Operario (id)
+);
+
+-- Crear la tabla Productos que referencia a Orden de Producción, Categoria e Inventario
+CREATE TABLE Productos (
+    codigo int(10) NOT NULL AUTO_INCREMENT,
+    nombre varchar(50),
+    precio int(50),
+    peso int(10),
+    stock int(50),
+    `Orden de Produccióncodigo_orden` int(10) NOT NULL,
+    Categoriacodigo int(10) NOT NULL,
+    Inventariocodigo int(10) NOT NULL,
+    PRIMARY KEY (codigo),
+    CONSTRAINT FKProductos294726 FOREIGN KEY (`Orden de Produccióncodigo_orden`) REFERENCES `Orden de Producción` (codigo_orden),
+    CONSTRAINT FKProductos460883 FOREIGN KEY (Categoriacodigo) REFERENCES Categoria (codigo),
+    CONSTRAINT FKProductos584845 FOREIGN KEY (Inventariocodigo) REFERENCES Inventario (codigo)
+);
+
+-- Crear la tabla Insumos que referencia a Proveedor, Inventario y Productos
+CREATE TABLE Insumos (
+    codigo int(10) NOT NULL AUTO_INCREMENT,
+    nombre varchar(30),
+    tipo_hilo varchar(50),
+    color varchar(50),
+    peso int(10),
+    stock int(10),
+    Proveedorcodigo_pov int(10) NOT NULL,
+    Inventariocodigo int(10) NOT NULL,
+    Productoscodigo int(10) NOT NULL,
+    PRIMARY KEY (codigo),
+    CONSTRAINT FKInsumos922052 FOREIGN KEY (Proveedorcodigo_pov) REFERENCES Proveedor (codigo_pov),
+    CONSTRAINT FKInsumos543991 FOREIGN KEY (Inventariocodigo) REFERENCES Inventario (codigo),
+    CONSTRAINT FKInsumos483025 FOREIGN KEY (Productoscodigo) REFERENCES Productos (codigo)
+);

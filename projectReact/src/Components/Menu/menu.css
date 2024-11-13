@@ -1,0 +1,83 @@
+.container-menu {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.container-padre{    
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 60px;
+}    
+
+.container-padre figure{
+    border: 1px solid black;
+    text-align: center;
+    border: solid 2px;
+    padding: 18px;
+    border-radius: 8px;
+
+}
+
+.container-padre h2{
+    font-size: 0.8rem;
+}
+.titulo{
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+
+.iconos-menu {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: solid 1px rgb(238, 211, 238);
+    background-color: rgb(238, 211, 238);
+    width: 100%;
+
+
+}
+
+.logo-menu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo-menu figure {
+    height: 38px;
+}
+
+.logo-menu img {
+    width: 240px;
+}
+
+.menu-logo-main {
+    width: 200px;
+}
+
+.perfil-menu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin: 0;
+}
+
+.perfil-menu button {
+    height: 32px;
+    margin: 0;
+}
+
+.perfil-menu img {
+    max-width: 38px;
+    border-radius: 50%;
+}
+
+.container-hijo {
+    width: 140px;
+    cursor: pointer;
+}
+

@@ -1,0 +1,5 @@
+UPDATE Contraseña SET contraseña = SHA2('admin123', 256) WHERE codigo = 1;
+UPDATE Contraseña SET contraseña = SHA2('operario123', 256) WHERE codigo = 2;
+UPDATE Contraseña SET contraseña = SHA2('clave3', 256) WHERE codigo = 3;
+UPDATE Contraseña SET contraseña = SHA2('clave4', 256) WHERE codigo = 4;
+UPDATE Contraseña SET contraseña = SHA2('clave5', 256) WHERE codigo = 5;
