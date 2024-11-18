@@ -1,68 +1,96 @@
-INSERT INTO rol (nombre_rol) VALUES
+INSERT INTO `rol` (`nombre_rol`) VALUES 
 ('Administrador'),
-('Usuario'),
-('Gerente');
+('Empleado');
 
-INSERT INTO usuario (email, contraseña, id_rol) VALUES
-('admin@ejemplo.com', 'contraseña_admin', 1),
-('usuario@ejemplo.com', 'contraseña_usuario', 2),
-('gerente@ejemplo.com', 'contraseña_gerente', 3);
+INSERT INTO `usuario` ( `email`, `contraseña`, `id_rol`) VALUES 
+('admin@empresa.com', 'hashed_password', 1),
+('empleado@empresa.com', 'hashed_password', 2);
 
-
-INSERT INTO proveedor (nombre_proveedor, telefono, tipo_insumo) VALUES
-('Proveedor A', 1234567890, 'Materiales'),
-('Proveedor B', 2345678901, 'Herramientas'),
-('Proveedor C', 3456789012, 'Equipos');
+INSERT INTO `categoria_insumos` (`nombre_categoria_insumo`) VALUES 
+('Tela'), 
+('Hilo'), 
+('Botón');
 
 
-INSERT INTO categoria_insumos (nombre_categoria_insumo) VALUES
-('Materiales de construcción'),
-('Herramientas'),
-('Equipos electrónicos');
+
+INSERT INTO `categoria_productos` (`nombre_categoria`) VALUES 
+('Ropa de hombre'), 
+('Ropa de mujer'), 
+('Accesorios');
 
 
-INSERT INTO insumos (nombre_insumo, color, peso, cantidad_stock, cantidad_salir_unidad, total_cantidad_unidad, total_peso_insumo, precio_insumo, id_proveedor, inventario_insumos_id, categoria_insumos_id) VALUES
-('Cemento', 'Gris', 50.00, 100, 1, 100, 5000.00, 10.00, 1, 1, 1),
-('Martillo', 'Negro', 0.80, 50, 1, 50, 40.00, 15.00, 2, 2, 2),
-('Soldadora', 'Naranja', 10.00, 30, 1, 30, 300.00, 200.00, 3, 3, 3);
+INSERT INTO `proveedor` (`nombre_proveedor`, `telefono`, `tipo_insumo`, `direccion`) VALUES 
+('Textiles S.A.', 123456789, 1, 'Av. Siempre Viva 742'),
+('Hilos y Botones Ltda.', 987654321, 2, 'Calle 10 #20-30');
 
 
-INSERT INTO productos (nombre_producto, peso_producto, precio_producto, stock_producto, total_unidades_producto, inventario_producto_id) VALUES
-('Producto A', 5.0, 100.00, 50, 50, 1),
-('Producto B', 3.0, 150.00, 30, 30, 2),
-('Producto C', 10.0, 200.00, 20, 20, 3);
+
+INSERT INTO `clientes` (`nombre_cliente`, `telefono_cliente`, `direccion_cliente`, `tipo_pago`, `tipo_cliente`) VALUES 
+('Juan Pérez', 1234567890, 'Calle Falsa 123', 1, 'Mayorista'),
+('María López', 987654321, 'Av. Principal 456', 2, 'Minorista');
 
 
-INSERT INTO categoria_productos (nombre_categoria_producto, producto_id) VALUES
-('Categoría A', 1),
-('Categoría B', 2),
-('Categoría C', 3);
+INSERT INTO `insumos` (`nombre_insumo`, `color_insumo`, `peso_insumo`, `tipo_insumo`, `cantidad_insumo`, `precio_insumo`, `id_proveedor`, `categoria_insumos_id`) VALUES 
+('Tela de algodón', 'Blanco', 100, 'Tela', 50, 2000, 1, 1),
+('Hilo de poliéster', 'Negro', 10, 'Hilo', 100, 500, 2, 2);
 
 
-INSERT INTO insumos_producto (insumos_id, producto_id, metros, peso, cantidad_unidad_insumo) VALUES
-(1, 1, 1.5, 50.0, 2),
-(2, 2, 0.8, 0.8, 5),
-(3, 3, 3.0, 10.0, 1);
+INSERT INTO `productos` (`nombre_producto`, `genero_producto`, `tipo_producto`, `talla_producto`, `color_producto`, `peso_producto`, `cantidad_producto`, `precio_producto`, `categoria_productos_id`) VALUES 
+('Camisa', 'Hombre', 'Casual', 'M', 'Blanco', 500, 100, 20000, 1),
+('Blusa', 'Mujer', 'Formal', 'S', 'Rojo', 300, 50, 15000, 2);
 
 
-INSERT INTO perdida_productos (nombre_de_producto, cantidad_unidades_perdida, producto_id) VALUES
-('Producto A', 2, 1),
-('Producto B', 5, 2);
+
+INSERT INTO `venta` (`fecha_venta`, `estado_pago`, `tipo_venta`, `total_venta`, `comentarios`, `clientes_id`) VALUES 
+('2024-11-15 12:00:00', 'Pagado', 'Contado', 20000, 'Sin comentarios', 1),
+('2024-11-16 15:00:00', 'Pendiente', 'Crédito', 30000, 'Entrega a 30 días', 2);
+
+INSERT INTO `detalle_venta` (`cantidad`, `precio_unitario`, `subtotal`, `ventas_id`, `productos_id`) VALUES
+(2, 5000, 10000, 3, 1), -- Aquí ajustamos ventas_id a 3
+(3, 3000, 9000, 3, 2); -- Aquí también usamos ventas_id 3
 
 
-INSERT INTO perdida_insumos (cantidad_unidad_perdida, insumos_id) VALUES
-(10, 1),
-(5, 2);
+
+INSERT INTO `detalle_venta` (`cantidad`, `precio_unitario`, `subtotal`, `ventas_id`, `productos_id`) VALUES 
+(2, 5000, 10000, 1, 1),
+(3, 3000, 9000, 1, 2);
+
+INSERT INTO `historial_precios_insumos` (`precio_insumo`, `insumos_id`) VALUES 
+(1500, 1),
+(2500, 2);
 
 
-INSERT INTO historial_precios_productos (precio, producto_id) VALUES
-(100.00, 1),
-(150.00, 2),
-(200.00, 3);
+INSERT INTO `historial_precios_productos` (`precios_producto`, `producto_id`) VALUES 
+(20000.00, 1),
+(15000.50, 2);
 
 
-INSERT INTO historial_precios_insumos (precio_insumo, insumos_id) VALUES
-(10.00, 1),
-(15.00, 2),
-(200.00, 3);
+INSERT INTO `movimientos_inventario` (`tipo_movimiento`, `cantidad`, `motivo`, `insumos_id`, `producto_id`) VALUES 
+('entrada', 50, 'Nuevo pedido', 1, NULL),
+('salida', 10, 'Producción', 1, 1);
+
+
+
+INSERT INTO `orden_de_produccion` (`fecha_orden`, `fecha_entrega`, `cantidad_productos_solicitada`, `cantidad_insumo_necesaria`, `usuario_id`, `anotaciones`, `estado_orden`, `insumos_id`, `producto_id`) VALUES
+('2024-11-15 10:00:00', '2024-12-01 10:00:00', 100, 500, 1, 'Producción urgente', 'en proceso', 1, 1),
+('2024-11-16 12:00:00', '2024-12-05 12:00:00', 200, 800, 2, 'Producción normal', 'en proceso', 2, 2);
+
+
+INSERT INTO `orden_produccion_movimiento` (`orden_produccion_id`, `movimiento_inventario_id`) VALUES
+(1, 1),
+(2, 2);
+
+INSERT INTO `pago` (`fecha_pago`, `monto`, `metodo_pago`, `comentarios`, `venta_id`) VALUES 
+('2024-11-14 10:00:00', 10000, 'Tarjeta', 'Pago completo', 1),
+('2024-11-15 12:00:00', 5000, 'Efectivo', 'Abono', 2);
+
+
+INSERT INTO `pago` (`fecha_pago`, `monto`, `metodo_pago`, `comentarios`, `venta_id`) VALUES
+('2024-11-14 10:00:00', 10000, 'Tarjeta', 'Pago completo', 3),
+('2024-11-15 12:00:00', 5000, 'Efectivo', 'Abono', 4);
+
+
+INSERT INTO `perdida_insumos` (`cantidad_perdida`, `insumos_id`) VALUES 
+(5, 1),
+(2, 2);
 
