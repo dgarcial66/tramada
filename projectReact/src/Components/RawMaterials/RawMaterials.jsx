@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { FormRegister } from "../FormRegister/FormRegister.jsx"
+import { ApiRawMaterials } from "../../services/apiRawMaterials.js";
 import { handleDelete, handleEdit } from "../../utils/utils.js"
+
+const api = new ApiRawMaterials()
 
 export function RawMaterials({ user, setUser}) {
     const [ name, setName ] = useState("")
@@ -15,10 +18,21 @@ export function RawMaterials({ user, setUser}) {
     const [ isListMaterials, setisListMaterials ] = useState(true)
     const navigate = useNavigate()
 
+    let filteredMaterials = [];
+
+    const listMaterials =  async () => {
+        // const filteredMaterials = materials.filter((material) => material.name.toLowerCase().includes(search.toLowerCase()));
+        const res = await api.getMaterials();
+        setMaterials(res)  
+        console.log(materials);
+    }
+
     useEffect(() => {
         if(Object.values(user).every(value => value === '' || value === null || value === undefined)) {
-          navigate('/')
+            navigate('/')
         }
+
+        listMaterials();
       }, [user, navigate])
 
       const handleSubmit = (e) => {
@@ -50,8 +64,8 @@ export function RawMaterials({ user, setUser}) {
         console.log('Áqui 3');
         };
 
-        const filteredMaterials = materials.filter((material) => material.name.toLowerCase().includes(search.toLowerCase()));
-        console.log(filteredMaterials);
+        filteredMaterials = materials;
+
     return(
         <>
             <FormRegister 

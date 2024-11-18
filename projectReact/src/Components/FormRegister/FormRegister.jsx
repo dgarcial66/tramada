@@ -325,6 +325,36 @@ export function FormRegister ({
               className="input-text"
             />
           </div>
+          <div className="form-group">
+            <label>Precio </label>
+            <input
+              type="text"
+              value={weight}
+              onChange={(e) => setWeight(e.target.value)}
+              required
+              className="input-text"
+            />
+          </div>
+          <div className="form-group">
+            <label>Proveedor </label>
+            <input
+              type="text"
+              value={weight}
+              onChange={(e) => setWeight(e.target.value)}
+              required
+              className="input-text"
+            />
+          </div>
+          <div className="form-group">
+            <label>Categoria </label>
+            <input
+              type="text"
+              value={weight}
+              onChange={(e) => setWeight(e.target.value)}
+              required
+              className="input-text"
+            />
+          </div>
           <button type="submit" className="btn-submit">
             {editIndex !== null ? "Modificar" : "Agregar"} {textButton}
           </button>
@@ -340,6 +370,10 @@ export function FormRegister ({
             />
           </div>
 
+            <label>Proveedores</label>
+          <select name="filter" id="">
+            <option value="Textiles S.A.">Textiles S.A.</option>
+          </select>
           <h2>Lista de {textButton}</h2>
           
           {
