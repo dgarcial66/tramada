@@ -15,26 +15,26 @@ export function RawMaterials({ user, setUser}) {
     const [ search, setSearch ] = useState("")
     const [ materials, setMaterials ] = useState([])
     const [ editIndex, setEditIndex ]  = useState(null)
+    const [ idSupplier, setIdSupplier ] = useState();
     const [ isListMaterials, setisListMaterials ] = useState(true)
     const navigate = useNavigate()
-
-    let filteredMaterials = [];
 
     const listMaterials =  async () => {
         // const filteredMaterials = materials.filter((material) => material.name.toLowerCase().includes(search.toLowerCase()));
         const res = await api.getMaterials();
-        setMaterials(res)  
-        console.log(materials);
+        const data = await res.json();
+        setMaterials(data)  
+        console.log(data);
     }
-
+    
     useEffect(() => {
         if(Object.values(user).every(value => value === '' || value === null || value === undefined)) {
             navigate('/')
         }
 
         listMaterials();
-      }, [user, navigate])
-
+    }, [user, navigate])
+    
       const handleSubmit = (e) => {
         e.preventDefault();
         const newMaterials = { 
@@ -44,7 +44,7 @@ export function RawMaterials({ user, setUser}) {
             stock,
             weight
         };
-    
+        
         if (editIndex !== null) {
             const updatedClients = [...materials];
             updatedClients[editIndex] = newMaterials;
@@ -62,10 +62,18 @@ export function RawMaterials({ user, setUser}) {
         setStock("");
         setWeight("");
         console.log('Áqui 3');
-        };
-
-        filteredMaterials = materials;
-
+    };
+    
+    const filteredMaterials = () => {
+        return materials.filter((material) => {    
+            const matchSearch = search ? material.nombre_insumo.toLowerCase().includes(search.toLowerCase()) : true;
+            console.log(material);
+            const matchId = idSupplier > 0 ? material.id_proveedor === idSupplier : true;
+            return matchSearch && matchId
+        });
+    };
+    
+    
     return(
         <>
             <FormRegister 
@@ -94,6 +102,7 @@ export function RawMaterials({ user, setUser}) {
                 filteredMaterials={filteredMaterials}
                 materials={materials}
                 setMaterials={setMaterials}
+                setIdSupplier={setIdSupplier}
             />
         </>
     )

@@ -1,13 +1,13 @@
 const { pool } = require("../db/config.js");
 
-class SuppliesModel {
+class RawMaterialsModel {
   constructor(model) {}
 
   async create(body) {}
 
   async update(body) {}
 
-  async getSupplies() {
+  async getMaterials() {
     const conn = await pool.getConnection();
 
     try {
@@ -18,11 +18,11 @@ class SuppliesModel {
     } catch (err) {
       throw new Error(err);
     } finally {
-      conn.release();
+      if (conn) conn.release();
     }
   }
 
   async delete(id) {}
 }
 
-module.exports = { SuppliesModel };
+module.exports = { RawMaterialsModel };

@@ -1,7 +1,10 @@
-import { useState } from "react"
-import { useNavigate } from "react-router-dom";
-import { handleDelete, handleEdit } from '../../utils/utils'
-import { Header } from "../Header/Header"
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";;
+import { handleDelete, handleEdit } from '../../utils/utils';
+import { Header } from "../Header/Header";
+import { ApiSupplier } from '../../services/apiSupplier.js';
+
+const suppliesService = new ApiSupplier();
 
 export function FormRegister ({ 
     handleSubmit,
@@ -45,11 +48,32 @@ export function FormRegister ({
     setColor,
     filteredMaterials,
     materials,
-    setMaterials
+    setMaterials,
+    setIdSupplier
 }) {
-    const navigate = useNavigate()
-    const filterLists = filteredProducts?.length ? filteredProducts : filteredClients;
+
+  const [ supplies, setSupplies ] = useState([]);
+  const [ listType, setListType ] = useState('none');
+  const [ supplier, setSupplier ] = useState();
+  const navigate = useNavigate()
   
+  const filterLists = filteredProducts?.length ? filteredProducts : filteredClients;
+  // const listMaterials = filteredMaterials?.length ? filteredMaterials : materials;
+  console.log('SOY MATERIAL: ', materials);
+
+  const suppliesPromise = async () => {
+    const res = await suppliesService.getSupplier();
+    const data = await res.json();
+    setSupplies(data);
+  };
+  useEffect(() => {
+    suppliesPromise();
+  }, []);
+
+  console.log('SUPPLIES: ', supplies);
+
+  // listRawMaterial = listMaterials.filter(materials => materials.id_proveedor === idSupplier);
+
     
     if(isListClient || filteredProducts){
 
@@ -370,21 +394,39 @@ export function FormRegister ({
             />
           </div>
 
-            <label>Proveedores</label>
-          <select name="filter" id="">
-            <option value="Textiles S.A.">Textiles S.A.</option>
-          </select>
+            <div className="btn-filter--supplier">
+              <button 
+                className="btn-submit"
+                onClick={()=> {
+                  if(listType === 'none')setListType('block');
+                  else if(listType === 'block') setListType('none');
+              }}
+              >
+                Filtrar
+              </button>
+              <ul className={`list-btn-supplier ${listType} `}>
+                {supplies?.map((supplies) => (
+
+                  <li
+                    key={supplies.id}
+                    onClick={() => setIdSupplier(supplies.id)}
+                  >{supplies.nombre_proveedor}</li>
+                )
+              )}
+              <li onClick={() => setIdSupplier(0)}>todos</li> 
+              </ul>
+            </div>
           <h2>Lista de {textButton}</h2>
           
           {
-            filteredMaterials.length > 0 ? (
+            filteredMaterials().length > 0 ? (
 
               <ul className="product-list">
-            {filteredMaterials?.map((item, index) => (
-              <li key={index} className="product-item">
+            {filteredMaterials()?.map((item,index) => (
+              <li key={item.id} className="product-item">
                 <>
-                  Nombre del Material: {item.name} - Tipo de Material{item.typeMaterial} - Color: {item.color} - 
-                  Stock: {item.stock} - Peso: {item.weight} kg
+                  Nombre del Material: {item.nombre_insumo} - Tipo de Material{item.tipo_insumo} - Color: {item.color_insumo} - 
+                  Stock: {item.cantidad_insumo} - Peso: {item.peso_insumo} kg - Precio: {item.precio_insumo}$
                 </>
           
                 <div className="product-actions">

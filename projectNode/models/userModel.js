@@ -16,7 +16,7 @@ class UserModel {
     } catch (error) {
       console.error("ERROR en consulta", error);
     } finally {
-      if (conn) conn.end();
+      if (conn) conn.release();
     }
   }
 
@@ -34,7 +34,7 @@ class UserModel {
     } catch (error) {
       console.error("ERROR en consulta", error);
     } finally {
-      if (conn) conn.end();
+      if (conn) conn.release();
     }
   }
 
@@ -58,6 +58,8 @@ class UserModel {
       throw new Error(
         "Error al crear usuario ya existe o credenciales no correctas."
       );
+    } finally {
+      if (conn) conn.release();
     }
   }
 }
