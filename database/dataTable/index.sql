@@ -2,9 +2,11 @@ INSERT INTO `rol` (`nombre_rol`) VALUES
 ('Administrador'),
 ('Empleado');
 
+--- Clave de los dos usuarios: hashed_password
+
 INSERT INTO `usuario` ( `email`, `contraseña`, `id_rol`) VALUES 
-('admin@empresa.com', 'hashed_password', 1),
-('empleado@empresa.com', 'hashed_password', 2);
+('admin@empresa.com', '$2a$10$CXYoZOYk6JOAJvnCfJ5T7uyKLU05rmrDiEntjtJIrvOqZ79ge8rPq', 1),
+('empleado@empresa.com', 'CXYoZOYk6JOAJvnCfJ5T7uyKLU05rmrDiEntjtJIrvOqZ79ge8rPq', 2);
 
 INSERT INTO `categoria_insumos` (`nombre_categoria_insumo`) VALUES 
 ('Tela'), 
