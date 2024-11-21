@@ -1,82 +1,5 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";;
-import { handleDelete, handleEdit } from '../../utils/utils';
-import { Header } from "../Header/Header";
-import { ApiSupplier } from '../../services/apiSupplier.js';
-
-const suppliesService = new ApiSupplier();
-
-export function FormRegister ({ 
-    handleSubmit,
-    products,
-    setProducts,
-    name,
-    price, 
-    editIndex, 
-    search, 
-    filteredProducts,
-    setName,
-    setPrice,
-    setEditIndex,
-    setSearch,
-    code,
-    setCode,
-    stock,
-    setStock,
-    category,
-    setCategory,
-    weight,
-    setWeight,
-    textButton,
-    isListClient,
-    setIsListClient,
-    setAddress,
-    address,
-    setNumberPhone,
-    numberPhone,
-    setCo,
-    co,
-    user,
-    setUser,
-    clients,
-    setClients,
-    filteredClients,
-    isListMaterials,
-    typeMaterial,
-    setTypeMaterial,
-    color,
-    setColor,
-    filteredMaterials,
-    materials,
-    setMaterials,
-    setIdSupplier
-}) {
-
-  
- 
-  const [ supplier, setSupplier ] = useState();
-  const navigate = useNavigate()
-  
-  const filterLists = filteredProducts?.length ? filteredProducts : filteredClients;
-  // const listMaterials = filteredMaterials?.length ? filteredMaterials : materials;
-  console.log('SOY MATERIAL: ', materials);
-
-  const suppliesPromise = async () => {
-    const res = await suppliesService.getSupplier();
-    const data = await res.json();
-    setSupplies(data);
-  };
-  useEffect(() => {
-    suppliesPromise();
-  }, []);
-
-
-  // listRawMaterial = listMaterials.filter(materials => materials.id_proveedor === idSupplier);
-
-    
-    if(isListClient || filteredProducts){
-
-      return (
+function RestructuracionProduct() {
+    return (
         <>
         <Header user={user} setUser={setUser} />
         <button className="button-back" onClick={() => navigate('/home')} />
@@ -95,57 +18,7 @@ export function FormRegister ({
                 className="input-text"
               />
             </div>
-            {
-              isListMaterials && (
-                <div className="form-group">
-                  <label>Tipo de Materialll</label>
-                  <input
-                    type="text"
-                    value={stock}
-                    onChange={(e) => setStock(e.target.value)}
-                    required
-                    className="input-text"
-                    />
-                </div>
-              )
-            }
-            {
-                isListClient &&
-                <>
-                <div className="form-group">
-              <label>Administrador</label>
-              <input
-                type="text"
-                value={co}
-                onChange={(e) => setCo(e.target.value)}
-                required
-                className="input-text"
-                />
-            </div>
-            <div className="form-group">
-              <label>Numero de Telefono</label>
-              <input
-                type="text"
-                value={numberPhone}
-                onChange={(e) => setNumberPhone(e.target.value)}
-                required
-                className="input-text"
-              />
-            </div>
-            <div className="form-group">
-              <label>Direccion</label>
-              <input
-                type="text"
-                value={address}
-                onChange={(e) => setAddress(e.target.value)}
-                required
-                className="input-text"
-              />
-            </div>
-                </>
-            }
-            {
-                !isListClient &&
+
                 <div className="form-group">
               <label>Precio</label>
               <input
@@ -156,9 +29,8 @@ export function FormRegister ({
                 className="input-text"
                 />
             </div>
-            }
-            {
-                !isListClient &&
+
+            
                 <div className="form-group">
               <label>Código</label>
               <input
@@ -169,9 +41,7 @@ export function FormRegister ({
                 className="input-text"
                 />
             </div>
-            }
-            {
-                !isListClient &&
+            
                 <div className="form-group">
               <label>Stock</label>
               <input
@@ -182,9 +52,7 @@ export function FormRegister ({
                 className="input-text"
                 />
             </div>
-            }
-            {
-                !isListClient &&
+
                 <div className="form-group">
               <label>Categoría</label>
               <input
@@ -195,9 +63,7 @@ export function FormRegister ({
                 className="input-text"
                 />
             </div>
-            }
-            {
-                !isListClient &&
+
                 <div className="form-group">
               <label>Peso (kg)</label>
               <input
@@ -209,7 +75,7 @@ export function FormRegister ({
                 className="input-text"
                 />
             </div>
-            }
+
             <button type="submit" className="btn-submit">
               {editIndex !== null ? "Modificar" : "Agregar"} {textButton}
             </button>
@@ -285,5 +151,4 @@ export function FormRegister ({
         </div>
       </>
     )
-  } 
 }

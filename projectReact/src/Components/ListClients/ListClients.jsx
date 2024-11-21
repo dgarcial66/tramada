@@ -44,9 +44,9 @@ export function ListClients({ user, setUser}) {
     return(
         <FormRegister 
             handleSubmit={handleSubmit} 
-            name={name} 
-            editIndex={editIndex} 
-            search={search} 
+            name={name} // linea para quitar al realizar restructuracion.
+            editIndex={editIndex} // linea para quitar al realizar restructuracion.
+            search={search} // linea para quitar al realizar restructuracion.
             setName={setName}
             setEditIndex={setEditIndex}
             setSearch={setSearch}
@@ -54,16 +54,16 @@ export function ListClients({ user, setUser}) {
             handleDelete={handleDelete}
             textButton={'Cliente'}
             handleIsListClient={true}
-            isListClient={isListClient}
-            address={address}
-            numberPhone={numberPhone}
-            co={co}
+            isListClient={isListClient} // linea para quitar al realizar restructuracion.
+            address={address} // linea para quitar al realizar restructuracion.
+            numberPhone={numberPhone} // linea para quitar al realizar restructuracion.
+            co={co} // linea para quitar al realizar restructuracion.
             setAddress={setAddress}
             setNumberPhone={setNumberPhone}
             setCo={setCo}
             user={user}
             setUser={setUser}
-            clients={clients}
+            clients={clients}// linea para quitar al realizar restructuracion.
             setClients={setClients}
             setIsListClient={setIsListClient}
             filteredClients={filteredClients}

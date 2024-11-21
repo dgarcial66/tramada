@@ -43,5 +43,22 @@ Content-Type: application/json
 
 
 ###
-GET http://localhost:3000/api/v1/supplies HTTP/1.1
+GET http://localhost:3000/api/v1/rawMaterials HTTP/1.1
 Content-Type: application/json
+
+###
+GET http://localhost:3000/api/v1/supplier HTTP/1.1
+Content-Type: application/json
+
+### 
+GET http://localhost:3000/api/v1/categories/raw HTTP/1.1
+Content-Type: application/json
+
+###
+PATCH  http://localhost:3000/api/v1/rawMaterials/3 HTTP/1.1
+Content-Type: application/json
+
+{
+    "nombre_insumo": "Tela de Algodoncho",
+    "color_insumo": "rosado"
+}

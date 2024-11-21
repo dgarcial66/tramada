@@ -49,26 +49,26 @@ export function Products({user, setUser}) {
     <>
     <FormRegister 
       handleSubmit={handleSubmit} 
-      name={name}
-      price={price}
-      editIndex={editIndex}
-      search={search}
+      name={name} // linea para quitar al realizar restructuracion.
+      price={price} // linea para quitar al realizar restructuracion.
+      editIndex={editIndex} // linea para quitar al realizar restructuracion.
+      search={search} // linea para quitar al realizar restructuracion.
       filteredProducts={filteredProducts}
-      setName={setName}
-      setPrice={setPrice}
-      setEditIndex={setEditIndex}
-      setSearch={setSearch}
-      setCode={setCode}
-      setStock={setStock}
-      setCategory={setCategory}
-      setWeight={setWeight}
-      handleEdit={(products) => handleEdit(products)}
+      setName={setName} // linea para quitar al realizar restructuracion.
+      setPrice={setPrice} // linea para quitar al realizar restructuracion.
+      setEditIndex={setEditIndex} // linea para quitar al realizar restructuracion.
+      setSearch={setSearch} // linea para quitar al realizar restructuracion.
+      setCode={setCode} // linea para quitar al realizar restructuracion.
+      setStock={setStock} // linea para quitar al realizar restructuracion.
+      setCategory={setCategory} // linea para quitar al realizar restructuracion.
+      setWeight={setWeight} // linea para quitar al realizar restructuracion.
+      handleEdit={(products) => handleEdit(products)} // linea para quitar al realizar restructuracion.
       handleDelete={handleDelete}
       textButton={'Producto'}
       user={user}
       setUser={setUser}
-      products={products}
-      setProducts={setProducts}
+      products={products} // linea para quitar al realizar restructuracion.
+      setProducts={setProducts} // linea para quitar al realizar restructuracion.
     />
   </>
   );

@@ -10,6 +10,11 @@ class RawMaterialsService {
     console.log("SOY DATA SERVICE: ", data);
     return data;
   }
+
+  async updateRaw(body, id) {
+    const data = await model.update(body, id);
+    return data;
+  }
 }
 
 module.exports = { RawMaterialsService };

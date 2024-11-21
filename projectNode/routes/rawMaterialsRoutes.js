@@ -15,4 +15,15 @@ rawMaterialsRouter.get("/", async (req, res) => {
   }
 });
 
+rawMaterialsRouter.patch("/:id", async (req, res) => {
+  const { body, params } = req;
+  const result = await service.updateRaw(body, params.id);
+  console.log("RESPUESTA PARAMS: ", params);
+  console.log("RESPUESTA: ", result);
+  res.json({
+    rawMaterials: "Actualizado.",
+    affectedMaterials: result.affectedRows,
+  });
+});
+
 module.exports = { rawMaterialsRouter };

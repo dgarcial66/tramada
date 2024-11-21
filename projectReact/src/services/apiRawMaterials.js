@@ -14,6 +14,25 @@ class ApiRawMaterials {
       throw new Error(error.message);
     }
   }
+
+  async updateMaterial(body, id) {
+    try {
+      const res = await fetch(
+        `http://localhost:3000/api/v1/rawMaterials/${id}`,
+        {
+          method: "PATCH",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(body),
+        }
+      );
+      return res;
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
 }
 
 export { ApiRawMaterials };
