@@ -2,7 +2,7 @@ const { query } = require("express");
 const { pool } = require("../db/config.js");
 
 class RawMaterialsModel {
-  constructor(model) {}
+  constructor() {}
 
   dynamicQuery(body) {
     const fields = [];
@@ -10,20 +10,43 @@ class RawMaterialsModel {
     const fieldsBody = Object.keys(body);
     const valuesBody = Object.values(body);
     for (let i = 0; i < fieldsBody.length; i++) {
-      fields.push(fieldsBody[i] + " = ? ");
-      values.push(valuesBody[i]);
+      if (fieldsBody[i] === "id_proveedor") {
+        fields.push(
+          fieldsBody[i] +
+            " = (SELECT id FROM proveedor WHERE nombre_proveedor = ? )"
+        );
+        values.push(valuesBody[i]);
+      } else if (fieldsBody[i] === "categoria_insumos_id") {
+        fields.push(
+          fieldsBody[i] +
+            " = (SELECT id FROM categoria_insumos WHERE nombre_categoria_insumo = ?)"
+        );
+        values.push(valuesBody[i]);
+      } else {
+        fields.push(fieldsBody[i] + " = ? ");
+        values.push(valuesBody[i]);
+      }
     }
 
     const query = `UPDATE insumos SET ${fields.join(", ")} WHERE id = ? `;
+    console.log("SOY QUERY: ", query);
+    console.log("SOY VALUES: ", values);
     return { query, values };
   }
 
-  async create(body) {}
+  async create(body) {
+    const conn = await pool.getConnection();
+
+    try {
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
 
   async update(body, id) {
     const conn = await pool.getConnection();
 
-    const objKeysValues = await this.dynamicQuery(body);
+    const objKeysValues = this.dynamicQuery(body);
     const query = objKeysValues.query;
     const values = objKeysValues.values;
     const idMaterial = Number(id);
@@ -51,14 +74,29 @@ class RawMaterialsModel {
       const data = await conn.query(query);
 
       return data;
-    } catch (err) {
-      throw new Error(err);
+    } catch (error) {
+      throw new Error(error);
     } finally {
       if (conn) conn.release();
     }
   }
 
-  async delete(id) {}
+  async delete(id) {
+    const conn = await pool.getConnection();
+    try {
+      const query = "DELETE FROM insumos WHERE id = ?;";
+      const idNumber = Number(id);
+      console.log(idNumber, id);
+      const values = [idNumber];
+      const data = await conn.query(query, values);
+
+      return data;
+    } catch (error) {
+      throw new Error(error);
+    } finally {
+      if (conn) conn.release();
+    }
+  }
 }
 
 module.exports = { RawMaterialsModel };

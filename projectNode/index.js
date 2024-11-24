@@ -3,6 +3,7 @@ const cors = require("cors");
 const { options } = require("./access-origin/index.js");
 const { routerApi } = require("./routes/index.js");
 const { errorAuthHandler } = require("./middlewares/errorAuthHandler.js");
+const { errorHandler } = require("./middlewares/errorhandle.js");
 require("./utils/auth");
 
 const app = express();
@@ -19,6 +20,7 @@ app.get("/", (req, res) => {
 });
 
 routerApi(app);
+app.use(errorHandler);
 app.use(errorAuthHandler);
 
 app.listen(PORT, () => {

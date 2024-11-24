@@ -24,6 +24,7 @@ class UserModel {
     try {
       console.log("SOY EMAIL: ", email);
       conn = await pool.getConnection();
+      console.log("SIIII: ", conn);
       const query =
         "SELECT email, password, id_rol FROM usuario WHERE email = ?";
       const listQuery = [email];

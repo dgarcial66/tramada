@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom"
 import { Header } from "../Header/Header";
 import { useMaterials } from "../../hooks/useMaterial.jsx";
 import { handleDelete, handleEdit } from "../../utils/utils.js"
-import { filterCategories } from "../../utils/filterCategories.js";
 import { updateMaterial } from "../../actions/rawMaterial.js";
+import { Modal } from "../Modal/Modal.jsx";
  
 export function RawMaterials({ user, setUser}) {
     const [ name, setName ] = useState(""); //1
@@ -17,7 +17,9 @@ export function RawMaterials({ user, setUser}) {
     const [ category, setCategory ] = useState(""); //8
     const [ idMaterial, setIdMaterial ]  = useState(null);
     const [ listType, setListType ] = useState('none');
-    const [ isListMaterials, setisListMaterials ] = useState(true);
+    const [ isOpen, setIsOpen ] = useState(false);
+    const [ textModal, setTextModal ] = useState('Agregar');
+    const [ disabled, setDisabled ] = useState(null);
     const { search,
             setSearch,
             materials,
@@ -26,6 +28,7 @@ export function RawMaterials({ user, setUser}) {
             categories,
             filteredMaterials
         } = useMaterials();
+
     const navigate = useNavigate()
     console.log(filteredMaterials());
     
@@ -36,7 +39,7 @@ export function RawMaterials({ user, setUser}) {
     }, [user, navigate])
     
     console.log(idMaterial);
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const newMaterials = { 
             nombre_insumo: name,
@@ -54,10 +57,14 @@ export function RawMaterials({ user, setUser}) {
 
         if(values !== undefined) {
             if (idMaterial !== null) {
-                updateMaterial(newMaterials, idMaterial)
+                const rta = await updateMaterial(newMaterials, idMaterial)
+                console.log(rta);
+                setTextModal('actualizado');
+                
             }
             return;
         }
+
         setName("");
         setTypeMaterial('')
         setColor('');
@@ -68,16 +75,16 @@ export function RawMaterials({ user, setUser}) {
         setCategory("");
         console.log('Áqui 3');
     };
-    console.log(idMaterial);
+    console.log(isOpen);
     return (
         <>
           <Header user={user} setUser={setUser} />
           <button className="button-back" onClick={() => navigate("/home")} />
           <div className="menu-productos-container">
-            <h1>Gestión de </h1>
+            <h1>Gestión de Material</h1>
     
             {/* Formulario para agregar o modificar productos */}
-            <form onSubmit={handleSubmit} className="form-producto">
+            <form className="form-producto">
               <div className="form-group">
                 <label>Nombre del Material</label>
                 <input
@@ -141,6 +148,7 @@ export function RawMaterials({ user, setUser}) {
               <div className="form-group">
                 <label>Proveedor </label>
                 <input
+                  disabled={disabled}
                   type="text"
                   value={vendor}
                   onChange={(e) => setVendor(e.target.value)}
@@ -151,6 +159,7 @@ export function RawMaterials({ user, setUser}) {
               <div className="form-group">
                 <label>Categoria </label>
                 <input
+                  disabled={disabled}
                   type="text"
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
@@ -158,7 +167,11 @@ export function RawMaterials({ user, setUser}) {
                   className="input-text"
                 />
               </div>
-              <button type="submit" className="btn-submit">
+              <button className="btn-submit" onClick={(e) => {
+                e.preventDefault();
+                  setIsOpen(true);
+                  handleSubmit(e);
+                }}>
                 {idMaterial !== null ? "Modificar" : "Agregar"} Material
               </button>
             </form>
@@ -207,6 +220,7 @@ export function RawMaterials({ user, setUser}) {
                     <div className="product-actions">
                       <button
                         onClick={() => {
+                          setDisabled('disabled');
                             setIdMaterial(materials[index].id);
                             console.log(idMaterial);
                             handleEdit({
@@ -246,6 +260,7 @@ export function RawMaterials({ user, setUser}) {
               <p>No hay Material disponibles.</p>
             )}
           </div>
+          <Modal isOpen={isOpen} textModal={textModal} setIsOpen={setIsOpen} />
         </>
       );
 }

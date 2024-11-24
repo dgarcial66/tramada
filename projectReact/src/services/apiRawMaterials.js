@@ -33,6 +33,12 @@ class ApiRawMaterials {
       console.error(error.message);
     }
   }
+
+  async deleteMaterial() {
+    try {
+      const res = await fetch("");
+    } catch (error) {}
+  }
 }
 
 export { ApiRawMaterials };
