@@ -26,9 +26,9 @@ rawMaterialsRouter.patch("/:id", async (req, res, next) => {
       rawMaterials: "Actualizado.",
       affectedMaterials: result.affectedRows,
     });
-  } catch (error) {
-    console.log("SOY ERROR: ", error);
-    next(error);
+  } catch (err) {
+    console.log("SOY ERROR: ", err);
+    next(err);
   }
 });
 
@@ -38,9 +38,9 @@ rawMaterialsRouter.delete("/:id", async (req, res, next) => {
     const result = await service.deleteMaterial(params.id);
     console.log(result.affectedRows);
     res.json(result);
-  } catch (error) {
-    console.log("SOY ERROR: ", error);
-    next(error);
+  } catch (err) {
+    console.log("SOY ERROR: ", err);
+    next(err);
   }
 });
 

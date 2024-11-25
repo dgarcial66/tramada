@@ -31,7 +31,11 @@ class RawMaterialsModel {
     const query = `UPDATE insumos SET ${fields.join(", ")} WHERE id = ? `;
     console.log("SOY QUERY: ", query);
     console.log("SOY VALUES: ", values);
-    return { query, values };
+    try {
+      return { query, values };
+    } catch (error) {
+      throw error;
+    }
   }
 
   async create(body) {
@@ -58,7 +62,8 @@ class RawMaterialsModel {
       const res = await conn.query(query, values);
       return res;
     } catch (error) {
-      throw new Error(error);
+      console.log("ERROR GENERADO EN MODELO: ", error);
+      throw error;
     } finally {
       if (conn) conn.release();
     }
@@ -92,7 +97,7 @@ class RawMaterialsModel {
 
       return data;
     } catch (error) {
-      throw new Error(error);
+      throw error;
     } finally {
       if (conn) conn.release();
     }

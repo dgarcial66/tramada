@@ -20,7 +20,7 @@ class RawMaterialsService {
       const data = await model.update(body, id);
       return data;
     } catch (error) {
-      throw new Error(error);
+      throw error;
     }
   }
 
@@ -29,7 +29,7 @@ class RawMaterialsService {
       const data = await model.delete(id);
       return data;
     } catch (error) {
-      throw new Error(error);
+      throw error;
     }
   }
 }

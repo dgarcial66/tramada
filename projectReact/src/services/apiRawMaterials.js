@@ -28,15 +28,27 @@ class ApiRawMaterials {
           body: JSON.stringify(body),
         }
       );
+      console.log(res);
       return res;
     } catch (error) {
       console.error(error.message);
     }
   }
 
-  async deleteMaterial() {
+  async deleteMaterial(id) {
     try {
-      const res = await fetch("");
+      const res = await fetch(
+        `http://localhost:3000/api/v1/rawMaterials/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log(res);
+      return res;
     } catch (error) {}
   }
 }

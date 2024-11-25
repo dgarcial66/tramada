@@ -3,24 +3,26 @@ import { useNavigate } from "react-router-dom"
 import { Header } from "../Header/Header";
 import { useMaterials } from "../../hooks/useMaterial.jsx";
 import { handleDelete, handleEdit } from "../../utils/utils.js"
-import { updateMaterial } from "../../actions/rawMaterial.js";
+import { updateMaterial, deleteMaterial } from "../../actions/rawMaterial.js";
 import { Modal } from "../Modal/Modal.jsx";
- 
+import './rawMaterials.css';
+
 export function RawMaterials({ user, setUser}) {
-    const [ name, setName ] = useState(""); //1
-    const [ typeMaterial, setTypeMaterial] = useState(""); //2
-    const [ color, setColor ] = useState(""); //3
-    const [ stock, setStock ] = useState(""); //4
-    const [ weight, setWeight ] = useState(""); //5
-    const [ price, setPrice ] = useState(''); //6
-    const [ vendor, setVendor ] = useState(""); //7
-    const [ category, setCategory ] = useState(""); //8
-    const [ idMaterial, setIdMaterial ]  = useState(null);
-    const [ listType, setListType ] = useState('none');
-    const [ isOpen, setIsOpen ] = useState(false);
-    const [ textModal, setTextModal ] = useState('Agregar');
-    const [ disabled, setDisabled ] = useState(null);
-    const { search,
+  const [ id, setId ] = useState(null);
+  const [ name, setName ] = useState("");
+  const [ typeMaterial, setTypeMaterial] = useState("");
+  const [ color, setColor ] = useState("");
+  const [ stock, setStock ] = useState("");
+  const [ weight, setWeight ] = useState("");
+  const [ price, setPrice ] = useState('');
+  const [ vendor, setVendor ] = useState("");
+  const [ category, setCategory ] = useState("");
+  const [ idMaterial, setIdMaterial ]  = useState(null);
+  const [ listType, setListType ] = useState('none');
+  const [ isOpen, setIsOpen ] = useState(false);
+  const [ notModify, setNotModify ] = useState(false);
+  const [ textModal, setTextModal ] = useState('Agregar');
+  const { search,
             setSearch,
             materials,
             setIdSupplier,
@@ -37,11 +39,22 @@ export function RawMaterials({ user, setUser}) {
             navigate('/')
         }
     }, [user, navigate])
-    
-    console.log(idMaterial);
+    const handlerDeleteMaterial = async (id) => {
+      try {
+        const rta = await deleteMaterial(id);
+        console.log(rta);
+        return rta;
+      } catch (err) {
+        console.log(err);
+        throw err;
+      }
+    }
+
     const handleSubmit = async (e) => {
-        e.preventDefault();
-        const newMaterials = { 
+      let rta;
+      try {
+          e.preventDefault();
+          const newMaterials = { 
             nombre_insumo: name,
             tipo_insumo: typeMaterial,
             color_insumo: color,
@@ -50,32 +63,44 @@ export function RawMaterials({ user, setUser}) {
             precio_insumo: price,
             id_proveedor: vendor,
             categoria_insumos_id: category
-        };
-        const values = Object.values(newMaterials);
-
-        console.log(idMaterial);
-
-        if(values !== undefined) {
+          };
+          const values = Object.values(newMaterials);
+          
+          console.log(idMaterial);
+          
+          if(values !== undefined) {
             if (idMaterial !== null) {
-                const rta = await updateMaterial(newMaterials, idMaterial)
+              try{
+
+                rta = await updateMaterial(newMaterials, idMaterial)
                 console.log(rta);
                 setTextModal('actualizado');
-                
+                setIsOpen(true);
+              }catch(err) {
+                console.log(err);
+                throw err;
+              }
             }
-            return;
-        }
 
-        setName("");
-        setTypeMaterial('')
-        setColor('');
-        setStock("");
-        setWeight("");
-        setPrice('');
-        setVendor("");
-        setCategory("");
-        console.log('Áqui 3');
+            setName("");
+            setTypeMaterial('')
+            setColor('');
+            setStock("");
+            setWeight("");
+            setPrice('');
+            setVendor("");
+            setCategory("");
+            console.log('Áqui 3');
+
+            setNotModify(false);
+            return;
+          } 
+        }catch (error) {
+          setNotModify(true);
+          throw error;
+        }
     };
-    console.log(isOpen);
+    console.log(id);
     return (
         <>
           <Header user={user} setUser={setUser} />
@@ -148,7 +173,6 @@ export function RawMaterials({ user, setUser}) {
               <div className="form-group">
                 <label>Proveedor </label>
                 <input
-                  disabled={disabled}
                   type="text"
                   value={vendor}
                   onChange={(e) => setVendor(e.target.value)}
@@ -159,7 +183,6 @@ export function RawMaterials({ user, setUser}) {
               <div className="form-group">
                 <label>Categoria </label>
                 <input
-                  disabled={disabled}
                   type="text"
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
@@ -167,13 +190,16 @@ export function RawMaterials({ user, setUser}) {
                   className="input-text"
                 />
               </div>
-              <button className="btn-submit" onClick={(e) => {
-                e.preventDefault();
-                  setIsOpen(true);
+              <div className="form-btn-info">
+                <button className="btn-submit" onClick={(e) => {
+                  e.preventDefault();
                   handleSubmit(e);
                 }}>
-                {idMaterial !== null ? "Modificar" : "Agregar"} Material
-              </button>
+                  {idMaterial !== null ? "Modificar" : "Agregar"} Material
+                </button>
+                {notModify && <p>El proveedor o la categoria no existen para el insumo.</p>
+                }
+              </div>
             </form>
     
             <div className="search-container">
@@ -220,7 +246,6 @@ export function RawMaterials({ user, setUser}) {
                     <div className="product-actions">
                       <button
                         onClick={() => {
-                          setDisabled('disabled');
                             setIdMaterial(materials[index].id);
                             console.log(idMaterial);
                             handleEdit({
@@ -242,11 +267,10 @@ export function RawMaterials({ user, setUser}) {
                         Editar
                       </button>
                       <button
-                        onClick={() =>
-                          handleDelete({
-                            materials,
-                            index
-                          })
+                        onClick={() => {
+                          handleDelete({id: item.id, setId});
+                          handlerDeleteMaterial(id);
+                        }
                         }
                         className="btn-delete"
                       >

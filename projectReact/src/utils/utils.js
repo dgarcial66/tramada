@@ -50,20 +50,6 @@ export const handleEdit = ({
   }
 };
 
-export const handleDelete = ({
-  products,
-  clients,
-  materials,
-  index,
-  setProducts,
-  setClients,
-  setMaterials,
-}) => {
-  if (products) {
-    setProducts(products.filter((_, i) => i !== index));
-  } else if (clients) {
-    setClients(clients.filter((_, i) => i !== index));
-  } else {
-    setMaterials(materials.filter((_, i) => i !== index));
-  }
+export const handleDelete = ({ id, setId }) => {
+  setId(id);
 };

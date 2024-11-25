@@ -20,8 +20,8 @@ app.get("/", (req, res) => {
 });
 
 routerApi(app);
-app.use(errorHandler);
 app.use(errorAuthHandler);
+app.use(errorHandler);
 
 app.listen(PORT, () => {
   console.log(`Listening in http://localhost:${PORT}`);

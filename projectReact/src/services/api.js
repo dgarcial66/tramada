@@ -16,11 +16,8 @@ class ApiFetch {
       }
 
       if (!res.ok) {
-        // Esto imprimirá el error específico
-        const errorData = await res.json();
-        console.log(errorData.message);
-
-        throw new Error(errorData.message);
+        const { message } = await res.json();
+        throw new Error(message.info);
       }
 
       return await res.json();
