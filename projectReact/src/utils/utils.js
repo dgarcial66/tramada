@@ -1,4 +1,4 @@
-export const handleEdit = ({
+export const handleEdit = async ({
   products,
   clients,
   index,
@@ -37,16 +37,18 @@ export const handleEdit = ({
     setCo(client.co);
     setEditIndex(index);
   } else {
-    const material = materials[index];
+    const material = await materials[index];
     console.log(material);
-    setName(material.nombre_insumo);
-    setTypeMaterial(material.tipo_insumo);
-    setColor(material.color_insumo);
-    setStock(material.cantidad_insumo);
-    setWeight(material.peso_insumo);
-    setPrice(material.precio_insumo),
-      setVendor(material.proveedor),
-      setCategory(material.categoria);
+    if (material) {
+      setName(material.nombre_insumo);
+      setTypeMaterial(material.tipo_insumo);
+      setColor(material.color_insumo);
+      setStock(material.cantidad_insumo);
+      setWeight(material.peso_insumo);
+      setPrice(material.precio_insumo),
+        setVendor(material.proveedor),
+        setCategory(material.categoria);
+    }
   }
 };
 
@@ -63,6 +65,7 @@ export const formatValues = ({
   setPrice,
   setVendor,
   setCategory,
+  setIdMaterial,
 }) => {
   setName("");
   setTypeMaterial("");
@@ -72,4 +75,5 @@ export const formatValues = ({
   setPrice("");
   setVendor("");
   setCategory("");
+  setIdMaterial(null);
 };

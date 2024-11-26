@@ -98,19 +98,12 @@ export function RawMaterials({ user, setUser}) {
           if(values !== undefined) {
             if (idMaterial !== null) {
               try{
-                rta = await updateMaterial(newMaterials, idMaterial)
-                const indexMaterial = filteredMaterials().findIndex(i => i.id === idMaterial)
-                const newList = listMaterials.fill(newMaterials, indexMaterial, indexMaterial + 1);
-                console.log({
-                  name,
-                  typeMaterial,
-                  color,
-                  stock,
-                  weight,
-                  price,
-                  vendor,
-                  category});
-                setListMaterials(newList); 
+                await updateMaterial(newMaterials, idMaterial)
+                const updateList = listMaterials.map(material => material.id === idMaterial ? {...material, ...newMaterials} : material);
+
+                console.log(updateList);
+                setListMaterials(updateList);
+                setMaterials(updateList)
                 setTextModal('actualizado');
                 setIsOpen(true);
                 console.log();
@@ -127,7 +120,9 @@ export function RawMaterials({ user, setUser}) {
               setWeight,
               setPrice,
               setVendor,
-              setCategory,})
+              setCategory,
+              setIdMaterial
+            })
             console.log('Áqui 3');
 
             setNotModify(false);
@@ -282,10 +277,11 @@ export function RawMaterials({ user, setUser}) {
     
                     <div className="product-actions">
                       <button
-                        onClick={() => {
-                            setIdMaterial(materials[index].id);
+                        onClick={async () => {
+                            const selectedMaterial = materials[index]
+                            setIdMaterial(selectedMaterial.id);
                             console.log(idMaterial);
-                              handleEdit({
+                              await handleEdit({
                                 materials,
                                 index,
                                 setName,
