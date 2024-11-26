@@ -24,9 +24,9 @@ class RawMaterialsService {
     }
   }
 
-  async deleteMaterial(id) {
+  async deductMaterial(id, quantity) {
     try {
-      const data = await model.delete(id);
+      const data = await model.deduct(id, quantity);
       return data;
     } catch (error) {
       throw error;

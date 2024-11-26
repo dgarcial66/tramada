@@ -53,3 +53,23 @@ export const handleEdit = ({
 export const handleDelete = ({ id, setId }) => {
   setId(id);
 };
+
+export const formatValues = ({
+  setName,
+  setTypeMaterial,
+  setColor,
+  setStock,
+  setWeight,
+  setPrice,
+  setVendor,
+  setCategory,
+}) => {
+  setName("");
+  setTypeMaterial("");
+  setColor("");
+  setStock("");
+  setWeight("");
+  setPrice("");
+  setVendor("");
+  setCategory("");
+};

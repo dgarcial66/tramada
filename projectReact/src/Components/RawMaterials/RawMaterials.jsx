@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { Header } from "../Header/Header";
 import { useMaterials } from "../../hooks/useMaterial.jsx";
-import { handleDelete, handleEdit } from "../../utils/utils.js"
+import { formatValues, handleDelete, handleEdit } from "../../utils/utils.js"
 import { updateMaterial, deleteMaterial } from "../../actions/rawMaterial.js";
 import { Modal } from "../Modal/Modal.jsx";
 import './rawMaterials.css';
@@ -23,22 +23,49 @@ export function RawMaterials({ user, setUser}) {
   const [ notModify, setNotModify ] = useState(false);
   const [ textModal, setTextModal ] = useState('Agregar');
   const { search,
-            setSearch,
-            materials,
-            setIdSupplier,
-            supplies,
-            categories,
-            filteredMaterials
-        } = useMaterials();
+    setSearch,
+    materials,
+    setMaterials,
+    nameSupplier,
+    setNameSupplier,
+    supplies,
+    categories,
+    filteredMaterials
+  } = useMaterials();
+  const [ listMaterials, setListMaterials] = useState(filteredMaterials());
 
     const navigate = useNavigate()
-    console.log(filteredMaterials());
     
     useEffect(() => {
-        if(Object.values(user).every(value => value === '' || value === null || value === undefined)) {
-            navigate('/')
-        }
+      if(Object.values(user).every(value => value === '' || value === null || value === undefined)) {
+        navigate('/')
+      }
     }, [user, navigate])
+
+    useEffect(() => {
+      const fetchMaterial = () => {
+        const result = filteredMaterials()
+        setListMaterials(result);
+      }
+      fetchMaterial();
+    }, [materials, search, nameSupplier])
+
+    useEffect(() => {
+      if(idMaterial !== null) {
+        const material = materials.find(item => item.id === idMaterial);
+        if(material) {
+          setName(material.nombre_insumo);
+          setTypeMaterial(material.tipo_insumo);
+          setColor(material.color_insumo);
+          setStock(material.cantidad_insumo);
+          setWeight(material.peso_insumo);
+          setPrice(material.precio_insumo);
+          setVendor(material.id_proveedor);
+          setCategory(material.categoria_insumos_id);
+        }
+      }
+    }, [materials, idMaterial])
+        
     const handlerDeleteMaterial = async (id) => {
       try {
         const rta = await deleteMaterial(id);
@@ -49,6 +76,7 @@ export function RawMaterials({ user, setUser}) {
         throw err;
       }
     }
+    console.log(supplies);
 
     const handleSubmit = async (e) => {
       let rta;
@@ -66,30 +94,40 @@ export function RawMaterials({ user, setUser}) {
           };
           const values = Object.values(newMaterials);
           
-          console.log(idMaterial);
           
           if(values !== undefined) {
             if (idMaterial !== null) {
               try{
-
                 rta = await updateMaterial(newMaterials, idMaterial)
-                console.log(rta);
+                const indexMaterial = filteredMaterials().findIndex(i => i.id === idMaterial)
+                const newList = listMaterials.fill(newMaterials, indexMaterial, indexMaterial + 1);
+                console.log({
+                  name,
+                  typeMaterial,
+                  color,
+                  stock,
+                  weight,
+                  price,
+                  vendor,
+                  category});
+                setListMaterials(newList); 
                 setTextModal('actualizado');
                 setIsOpen(true);
+                console.log();
               }catch(err) {
                 console.log(err);
                 throw err;
               }
             }
 
-            setName("");
-            setTypeMaterial('')
-            setColor('');
-            setStock("");
-            setWeight("");
-            setPrice('');
-            setVendor("");
-            setCategory("");
+            formatValues({setName,
+              setTypeMaterial,
+              setColor,
+              setStock,
+              setWeight,
+              setPrice,
+              setVendor,
+              setCategory,})
             console.log('Áqui 3');
 
             setNotModify(false);
@@ -101,6 +139,7 @@ export function RawMaterials({ user, setUser}) {
         }
     };
     console.log(id);
+    console.log(listMaterials);
     return (
         <>
           <Header user={user} setUser={setUser} />
@@ -224,23 +263,21 @@ export function RawMaterials({ user, setUser}) {
               </button>
               <ul className={`list-btn-supplier ${listType} `}>
                 {supplies?.map((supplies) => (
-                  <li key={supplies.id} onClick={() => setIdSupplier(supplies.id)}>
+                  <li key={supplies.id} onClick={() => setNameSupplier(supplies.nombre_proveedor)}>
                     {supplies.nombre_proveedor}
                   </li>
                 ))}
-                <li onClick={() => setIdSupplier(0)}>todos</li>
+                <li onClick={() => setNameSupplier('')}>todos</li>
               </ul>
             </div>
             <h2>Lista de Material</h2>
     
-            {filteredMaterials().length > 0 ? (
+            {listMaterials ? (
               <ul className="product-list">
-                {filteredMaterials()?.map((item, index) => (
+                {listMaterials?.map((item, index) => (
                   <li key={item.id} className="product-item">
                     <>
-                      Nombre del Material: {item.nombre_insumo} - Tipo de Material: {item.tipo_insumo} - Color: {item.color_insumo} - Stock:{" "}
-                      {item.cantidad_insumo} - Peso: {item.peso_insumo} kg - Precio:{" "}
-                      {item.precio_insumo}$ Categoria: {item.categoria}
+                      Nombre del Material: {item.nombre_insumo} - Tipo de Material: {item.tipo_insumo} - Color: {item.color_insumo} - Stock: {item.cantidad_insumo} - Peso: {item.peso_insumo} kg - Precio: {item.precio_insumo}$ Categoria: {item.categoria}
                     </>
     
                     <div className="product-actions">
@@ -248,7 +285,7 @@ export function RawMaterials({ user, setUser}) {
                         onClick={() => {
                             setIdMaterial(materials[index].id);
                             console.log(idMaterial);
-                            handleEdit({
+                              handleEdit({
                                 materials,
                                 index,
                                 setName,
@@ -259,7 +296,7 @@ export function RawMaterials({ user, setUser}) {
                                 setPrice,
                                 setVendor,
                                 setCategory
-                            })
+                              })
                         }
                         }
                         className="btn-edit"
@@ -274,7 +311,7 @@ export function RawMaterials({ user, setUser}) {
                         }
                         className="btn-delete"
                       >
-                        Eliminar
+                        Descontar
                       </button>
                     </div>
                   </li>

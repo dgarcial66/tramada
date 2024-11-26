@@ -86,13 +86,13 @@ class RawMaterialsModel {
     }
   }
 
-  async delete(id) {
+  async deduct(id, quantity) {
     const conn = await pool.getConnection();
     try {
-      const query = "DELETE FROM insumos WHERE id = ?;";
+      const query = "UPDATE insumos SET cantidad_insumo = ? WHERE id = ?;";
       const idNumber = Number(id);
       console.log(idNumber, id);
-      const values = [idNumber];
+      const values = [quantity, idNumber];
       const data = await conn.query(query, values);
 
       return data;
