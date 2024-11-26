@@ -32,10 +32,10 @@ rawMaterialsRouter.patch("/:id", async (req, res, next) => {
   }
 });
 
-rawMaterialsRouter.delete("/:id", async (req, res, next) => {
+rawMaterialsRouter.patch("/:id", async (req, res, next) => {
   try {
-    const { params } = req;
-    const result = await service.deleteMaterial(params.id);
+    const { params, body } = req;
+    const result = await service.deductMaterial(body, params.id);
     console.log(result.affectedRows);
     res.json(result);
   } catch (err) {
