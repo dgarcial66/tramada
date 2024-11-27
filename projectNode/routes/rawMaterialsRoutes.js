@@ -19,7 +19,7 @@ rawMaterialsRouter.get("/", async (req, res, next) => {
 rawMaterialsRouter.patch("/:id", async (req, res, next) => {
   try {
     const { body, params } = req;
-    const result = await service.updateRaw(body, params.id);
+    const result = await service.updateRaw(params.id, body);
     console.log("RESPUESTA PARAMS: ", params);
     console.log("RESPUESTA: ", result);
     res.json({

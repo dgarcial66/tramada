@@ -27,6 +27,9 @@ class RawMaterialsModel {
         values.push(valuesBody[i]);
       }
     }
+    console.log("DINAMYCBODY", body);
+    console.log("FIELDS", fieldsBody);
+    console.log("VALUES", valuesBody);
 
     const query = `UPDATE insumos SET ${fields.join(", ")} WHERE id = ? `;
     console.log("SOY QUERY: ", query);
@@ -47,7 +50,7 @@ class RawMaterialsModel {
     }
   }
 
-  async update(body, id) {
+  async update(id, body) {
     const conn = await pool.getConnection();
 
     const objKeysValues = this.dynamicQuery(body);

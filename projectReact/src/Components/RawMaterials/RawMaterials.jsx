@@ -100,7 +100,7 @@ export function RawMaterials({ user, setUser}) {
           if(values !== undefined) {
             if (idMaterial !== null) {
               try{
-                await updateMaterial(newMaterials, idMaterial)
+                await updateMaterial(idMaterial, newMaterials)
                 const updateList = listMaterials.map(material => material.id === idMaterial ? {...material, ...newMaterials} : material);
 
                 console.log(updateList);
@@ -108,7 +108,7 @@ export function RawMaterials({ user, setUser}) {
                 setMaterials(updateList)
                 setTextModal('actualizado');
                 setIsOpen(true);
-                console.log();
+                console.log('Holaaaa');
               }catch(err) {
                 console.log(err);
                 throw err;

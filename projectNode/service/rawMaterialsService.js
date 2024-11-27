@@ -17,7 +17,7 @@ class RawMaterialsService {
 
   async updateRaw(id, body) {
     try {
-      const data = await model.update(body, id);
+      const data = await model.update(id, body);
       return data;
     } catch (error) {
       throw error;

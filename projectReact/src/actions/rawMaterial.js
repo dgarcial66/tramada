@@ -3,7 +3,7 @@ import { ApiRawMaterials } from "../services/apiRawMaterials";
 const service = new ApiRawMaterials();
 
 async function updateMaterial(body, id) {
-  const rta = await service.updateMaterial(body, id);
+  const rta = await service.updateMaterial(id, body);
   return rta.json();
 }
 

@@ -19,7 +19,7 @@ function UpdateItems({id, setIsOpenModal}) {
     }
 
     console.log(objBody);
-    if(objBody.peso_insumo === 0 && objBody.cantidad_insumo === 0 && objBodyprecio_insumo === 0) {
+    if(objBody.peso_insumo === 0 && objBody.cantidad_insumo === 0 && objBody.precio_insumo === 0) {
         setIsOpenModal(false);
         return;
     }
