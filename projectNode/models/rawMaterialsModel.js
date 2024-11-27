@@ -86,13 +86,17 @@ class RawMaterialsModel {
     }
   }
 
-  async deduct(id, quantity) {
+  async deduct(id, quantities) {
     const conn = await pool.getConnection();
     try {
-      const query = "UPDATE insumos SET cantidad_insumo = ? WHERE id = ?;";
+      const query =
+        "UPDATE insumos SET peso_insumo = peso_insumo - ?, cantidad_insumo = cantidad_insumo - ?, precio_insumo = precio_insumo - ? WHERE id = ?;";
       const idNumber = Number(id);
-      console.log(idNumber, id);
-      const values = [quantity, idNumber];
+      const valuesQuantity = Object.values(quantities);
+      valuesQuantity.push(idNumber);
+      const values = valuesQuantity;
+      console.log(values);
+      console.log("AQUI QUANTITIES: ", quantities);
       const data = await conn.query(query, values);
 
       return data;

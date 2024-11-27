@@ -15,7 +15,7 @@ class RawMaterialsService {
     }
   }
 
-  async updateRaw(body, id) {
+  async updateRaw(id, body) {
     try {
       const data = await model.update(body, id);
       return data;
@@ -24,9 +24,9 @@ class RawMaterialsService {
     }
   }
 
-  async deductMaterial(id, quantity) {
+  async deductMaterial(id, quantities) {
     try {
-      const data = await model.deduct(id, quantity);
+      const data = await model.deduct(id, quantities);
       return data;
     } catch (error) {
       throw error;

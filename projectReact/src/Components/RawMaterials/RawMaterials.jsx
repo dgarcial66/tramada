@@ -6,6 +6,7 @@ import { formatValues, handleDelete, handleEdit } from "../../utils/utils.js"
 import { updateMaterial, deleteMaterial } from "../../actions/rawMaterial.js";
 import { Modal } from "../Modal/Modal.jsx";
 import './rawMaterials.css';
+import { UpdateItems } from "../UpdateItems/UpdateItems.jsx";
 
 export function RawMaterials({ user, setUser}) {
   const [ id, setId ] = useState(null);
@@ -20,6 +21,7 @@ export function RawMaterials({ user, setUser}) {
   const [ idMaterial, setIdMaterial ]  = useState(null);
   const [ listType, setListType ] = useState('none');
   const [ isOpen, setIsOpen ] = useState(false);
+  const [ isOpenModal, setIsOpenModal ] = useState(false);
   const [ notModify, setNotModify ] = useState(false);
   const [ textModal, setTextModal ] = useState('Agregar');
   const { search,
@@ -135,13 +137,14 @@ export function RawMaterials({ user, setUser}) {
     };
     console.log(id);
     console.log(listMaterials);
+    console.log(isOpenModal);
     return (
         <>
           <Header user={user} setUser={setUser} />
           <button className="button-back" onClick={() => navigate("/home")} />
           <div className="menu-productos-container">
             <h1>Gestión de Material</h1>
-    
+
             {/* Formulario para agregar o modificar productos */}
             <form className="form-producto">
               <div className="form-group">
@@ -293,18 +296,16 @@ export function RawMaterials({ user, setUser}) {
                                 setVendor,
                                 setCategory
                               })
-                        }
-                        }
+                        }}
                         className="btn-edit"
                       >
                         Editar
                       </button>
                       <button
                         onClick={() => {
-                          handleDelete({id: item.id, setId});
-                          handlerDeleteMaterial(id);
-                        }
-                        }
+                          setIdMaterial(item.id)
+                          setIsOpenModal(true);
+                        }}
                         className="btn-delete"
                       >
                         Descontar
@@ -317,7 +318,15 @@ export function RawMaterials({ user, setUser}) {
               <p>No hay Material disponibles.</p>
             )}
           </div>
-          <Modal isOpen={isOpen} textModal={textModal} setIsOpen={setIsOpen} />
+          <Modal
+            isOpen={isOpen}
+            textModal={textModal}
+            setIsOpen={setIsOpen}
+          />
+          {isOpenModal ? <UpdateItems 
+            setIsOpenModal={setIsOpenModal}
+            id={idMaterial}
+          /> : null}
         </>
       );
 }
