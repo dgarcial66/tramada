@@ -5,6 +5,14 @@ class CategoryModel {
     this.conn = null;
   }
 
+  // async getCategoryName(name) {
+  //   try {
+  //     const
+  //   }catch (error) {
+  //     throw new Error(error)
+  //   }
+  // }
+
   async getCategoryRaw() {
     try {
       this.conn = await pool.getConnection();
@@ -14,7 +22,7 @@ class CategoryModel {
       console.log(res);
       return res;
     } catch (error) {
-      console.error(error.message);
+      throw new Error(error);
     } finally {
       if (this.conn) this.conn.release();
     }

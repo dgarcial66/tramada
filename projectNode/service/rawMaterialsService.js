@@ -6,14 +6,31 @@ class RawMaterialsService {
   constructor() {}
 
   async getRawMaterials() {
-    const data = await model.getMaterials();
-    console.log("SOY DATA SERVICE: ", data);
-    return data;
+    try {
+      const data = await model.getMaterials();
+      console.log("SOY DATA SERVICE: ", data);
+      return data;
+    } catch (error) {
+      throw new Error(error);
+    }
   }
 
-  async updateRaw(body, id) {
-    const data = await model.update(body, id);
-    return data;
+  async updateRaw(id, body) {
+    try {
+      const data = await model.update(id, body);
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async deductMaterial(id, quantities) {
+    try {
+      const data = await model.deduct(id, quantities);
+      return data;
+    } catch (error) {
+      throw error;
+    }
   }
 }
 

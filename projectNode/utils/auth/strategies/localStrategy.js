@@ -15,21 +15,33 @@ const localStrategy = new LocalStrategy(
       console.log("SOY USER IN LOCAL STRATE: ", user);
 
       if (!user) {
-        done(`${email} no esta registrado.`, false);
+        return done(
+          { message: `${email} no esta registrado.`, statusCode: 401 },
+          false
+        );
       }
 
       const isMatch = await bcrypt.compare(password, user.password);
 
       console.log("QUE SOY ISMATCH: ", isMatch);
       if (!isMatch) {
-        done(`La contraseña del email ${user.email} no es correcta`, false);
+        return done(
+          {
+            info: `La contraseña del email ${user.email} no es correcta`,
+            statusCode: 401,
+          },
+          false
+        );
       }
 
       delete user.password;
 
-      done(null, user);
+      return done(null, user);
     } catch (err) {
-      done("Error al autenticar el usuario.", false);
+      return done(
+        { message: "Error al autenticar el usuario.", statusCode: 401 },
+        false
+      );
     }
   }
 );

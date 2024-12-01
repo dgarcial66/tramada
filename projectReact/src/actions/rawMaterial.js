@@ -1,9 +1,15 @@
 import { ApiRawMaterials } from "../services/apiRawMaterials";
 
-async function updateMaterial(body, id) {
-  const service = new ApiRawMaterials();
+const service = new ApiRawMaterials();
 
-  await service.updateMaterial(body, id);
+async function updateMaterial(body, id) {
+  const rta = await service.updateMaterial(id, body);
+  return rta.json();
 }
 
-export { updateMaterial };
+async function deleteMaterial(id) {
+  const rta = await service.deleteMaterial(id);
+  return rta.json();
+}
+
+export { updateMaterial, deleteMaterial };

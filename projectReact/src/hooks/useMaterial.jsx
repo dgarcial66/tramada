@@ -10,7 +10,7 @@ const categoriesRaw = new CategoriesService();
 function useMaterials() {
     const [ search, setSearch ] = useState("");
     const [ materials, setMaterials ] = useState([]);
-    const [ idSupplier, setIdSupplier ] = useState();
+    const [ nameSupplier, setNameSupplier ] = useState('');
     const [ supplies, setSupplies ] = useState([]);
     const [ categories, setCategories ] = useState([]);
 
@@ -32,6 +32,7 @@ function useMaterials() {
         console.log(data);
         setCategories(data);
     }
+    
     useEffect(() => {
 
         listMaterials();
@@ -42,8 +43,9 @@ function useMaterials() {
 
     const filteredMaterials = () => {
         return materials.filter((material) => {    
-            const matchSearch = search ? material.nombre_insumo.toLowerCase().includes  (search.toLowerCase()) : true;
-            const matchId = idSupplier > 0 ? material.id_proveedor === idSupplier : true;
+            const matchSearch = search ? material.nombre_insumo.toLowerCase().includes(search.toLowerCase()) : true;
+            console.log(material);
+            const matchId = nameSupplier.length > 0 ? material.proveedor === nameSupplier : true;
             return matchSearch && matchId
         });
     };
@@ -52,7 +54,9 @@ return {
     search,
     setSearch,
     materials,
-    setIdSupplier,
+    setMaterials,
+    nameSupplier,
+    setNameSupplier,
     supplies,
     categories,
     filteredMaterials

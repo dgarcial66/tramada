@@ -1,170 +1,399 @@
-import { useState } from "react";
-import { Header } from "../Header/Header";
-import "./ordenproduccion.css"; // Importamos el archivo CSS
-import { useNavigate } from "react-router-dom";
+import './ordenproduccion.css';
+import { useState, useEffect } from "react";
+import Axios from "axios";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Swal from 'sweetalert2';
 
-export function OrdenProduccion() {
-  const [ordenes, setOrdenes] = useState([]); 
-  const [fechaSolicitud, setFechaSolicitud] = useState(""); 
-  const [cantidadInsumos, setCantidadInsumos] = useState(""); 
-  const [codigoOrden, setCodigoOrden] = useState(""); 
-  const [fechaCulminacion, setFechaCulminacion] = useState(""); 
-  const [codigoEmpleado, setCodigoEmpleado] = useState(""); 
-  const [search, setSearch] = useState(""); 
-  const [editIndex, setEditIndex] = useState(null);
-  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const nuevaOrden = { 
-      fechaSolicitud, 
-      cantidadInsumos, 
-      codigoOrden, 
-      fechaCulminacion, 
-      codigoEmpleado 
-    };
+function OrdenProduccion() {
+  const [fecha_entrega, setFechaEntrega] = useState('');
+  const [cantidad_productos_solicitada, setCantidadProductosSolicitada] = useState('');
+  const [cantidad_insumo_necesaria, setCantidadInsumoNecesaria] = useState('');
+  const [usuario_id, setUsuarioId] = useState('');
+  const [anotaciones, setAnotaciones] = useState('');
+  const [estado_orden, setEstadoOrden] = useState('en proceso');
+  const [insumos_id, setInsumosId] = useState('');
+  const [producto_id, setProductoId] = useState('');
+  const [ordenesList, setOrdenes] = useState([]);
+  const [editar, setEditar] = useState(false); 
+  
 
-    if (editIndex !== null) {
-      // Modificar una orden existente
-      const updatedOrdenes = [...ordenes];
-      updatedOrdenes[editIndex] = nuevaOrden;
-      setOrdenes(updatedOrdenes);
-      setEditIndex(null);
-    } else {
-      // Agregar nueva orden
-      setOrdenes([...ordenes, nuevaOrden]);
+  const [id, setId] = useState();
+
+
+
+
+  const add = () => {
+
+    if (!fecha_entrega || !cantidad_productos_solicitada || !cantidad_insumo_necesaria || !usuario_id || !estado_orden || !insumos_id || !producto_id) {
+      Swal.fire({
+        icon: "error",
+        title: "Campos incompletos",
+        text: "Por favor, completa todos los campos obligatorios antes de enviar.",
+      });
+      return;
     }
+  
+    if (!/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}/.test(fecha_entrega)) {
+      Swal.fire({
+        icon: "error",
+        title: "Fecha inválida",
+        text: "La fecha debe estar en formato válido (YYYY-MM-DDTHH:MM).",
+      });
+      return;
+    }
+  
 
-    // Limpiar los campos
-    setFechaSolicitud("");
-    setCantidadInsumos("");
-    setCodigoOrden("");
-    setFechaCulminacion("");
-    setCodigoEmpleado("");
+    const fechaEntregadaFormateada = formatDateForDB(fecha_entrega);
+  
+    if (isNaN(cantidad_productos_solicitada) || isNaN(cantidad_insumo_necesaria)) {
+      Swal.fire({
+        icon: "error",
+        title: "Cantidad inválida",
+        text: "Las cantidades deben ser números válidos.",
+      });
+      return;
+    }
+  
+
+    Axios.post("http://localhost:3000/api/v1/order", {
+      fecha_entrega: fechaEntregadaFormateada,
+      cantidad_productos_solicitada: cantidad_productos_solicitada,
+      cantidad_insumo_necesaria: cantidad_insumo_necesaria,
+      usuario_id: usuario_id,
+      anotaciones: anotaciones,
+      estado_orden: estado_orden,
+      insumos_id: insumos_id,
+      producto_id: producto_id,
+    })
+      .then(() => {
+
+        getOrdenes();
+        limpiarCampos();
+  
+
+        Swal.fire({
+          title: "<strong>Registro exitoso</strong>",
+          html: `<i>La orden fue registrada con éxito!</i>`,
+          icon: "success",
+          timer: 3000,
+        });
+      })
+      .catch((error) => {
+
+        const errorMessage = error.response?.data?.error || error.message || "Ocurrió un error desconocido.";
+        Swal.fire({
+          icon: "error",
+          title: "Error al registrar la orden",
+          text: errorMessage,
+        });
+        console.error("Error al agregar orden:", error);
+      });
   };
 
-  const handleEdit = (index) => {
-    const orden = ordenes[index];
-    setFechaSolicitud(orden.fechaSolicitud);
-    setCantidadInsumos(orden.cantidadInsumos);
-    setCodigoOrden(orden.codigoOrden);
-    setFechaCulminacion(orden.fechaCulminacion);
-    setCodigoEmpleado(orden.codigoEmpleado);
-    setEditIndex(index);
+
+  const update = () => {
+    Axios.put(`http://localhost:3000/api/v1/order/${id}`, {
+      fecha_entrega: fecha_entrega,
+      cantidad_productos_solicitada: cantidad_productos_solicitada,
+      cantidad_insumo_necesaria: cantidad_insumo_necesaria, 
+      usuario_id: usuario_id,
+      anotaciones: anotaciones,
+      estado_orden: estado_orden,
+      insumos_id: insumos_id,
+      producto_id: producto_id,
+    })
+      .then(() => {
+        getOrdenes(); 
+        limpiarCampos();
+        Swal.fire({
+          title: "<strong>Actualización exitosa</strong>",
+          html: "<i>La orden fue actualizada con éxito!</i>",
+          icon: "success",
+          timer: 3000,
+        });
+      })
+      .catch((error) => {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "No se logró actualizar la orden.",
+          footer: error.message === "Network Error"
+            ? "Intente más tarde"
+            : error.message,
+        });
+        console.error("Error al actualizar la orden:", error); 
+      });
   };
+  
 
-  const handleDelete = (index) => {
-    setOrdenes(ordenes.filter((_, i) => i !== index));
+  const deleteOrden = (val) => {
+    Swal.fire({
+      title: "¿Confirmar eliminación?",
+      html: `<i>¿Desea eliminar la orden con ID <strong>${val.id}</strong>?</i>`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí, eliminarla!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Axios.delete(`http://localhost:3000/api/v1/order/${val.id}`)
+          .then(() => {
+            getOrdenes(); 
+            limpiarCampos(); 
+            Swal.fire({
+              icon: "success",
+              title: `La orden con ID ${val.id} fue eliminada`,
+              showConfirmButton: false,
+              timer: 2000,
+            });
+          })
+          .catch((error) => {
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              text: "No se logró eliminar la orden.",
+              footer: error.message === "Network Error" 
+                ? "Intente más tarde." 
+                : error.message,
+            });
+            console.error("Error al eliminar la orden:", error);
+          });
+      }
+    });
   };
+  
 
-  const filteredOrdenes = ordenes.filter((orden) =>
-    orden.codigoOrden.toLowerCase().includes(search.toLowerCase())
-  );
 
-  return (
-    <>
-      <Header />
-      <button className="button-back" onClick={() => navigate('/home')} /> 
-      <div className="orden-produccion-container">
-        <h1>Gestión de Órdenes de Producción</h1>
 
-        {/* Formulario para agregar o modificar órdenes */}
-        <form onSubmit={handleSubmit} className="form-orden">
-          <div className="form-group">
-            <label>Fecha de Solicitud</label>
-            <input
-              type="date"
-              value={fechaSolicitud}
-              onChange={(e) => setFechaSolicitud(e.target.value)}
-              required
-              className="input-text"
-            />
-          </div>
-          <div className="form-group">
-            <label>Cantidad de Insumos</label>
-            <input
-              type="number"
-              value={cantidadInsumos}
-              onChange={(e) => setCantidadInsumos(e.target.value)}
-              required
-              className="input-text"
-            />
-          </div>
-          <div className="form-group">
-            <label>Código de la Orden</label>
-            <input
-              type="text"
-              value={codigoOrden}
-              onChange={(e) => setCodigoOrden(e.target.value)}
-              required
-              className="input-text"
-            />
-          </div>
-          <div className="form-group">
-            <label>Fecha de Culminación</label>
-            <input
-              type="date"
-              value={fechaCulminacion}
-              onChange={(e) => setFechaCulminacion(e.target.value)}
-              required
-              className="input-text"
-            />
-          </div>
-          <div className="form-group">
-            <label>Código del Empleado</label>
-            <input
-              type="text"
-              value={codigoEmpleado}
-              onChange={(e) => setCodigoEmpleado(e.target.value)}
-              required
-              className="input-text"
-            />
-          </div>
-          <button type="submit" className="btn-submit">
-            {editIndex !== null ? "Modificar" : "Agregar"} Orden
-          </button>
-        </form>
+const limpiarCampos = () => {
+  setFechaEntrega("");
+  setCantidadProductosSolicitada("");
+  setCantidadInsumoNecesaria("");
+  setUsuarioId("");
+  setAnotaciones("");
+  setEstadoOrden("");
+  setInsumosId("");
+  setProductoId("");
+  setId("");
+  setEditar(false);
+};
 
-        {/* Buscador */}
-        <div className="search-container">
-          <label>Buscar Orden por Código</label>
+
+const editarOrden = (val) => {
+  setFechaEntrega(val.fecha_entrega);
+  setCantidadProductosSolicitada(val.cantidad_productos_solicitada);
+  setCantidadInsumoNecesaria(val.cantidad_insumo_necesaria); 
+  setUsuarioId(val.usuario_id);
+  setAnotaciones(val.anotaciones);
+  setEstadoOrden(val.estado_orden);
+  setInsumosId(val.insumos_id);
+  setProductoId(val.producto_id);
+  setEditar(true); 
+  setId(val.id); 
+};
+
+
+const formatDateForDB = (fecha) => {
+  const date = new Date(fecha);
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  const hours = String(date.getHours()).padStart(2, '0');
+  const minutes = String(date.getMinutes()).padStart(2, '0');
+  const seconds = String(date.getSeconds()).padStart(2, '0');
+
+  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+};
+
+
+
+ const getOrdenes = async () => {
+  try {
+    const response = await Axios.get("http://localhost:3000/api/v1/order");
+    setOrdenes(response.data);
+  } catch (error) {
+    console.error("Error al obtener órdenes:", error);
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: "No se pudo obtener la lista de órdenes.",
+      footer: error.message === "Network Error" ? "Verifique su conexión al servidor" : error.message,
+    });
+  }
+};
+
+
+useEffect(() => {
+  getOrdenes();
+}, []);
+
+
+return (
+  <div className="container">
+    <div className="card text-center">
+      <div className="card-header">GESTIÓN DE ÓRDENES DE PRODUCCIÓN</div>
+      <div className="card-body">
+        <div className="input-group mb-3">
+          <span className="input-group-text">Fecha de Solicitud:</span>
           <input
-            type="text"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="input-text"
+            type="datetime-local"
+            onChange={(event) => setFechaEntrega(event.target.value)}
+            className="form-control"
+            value={fecha_entrega}
+            placeholder="Fecha de entrega"
           />
         </div>
 
-        {/* Lista de órdenes */}
-        <h2>Lista de Órdenes de Producción</h2>
-        {filteredOrdenes.length === 0 ? (
-          <p>No hay órdenes disponibles.</p>
+        <div className="input-group mb-3">
+          <span className="input-group-text">Cantidad productos solicitada:</span>
+          <input
+            type="number"
+            value={cantidad_productos_solicitada}
+            onChange={(event) => setCantidadProductosSolicitada(event.target.value)}
+            className="form-control"
+            placeholder="Cantidad de productos solicitada"
+          />
+        </div>
+
+        <div className="input-group mb-3">
+          <span className="input-group-text">Cantidad de Insumos necesarios:</span>
+          <input
+            type="number"
+            value={cantidad_insumo_necesaria}
+            onChange={(event) => setCantidadInsumoNecesaria(event.target.value)}
+            className="form-control"
+            placeholder="Cantidad de insumos necesarios"
+          />
+        </div>
+
+        <div className="input-group mb-3">
+          <span className="input-group-text">ID de Empleado:</span>
+          <input
+            type="number"
+            value={usuario_id}
+            onChange={(event) => setUsuarioId(event.target.value)}
+            className="form-control"
+            placeholder="ID del empleado"
+          />
+        </div>
+
+        <div className="input-group mb-3">
+          <span className="input-group-text">Anotaciones:</span>
+          <input
+            type="text"
+            value={anotaciones}
+            onChange={(event) => setAnotaciones(event.target.value)}
+            className="form-control"
+            placeholder="Anotaciones"
+          />
+        </div>
+
+        <div className="input-group mb-3">
+          <span className="input-group-text">Estado de la orden:</span>
+          <select
+            value={estado_orden}
+            onChange={(event) => setEstadoOrden(event.target.value)}
+            className="form-control"
+          >
+            <option value="en proceso">En proceso</option>
+            <option value="completado">Completado</option>
+            <option value="en revision">En revisión</option>
+          </select>
+        </div>
+
+        <div className="input-group mb-3">
+          <span className="input-group-text">ID de los insumos:</span>
+          <input
+            type="number"
+            value={insumos_id}
+            onChange={(event) => setInsumosId(event.target.value)}
+            className="form-control"
+            placeholder="ID de insumos"
+          />
+        </div>
+
+        <div className="input-group mb-3">
+          <span className="input-group-text">ID de producto:</span>
+          <input
+            type="number"
+            value={producto_id}
+            onChange={(event) => setProductoId(event.target.value)}
+            className="form-control"
+            placeholder="ID del producto"
+          />
+        </div>
+      </div>
+
+      <div className="card-footer text-body-secondary">
+        {editar ? (
+          <div>
+            <button className="btn btn-warning m-2" onClick={update}>
+              Actualizar
+            </button>
+            <button className="btn btn-info m-2" onClick={limpiarCampos}>
+              Cancelar
+            </button>
+          </div>
         ) : (
-          <ul className="orden-list">
-            {filteredOrdenes.map((orden, index) => (
-              <li key={index} className="orden-item">
-                <strong>Código:</strong> {orden.codigoOrden} | 
-                <strong>Fecha de Solicitud:</strong> {orden.fechaSolicitud} | 
-                <strong>Cantidad de Insumos:</strong> {orden.cantidadInsumos} | 
-                <strong>Fecha de Culminación:</strong> {orden.fechaCulminacion} | 
-                <strong>Código Empleado:</strong> {orden.codigoEmpleado}
-                <div className="orden-actions">
-                  <button onClick={() => handleEdit(index)} className="btn-edit">
-                    Editar
-                  </button>
-                  <button
-                    onClick={() => handleDelete(index)}
-                    className="btn-delete"
-                  >
-                    Eliminar
-                  </button>
-                </div>
-              </li>
-            ))}
-          </ul>
+          <button className="btn btn-success" onClick={add}>
+            Registrar
+          </button>
         )}
       </div>
-    </>
-  );
+    </div>
+
+    <table className="table table-striped mt-4">
+      <thead>
+        <tr>
+          <th scope="col">id</th>
+          <th scope="col">Fecha de Entrega</th>
+          <th scope="col">Cantidad Solicitada</th>
+          <th scope="col">Cantidad Insumos</th>
+          <th scope="col">ID Empleado</th>
+          <th scope="col">Anotaciones</th>
+          <th scope="col">Estado Orden</th>
+          <th scope="col">ID Insumos</th>
+          <th scope="col">ID Producto</th>
+          <th scope="col">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {ordenesList.map((val) => (
+          <tr key={val.id}>
+            <th>{val.id}</th>
+            <td>{new Date(val.fecha_entrega).toLocaleString()}</td>
+            <td>{val.cantidad_productos_solicitada}</td>
+            <td>{val.cantidad_insumo_necesaria}</td>
+            <td>{val.usuario_id}</td>
+            <td>{val.anotaciones || "No hay anotaciones"}</td>
+            <td>{val.estado_orden}</td>
+            <td>{val.insumos_id}</td>
+            <td>{val.producto_id}</td>
+            <td>
+              <div className="btn-group" role="group">
+                <button
+                  type="button"
+                  onClick={() => editarOrden(val)}
+                  className="btn btn-info"
+                >
+                  Editar
+                </button>
+                <button
+                  type="button"
+                  onClick={() => deleteOrden(val)}
+                  className="btn btn-danger"
+                >
+                  Eliminar
+                </button>
+              </div>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+)
 }
+export { OrdenProduccion };

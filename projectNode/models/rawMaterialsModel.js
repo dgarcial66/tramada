@@ -2,7 +2,7 @@ const { query } = require("express");
 const { pool } = require("../db/config.js");
 
 class RawMaterialsModel {
-  constructor(model) {}
+  constructor() {}
 
   dynamicQuery(body) {
     const fields = [];
@@ -10,20 +10,50 @@ class RawMaterialsModel {
     const fieldsBody = Object.keys(body);
     const valuesBody = Object.values(body);
     for (let i = 0; i < fieldsBody.length; i++) {
-      fields.push(fieldsBody[i] + " = ? ");
-      values.push(valuesBody[i]);
+      if (fieldsBody[i] === "id_proveedor") {
+        fields.push(
+          fieldsBody[i] +
+            " = (SELECT id FROM proveedor WHERE nombre_proveedor = ? )"
+        );
+        values.push(valuesBody[i]);
+      } else if (fieldsBody[i] === "categoria_insumos_id") {
+        fields.push(
+          fieldsBody[i] +
+            " = (SELECT id FROM categoria_insumos WHERE nombre_categoria_insumo = ?)"
+        );
+        values.push(valuesBody[i]);
+      } else {
+        fields.push(fieldsBody[i] + " = ? ");
+        values.push(valuesBody[i]);
+      }
     }
+    console.log("DINAMYCBODY", body);
+    console.log("FIELDS", fieldsBody);
+    console.log("VALUES", valuesBody);
 
     const query = `UPDATE insumos SET ${fields.join(", ")} WHERE id = ? `;
-    return { query, values };
+    console.log("SOY QUERY: ", query);
+    console.log("SOY VALUES: ", values);
+    try {
+      return { query, values };
+    } catch (error) {
+      throw error;
+    }
   }
 
-  async create(body) {}
-
-  async update(body, id) {
+  async create(body) {
     const conn = await pool.getConnection();
 
-    const objKeysValues = await this.dynamicQuery(body);
+    try {
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  async update(id, body) {
+    const conn = await pool.getConnection();
+
+    const objKeysValues = this.dynamicQuery(body);
     const query = objKeysValues.query;
     const values = objKeysValues.values;
     const idMaterial = Number(id);
@@ -35,7 +65,8 @@ class RawMaterialsModel {
       const res = await conn.query(query, values);
       return res;
     } catch (error) {
-      throw new Error(error);
+      console.log("ERROR GENERADO EN MODELO: ", error);
+      throw error;
     } finally {
       if (conn) conn.release();
     }
@@ -51,14 +82,33 @@ class RawMaterialsModel {
       const data = await conn.query(query);
 
       return data;
-    } catch (err) {
-      throw new Error(err);
+    } catch (error) {
+      throw new Error(error);
     } finally {
       if (conn) conn.release();
     }
   }
 
-  async delete(id) {}
+  async deduct(id, quantities) {
+    const conn = await pool.getConnection();
+    try {
+      const query =
+        "UPDATE insumos SET peso_insumo = peso_insumo - ?, cantidad_insumo = cantidad_insumo - ?, precio_insumo = precio_insumo - ? WHERE id = ?;";
+      const idNumber = Number(id);
+      const valuesQuantity = Object.values(quantities);
+      valuesQuantity.push(idNumber);
+      const values = valuesQuantity;
+      console.log(values);
+      console.log("AQUI QUANTITIES: ", quantities);
+      const data = await conn.query(query, values);
+
+      return data;
+    } catch (error) {
+      throw error;
+    } finally {
+      if (conn) conn.release();
+    }
+  }
 }
 
 module.exports = { RawMaterialsModel };

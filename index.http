@@ -62,3 +62,7 @@ Content-Type: application/json
     "nombre_insumo": "Tela de Algodoncho",
     "color_insumo": "rosado"
 }
+
+###
+DELETE  http://localhost:3000/api/v1/rawMaterials/3 HTTP/1.1
+Content-Type: application/json

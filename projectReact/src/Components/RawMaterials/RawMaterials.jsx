@@ -2,43 +2,89 @@ import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { Header } from "../Header/Header";
 import { useMaterials } from "../../hooks/useMaterial.jsx";
-import { handleDelete, handleEdit } from "../../utils/utils.js"
-import { filterCategories } from "../../utils/filterCategories.js";
-import { updateMaterial } from "../../actions/rawMaterial.js";
- 
+import { formatValues, handleDelete, handleEdit } from "../../utils/utils.js"
+import { updateMaterial, deleteMaterial } from "../../actions/rawMaterial.js";
+import { Modal } from "../Modal/Modal.jsx";
+import './rawMaterials.css';
+import { UpdateItems } from "../UpdateItems/UpdateItems.jsx";
+
 export function RawMaterials({ user, setUser}) {
-    const [ name, setName ] = useState(""); //1
-    const [ typeMaterial, setTypeMaterial] = useState(""); //2
-    const [ color, setColor ] = useState(""); //3
-    const [ stock, setStock ] = useState(""); //4
-    const [ weight, setWeight ] = useState(""); //5
-    const [ price, setPrice ] = useState(''); //6
-    const [ vendor, setVendor ] = useState(""); //7
-    const [ category, setCategory ] = useState(""); //8
-    const [ idMaterial, setIdMaterial ]  = useState(null);
-    const [ listType, setListType ] = useState('none');
-    const [ isListMaterials, setisListMaterials ] = useState(true);
-    const { search,
-            setSearch,
-            materials,
-            setIdSupplier,
-            supplies,
-            categories,
-            filteredMaterials
-        } = useMaterials();
+  const [ id, setId ] = useState(null);
+  const [ name, setName ] = useState("");
+  const [ typeMaterial, setTypeMaterial] = useState("");
+  const [ color, setColor ] = useState("");
+  const [ stock, setStock ] = useState("");
+  const [ weight, setWeight ] = useState("");
+  const [ price, setPrice ] = useState('');
+  const [ vendor, setVendor ] = useState("");
+  const [ category, setCategory ] = useState("");
+  const [ idMaterial, setIdMaterial ]  = useState(null);
+  const [ listType, setListType ] = useState('none');
+  const [ isOpen, setIsOpen ] = useState(false);
+  const [ isOpenModal, setIsOpenModal ] = useState(false);
+  const [ notModify, setNotModify ] = useState(false);
+  const [ textModal, setTextModal ] = useState('Agregar');
+  const { search,
+    setSearch,
+    materials,
+    setMaterials,
+    nameSupplier,
+    setNameSupplier,
+    supplies,
+    categories,
+    filteredMaterials
+  } = useMaterials();
+  const [ listMaterials, setListMaterials] = useState(filteredMaterials());
+
     const navigate = useNavigate()
-    console.log(filteredMaterials());
     
     useEffect(() => {
-        if(Object.values(user).every(value => value === '' || value === null || value === undefined)) {
-            navigate('/')
-        }
+      if(Object.values(user).every(value => value === '' || value === null || value === undefined)) {
+        navigate('/')
+      }
     }, [user, navigate])
-    
-    console.log(idMaterial);
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        const newMaterials = { 
+
+    useEffect(() => {
+      const fetchMaterial = () => {
+        const result = filteredMaterials()
+        setListMaterials(result);
+      }
+      fetchMaterial();
+    }, [materials, search, nameSupplier])
+
+    useEffect(() => {
+      if(idMaterial !== null) {
+        const material = materials.find(item => item.id === idMaterial);
+        if(material) {
+          setName(material.nombre_insumo);
+          setTypeMaterial(material.tipo_insumo);
+          setColor(material.color_insumo);
+          setStock(material.cantidad_insumo);
+          setWeight(material.peso_insumo);
+          setPrice(material.precio_insumo);
+          setVendor(material.id_proveedor);
+          setCategory(material.categoria_insumos_id);
+        }
+      }
+    }, [materials, idMaterial])
+        
+    const handlerDeleteMaterial = async (id) => {
+      try {
+        const rta = await deleteMaterial(id);
+        console.log(rta);
+        return rta;
+      } catch (err) {
+        console.log(err);
+        throw err;
+      }
+    }
+    console.log(supplies);
+
+    const handleSubmit = async (e) => {
+      let rta;
+      try {
+          e.preventDefault();
+          const newMaterials = { 
             nombre_insumo: name,
             tipo_insumo: typeMaterial,
             color_insumo: color,
@@ -47,37 +93,60 @@ export function RawMaterials({ user, setUser}) {
             precio_insumo: price,
             id_proveedor: vendor,
             categoria_insumos_id: category
-        };
-        const values = Object.values(newMaterials);
-
-        console.log(idMaterial);
-
-        if(values !== undefined) {
+          };
+          const values = Object.values(newMaterials);
+          
+          
+          if(values !== undefined) {
             if (idMaterial !== null) {
-                updateMaterial(newMaterials, idMaterial)
+              try{
+                await updateMaterial(idMaterial, newMaterials)
+                const updateList = listMaterials.map(material => material.id === idMaterial ? {...material, ...newMaterials} : material);
+
+                console.log(updateList);
+                setListMaterials(updateList);
+                setMaterials(updateList)
+                setTextModal('actualizado');
+                setIsOpen(true);
+                console.log('Holaaaa');
+              }catch(err) {
+                console.log(err);
+                throw err;
+              }
             }
+
+            formatValues({setName,
+              setTypeMaterial,
+              setColor,
+              setStock,
+              setWeight,
+              setPrice,
+              setVendor,
+              setCategory,
+              setIdMaterial
+            })
+            console.log('Áqui 3');
+
+            setNotModify(false);
             return;
+          } 
+        }catch (error) {
+          setNotModify(true);
+          throw error;
         }
-        setName("");
-        setTypeMaterial('')
-        setColor('');
-        setStock("");
-        setWeight("");
-        setPrice('');
-        setVendor("");
-        setCategory("");
-        console.log('Áqui 3');
     };
-    console.log(idMaterial);
+    console.log(id);
+    console.log(listMaterials);
+    console.log(isOpenModal);
     return (
         <>
           <Header user={user} setUser={setUser} />
           <button className="button-back" onClick={() => navigate("/home")} />
           <div className="menu-productos-container">
-            <h1>Gestión de </h1>
-    
+            <h1>Gestión de Material</h1>
+
             {/* Formulario para agregar o modificar productos */}
-            <form onSubmit={handleSubmit} className="form-producto">
+            <form className="form-producto">
               <div className="form-group">
                 <label>Nombre del Material</label>
                 <input
@@ -158,9 +227,16 @@ export function RawMaterials({ user, setUser}) {
                   className="input-text"
                 />
               </div>
-              <button type="submit" className="btn-submit">
-                {idMaterial !== null ? "Modificar" : "Agregar"} Material
-              </button>
+              <div className="form-btn-info">
+                <button className="btn-submit" onClick={(e) => {
+                  e.preventDefault();
+                  handleSubmit(e);
+                }}>
+                  {idMaterial !== null ? "Modificar" : "Agregar"} Material
+                </button>
+                {notModify && <p>El proveedor o la categoria no existen para el insumo.</p>
+                }
+              </div>
             </form>
     
             <div className="search-container">
@@ -185,31 +261,30 @@ export function RawMaterials({ user, setUser}) {
               </button>
               <ul className={`list-btn-supplier ${listType} `}>
                 {supplies?.map((supplies) => (
-                  <li key={supplies.id} onClick={() => setIdSupplier(supplies.id)}>
+                  <li key={supplies.id} onClick={() => setNameSupplier(supplies.nombre_proveedor)}>
                     {supplies.nombre_proveedor}
                   </li>
                 ))}
-                <li onClick={() => setIdSupplier(0)}>todos</li>
+                <li onClick={() => setNameSupplier('')}>todos</li>
               </ul>
             </div>
             <h2>Lista de Material</h2>
     
-            {filteredMaterials().length > 0 ? (
+            {listMaterials ? (
               <ul className="product-list">
-                {filteredMaterials()?.map((item, index) => (
+                {listMaterials?.map((item, index) => (
                   <li key={item.id} className="product-item">
                     <>
-                      Nombre del Material: {item.nombre_insumo} - Tipo de Material: {item.tipo_insumo} - Color: {item.color_insumo} - Stock:{" "}
-                      {item.cantidad_insumo} - Peso: {item.peso_insumo} kg - Precio:{" "}
-                      {item.precio_insumo}$ Categoria: {item.categoria}
+                      Nombre del Material: {item.nombre_insumo} - Tipo de Material: {item.tipo_insumo} - Color: {item.color_insumo} - Stock: {item.cantidad_insumo} - Peso: {item.peso_insumo} kg - Precio: {item.precio_insumo}$ Categoria: {item.categoria}
                     </>
     
                     <div className="product-actions">
                       <button
-                        onClick={() => {
-                            setIdMaterial(materials[index].id);
+                        onClick={async () => {
+                            const selectedMaterial = materials[index]
+                            setIdMaterial(selectedMaterial.id);
                             console.log(idMaterial);
-                            handleEdit({
+                              await handleEdit({
                                 materials,
                                 index,
                                 setName,
@@ -220,23 +295,20 @@ export function RawMaterials({ user, setUser}) {
                                 setPrice,
                                 setVendor,
                                 setCategory
-                            })
-                        }
-                        }
+                              })
+                        }}
                         className="btn-edit"
                       >
                         Editar
                       </button>
                       <button
-                        onClick={() =>
-                          handleDelete({
-                            materials,
-                            index
-                          })
-                        }
+                        onClick={() => {
+                          setIdMaterial(item.id)
+                          setIsOpenModal(true);
+                        }}
                         className="btn-delete"
                       >
-                        Eliminar
+                        Descontar
                       </button>
                     </div>
                   </li>
@@ -246,6 +318,15 @@ export function RawMaterials({ user, setUser}) {
               <p>No hay Material disponibles.</p>
             )}
           </div>
+          <Modal
+            isOpen={isOpen}
+            textModal={textModal}
+            setIsOpen={setIsOpen}
+          />
+          {isOpenModal ? <UpdateItems 
+            setIsOpenModal={setIsOpenModal}
+            id={idMaterial}
+          /> : null}
         </>
       );
 }
