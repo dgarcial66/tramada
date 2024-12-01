@@ -5,8 +5,10 @@ const { rawMaterialsRouter } = require("./rawMaterialsRoutes.js");
 const { supplierRouter } = require("./supplierRoutes.js");
 const { categoryRoutes } = require("./categoryRoutes.js");
 const { clientRouter } = require("./clientRouter.js");
-const { productsRouter } = require("./productsRouter.js");
+const { productsRouter } = require("./productsRouter.js")
+const { inventoryRouter } = require("./inventoryRouter.js")
 const { orderRoutes } = require("./orderRoutes.js");
+
 
 BigInt.prototype.toJSON = function () {
   return this.toString();
@@ -22,7 +24,9 @@ function routerApi(app) {
   routes.use("/categories", categoryRoutes);
   routes.use("/clients", clientRouter);
   routes.use("/products", productsRouter);
+  routes.use("/inventory", inventoryRouter);
   routes.use("/order", orderRoutes);
+
 }
 
 module.exports = { routerApi };

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { Header } from "../Header/Header";
 import 'bootstrap/dist/css/bootstrap.min.css'
 import Swal from 'sweetalert2'
 import Axios from "axios";
@@ -144,6 +145,9 @@ export function ListClients({user, setUser}) {
     
 
     return(
+      <>
+      <Header user={user} setUser={setUser} />
+      <button className="button-back" onClick={() => navigate("/home")} />
 
       <div className="container">
        
@@ -250,5 +254,6 @@ export function ListClients({user, setUser}) {
 
           </table>              
       </div>
+      </>
     );
 }

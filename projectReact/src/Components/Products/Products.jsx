@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { Header } from "../Header/Header";
 import "./productos.css"; // Importamos el archivo CSS
 import 'bootstrap/dist/css/bootstrap.min.css'
 import Swal from 'sweetalert2'
@@ -170,6 +171,8 @@ export function Products({user, setUser}) {
 
   return (
     <>
+     <Header user={user} setUser={setUser} />
+     <button className="button-back" onClick={() => navigate("/home")} />
     <div className="container"> 
       <div className="card text-center">
         <div className="card-header">
