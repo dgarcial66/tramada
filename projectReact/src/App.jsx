@@ -9,6 +9,7 @@ import { OrdenProduccion } from './Components/OrdenProduccion/OrdenProduccion.js
 import { Config } from './Components/Configuracion/Config.jsx';
 import { Suppliers } from './Components/suppliers/Suppliers.jsx';
 import { InventoryMovements } from './Components/InventoryMovements/InventoryMovements.jsx';
+import { Ventas } from './Components/Ventas/Ventas.jsx';
 //ClickProducts={ClickProducts} setClickProducts={setClickProducts}
 
 function App() {
@@ -29,7 +30,8 @@ function App() {
       { path: '/OrdenProduccion', element: <OrdenProduccion user={user} setUser={setUser}/> },
       { path: '/Config', element: <Config user={user} setUser={setUser}/>},
       { path: '/suppliers', element: <Suppliers user={user} setUser={setUser} /> },
-      { path: '/Inventory', element: <InventoryMovements user={user} setUser={setUser} />}
+      { path: '/Inventory', element: <InventoryMovements user={user} setUser={setUser} />},
+      { path: '/Ventas', element: <Ventas user={user} setUser={setUser} />}
     ])
     return routes;
   }
