@@ -66,6 +66,15 @@ export function Menu ({ setUser }){
                 </figure>
                 <figure className="container-hijo">
                   <img
+                  onClick={() => navigate('/Ventas')}
+                    className="Ventas"
+                    src="https://img.icons8.com/?size=100&id=76961&format=png" 
+                    alt="icono-ventas"
+                  />
+                  <h2>VENTAS</h2>
+                </figure>
+                <figure className="container-hijo">
+                  <img
                   onClick={() => navigate('/Config')}
                     className="Configuración"
                     src="https://img.icons8.com/?size=100&id=11360&format=png&color=000000"
