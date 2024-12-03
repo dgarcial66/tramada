@@ -21,9 +21,9 @@ INSERT INTO `categoria_productos` (`nombre_categoria`) VALUES
 ('Accesorios');
 
 
-INSERT INTO `proveedor` (`nombre_proveedor`, `telefono`, `tipo_insumo`, `direccion`) VALUES 
-('Textiles S.A.', 123456789, 1, 'Av. Siempre Viva 742'),
-('Hilos y Botones Ltda.', 987654321, 2, 'Calle 10 #20-30');
+INSERT INTO `proveedor` (`nombre_proveedor`, `telefono`, `correo`, `direccion`) VALUES 
+('Textiles S.A.', 123456789, 1, 'despues@gmail.com', 'Av. Siempre Viva 742'),
+('Hilos y Botones Ltda.', 987654321, 2, 'algo@gmail.com', 'Calle 10 #20-30');
 
 
 

@@ -10,7 +10,25 @@ class SupplierService {
       console.log("RES DE SERVICE: ", res);
       return res;
     } catch (error) {
-      console.error(error.message);
+      throw error;
+    }
+  }
+
+  async create(values) {
+    try {
+      const res = await model.create(values);
+      return res;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async update(data, id) {
+    try {
+      const res = await model.update(data, id);
+      return res;
+    } catch (error) {
+      throw error;
     }
   }
 }

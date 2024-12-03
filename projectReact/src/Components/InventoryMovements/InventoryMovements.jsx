@@ -2,17 +2,9 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Header } from "../Header/Header";
 import 'bootstrap/dist/css/bootstrap.min.css'
-import Swal from 'sweetalert2'
 import Axios from "axios";
 
 export function InventoryMovements ({user, setUser}){
-    const [id, setId] = useState("");
-    const [tipomovimiento, setTipomovimiento] = useState("");
-    const [cantidad, setCantidad] = useState("");
-    const [fechamovimiento, setFechamovimiento] = useState("");
-    const [motivo, setMotivo] = useState("");
-    const [insumo, setInsumo] = useState("");
-    const [prodcuto, setProducto] = useState("");
     const [inventoryList, setInventoryList] = useState([]);
 
     const navigate = useNavigate()

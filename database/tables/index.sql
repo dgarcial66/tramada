@@ -200,7 +200,7 @@ CREATE TABLE `proveedor` (
   `id` int(10) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `nombre_proveedor` varchar(55) NOT NULL,
   `telefono` int(10) DEFAULT NULL,
-  `tipo_insumo` int(10) NOT NULL,
+  `correo` VARCHAR(120) DEFAULT NULL,
   `direccion` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
