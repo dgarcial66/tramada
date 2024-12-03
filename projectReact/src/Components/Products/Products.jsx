@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Header } from "../Header/Header";
-import "./productos.css"; // Importamos el archivo CSS
+import "./productos.css";
 import 'bootstrap/dist/css/bootstrap.min.css'
 import Swal from 'sweetalert2'
 import Axios from "axios";

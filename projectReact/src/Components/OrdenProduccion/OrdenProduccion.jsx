@@ -3,9 +3,11 @@ import { useState, useEffect } from "react";
 import Axios from "axios";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Swal from 'sweetalert2';
+import { Header } from "../Header/Header.jsx";
+import { useNavigate } from 'react-router-dom';
 
 
-function OrdenProduccion() {
+function OrdenProduccion({user, setUser}) {
   const [fecha_entrega, setFechaEntrega] = useState('');
   const [cantidad_productos_solicitada, setCantidadProductosSolicitada] = useState('');
   const [cantidad_insumo_necesaria, setCantidadInsumoNecesaria] = useState('');
@@ -20,7 +22,7 @@ function OrdenProduccion() {
 
   const [id, setId] = useState();
 
-
+  const navigate = useNavigate();
 
 
   const add = () => {
@@ -231,6 +233,9 @@ useEffect(() => {
 
 
 return (
+  <>
+  <Header user={user} setUser={setUser} />
+  <button className="button-back" onClick={() => navigate("/home")} />
   <div className="container">
     <div className="card text-center">
       <div className="card-header">GESTIÓN DE ÓRDENES DE PRODUCCIÓN</div>
@@ -394,6 +399,7 @@ return (
       </tbody>
     </table>
   </div>
+  </>
 )
 }
 export { OrdenProduccion };
