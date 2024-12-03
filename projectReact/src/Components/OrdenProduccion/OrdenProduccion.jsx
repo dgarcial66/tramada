@@ -5,6 +5,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Swal from 'sweetalert2';
 import { Header } from "../Header/Header.jsx";
 import { useNavigate } from 'react-router-dom';
+import ReportOrdenProduccion from "../../../asset/Reports/reportOrdenProduccition.jsx"; // Asegúrate de tener la ruta correcta
+import { PDFDownloadLink } from '@react-pdf/renderer'; 
+
 
 
 function OrdenProduccion({user, setUser}) {
@@ -23,6 +26,7 @@ function OrdenProduccion({user, setUser}) {
   const [id, setId] = useState();
 
   const navigate = useNavigate();
+
 
 
   const add = () => {
@@ -231,6 +235,11 @@ useEffect(() => {
   getOrdenes();
 }, []);
 
+const handleGenerarReporte = () => {
+  // Llamar al método para generar el reporte
+  // Aquí no es necesario hacer nada más, solo mostrar el botón para generar el reporte.
+};
+
 
 return (
   <>
@@ -332,6 +341,17 @@ return (
       </div>
 
       <div className="card-footer text-body-secondary">
+  <button className="btn btn-info m-2" style={{ color: "white" }} onClick={handleGenerarReporte}>
+
+  <PDFDownloadLink
+    document={<ReportOrdenProduccion orden_de_produccion={ordenesList} />}
+    fileName="reporte_orden_produccion.pdf"
+  >
+    {({ loading }) => (
+      loading ? "Cargando reporte..." : <span style={{ color: "black" }}>Descargar Reporte</span>
+    )}
+  </PDFDownloadLink>
+  </button>
         {editar ? (
           <div>
             <button className="btn btn-warning m-2" onClick={update}>
@@ -346,6 +366,8 @@ return (
             Registrar
           </button>
         )}
+        
+        
       </div>
     </div>
 
