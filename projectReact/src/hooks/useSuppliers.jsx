@@ -21,6 +21,52 @@ function useSuppliers() {
         })
     };
 
+    const supplierCreate = async (body) => {
+        try {
+            const res = await suppliesService.createSupplier(body);
+            return res;
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
+    }
+
+    const supplierUpdate = async (body, id) => {
+        try {
+            const res = await suppliesService.updateSupplier(body, id);
+            return res;
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
+
+    const supplierDelete = async (id) => {
+        try {
+            const res = await suppliesService.suppliesDelete(id);
+            return res;  
+        } catch (error) {
+            console.error(error.message);
+            throw error;
+        }
+    }
+
+    const formatInputs = ({
+        setName,
+        setPhone,
+        setAddress,
+        setEmail,
+        setId,
+        setEditIndex
+    }) => {
+        setName("");
+        setPhone("");
+        setAddress("");
+        setEmail("");
+        setId(null);
+        setEditIndex(null);
+    }
+
     useEffect(() => {
         suppliesPromise();
     }, []);
@@ -30,7 +76,11 @@ function useSuppliers() {
         setSuppliers,
         search,
         setSearch,
-        filteredSuppliers
+        filteredSuppliers,
+        supplierCreate,
+        supplierUpdate,
+        supplierDelete,
+        formatInputs
     }
 }
 

@@ -49,7 +49,7 @@ class SupplierModel {
     try {
       this.conn = await pool.getConnection();
       const query =
-        "INSERT INTO proveedor (nombre_proveedor, telefono, direccion)VALUES (?, ?, ?)";
+        "INSERT INTO proveedor (nombre_proveedor, telefono, direccion, correo)VALUES (?, ?, ?, ?)";
       const res = await this.conn.query(query, values);
       return res;
     } catch (error) {
@@ -67,6 +67,20 @@ class SupplierModel {
     try {
       this.conn = await pool.getConnection();
       const res = await this.conn.query(query, values);
+      return res;
+    } catch (error) {
+      console.error(error.message);
+    } finally {
+      if (this.conn) this.conn.release();
+    }
+  }
+
+  async deleted(id) {
+    try {
+      this.conn = await pool.getConnection();
+      const res = await this.conn.query("DELETE FROM proveedor WHERE id = ?", [
+        id,
+      ]);
       return res;
     } catch (error) {
       console.error(error.message);

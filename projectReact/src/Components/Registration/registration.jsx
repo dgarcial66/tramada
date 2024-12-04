@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { ApiFetch } from "../../services/api";
 
-import "./registro.css"
+import "./Registration.css"
 
-export function Registro ({ setIsRegister }){
+export function Registration ({ setIsRegister }){
     const [ email, setEmail ] = useState('');
     const [ password, setPassword ] = useState('');
     const [ repeatPassword, setRepeatPassword ] = useState('');

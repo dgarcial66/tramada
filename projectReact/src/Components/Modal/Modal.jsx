@@ -1,11 +1,11 @@
 import { createPortal } from 'react-dom';
 import Swal from 'sweetalert2';
-function Modal({ isOpen, textModal, setIsOpen}) {
+function Modal({ isOpen, textModal, setIsOpen, textInfo}) {
     if(isOpen) {
         Swal.fire({
             icon: 'success',
             title: 'Confirmada accion',
-            text: `Este Material fue ${textModal}`,
+            text: `Este ${textInfo} fue ${textModal}`,
             showConfirmButton: false,
             timer: 1500
         }).then(() => {

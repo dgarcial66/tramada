@@ -24,6 +24,7 @@ export function RawMaterials({ user, setUser}) {
   const [ isOpenModal, setIsOpenModal ] = useState(false);
   const [ notModify, setNotModify ] = useState(false);
   const [ textModal, setTextModal ] = useState('Agregar');
+  const [ textInfo, setTextInfo ] = useState('material');
   const { search,
     setSearch,
     materials,
@@ -49,6 +50,7 @@ export function RawMaterials({ user, setUser}) {
         const result = filteredMaterials()
         setListMaterials(result);
       }
+      setTextInfo('material')
       fetchMaterial();
     }, [materials, search, nameSupplier])
 
@@ -322,6 +324,7 @@ export function RawMaterials({ user, setUser}) {
             isOpen={isOpen}
             textModal={textModal}
             setIsOpen={setIsOpen}
+            textInfo={textInfo}
           />
           {isOpenModal ? <UpdateItems 
             setIsOpenModal={setIsOpenModal}

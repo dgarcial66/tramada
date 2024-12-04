@@ -35,4 +35,14 @@ supplierRouter.patch("/:id", async (req, res) => {
   }
 });
 
+supplierRouter.delete("/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const deleted = await service.deleted(id);
+    res.status(204).json(deleted);
+  } catch (error) {
+    throw error;
+  }
+});
+
 module.exports = { supplierRouter };

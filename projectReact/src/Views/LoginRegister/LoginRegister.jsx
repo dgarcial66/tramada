@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Login } from "../../Components/Login/Login"; 
-import { Registro } from "../../Components/Registro/Registro";
+import { Registration } from "../../Components/Registration/registration.jsx";
 
 const LoginRegister = ({ user, setUser }) => {
   const [isLogin, setIsLogin] = useState(true);
@@ -21,7 +21,7 @@ const LoginRegister = ({ user, setUser }) => {
       {
         !isRegister
         ? <Login setUser={setUser} isLogin={isLogin} setIsRegister={setIsRegister} user={user}/>
-        : <Registro setIsRegister={setIsRegister}/>
+        : <Registration setIsRegister={setIsRegister}/>
       }
     </div>
   );

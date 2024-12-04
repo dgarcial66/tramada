@@ -31,6 +31,15 @@ class SupplierService {
       throw error;
     }
   }
+
+  async deleted(id) {
+    try {
+      const res = await model.deleted(id);
+      return res;
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
 }
 
 module.exports = { SupplierService };

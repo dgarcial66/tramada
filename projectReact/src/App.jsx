@@ -6,7 +6,7 @@ import { Products } from './Components/Products/Products.jsx'
 import { ListClients } from './Components/ListClients/ListClients.jsx';
 import { RawMaterials } from './Components/RawMaterials/RawMaterials.jsx';
 import { OrdenProduccion } from './Components/OrdenProduccion/OrdenProduccion.jsx';
-import { Config } from './Components/Configuracion/Config.jsx';
+import { Config } from './Components/Configuration/Config.jsx';
 import { Suppliers } from './Components/suppliers/Suppliers.jsx';
 import { InventoryMovements } from './Components/InventoryMovements/InventoryMovements.jsx';
 import { Ventas } from './Components/Ventas/Ventas.jsx';

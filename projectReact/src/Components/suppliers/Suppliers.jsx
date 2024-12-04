@@ -1,25 +1,33 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSuppliers } from "../../hooks/useSuppliers";
+import { Modal } from "../Modal/Modal.jsx";
 import { Header } from "../Header/Header";
 import 'bootstrap/dist/css/bootstrap.min.css'
 import "./suppliers.css"; // Importa el archivo CSS para la sección de Suppliers
 
-export function Suppliers() {
-  const [nombreProveedor, setNombreProveedor] = useState("");
-  const [codigoProveedor, setCodigoProveedor] = useState("");
-  const [telefonoProveedor, setTelefonoProveedor] = useState("");
-  const [direccionProveedor, setDireccionProveedor] = useState("");
-  const [emailProveedor, setEmailProveedor] = useState("");
+export function Suppliers({ user, setUser}) {
+  const [ name, setName ] = useState("");
+  const [ phone, setPhone ] = useState("");
+  const [ address, setAddress ] = useState("");
+  const [ email, setEmail] = useState("");
+  const [ id, setId ] = useState(null);
   const [editIndex, setEditIndex] = useState(null);
   const [edit, setEdit ] = useState(false);
+  const [ createSupplier, setCreateSupplier ] = useState(false);
+  const [ text, setText ] = useState('');
+  const [isOpen, setIsOpen] = useState(false);
+  const [textModal, setTextModal] = useState('');
   const [ listSuppliers, setListSuppliers ] = useState([]);
   const { 
     suppliers,
     setSuppliers,
     search,
     setSearch,
-    filteredSuppliers
+    filteredSuppliers,
+    supplierCreate,
+    supplierUpdate,
+    supplierDelete
   } = useSuppliers();
   const navigate = useNavigate();
 
@@ -28,84 +36,117 @@ export function Suppliers() {
     setListSuppliers(result);
   }, [suppliers,search])
 
-  console.log(listSuppliers);
+  console.log(editIndex);
 
-  const handleSubmit = (e) => {
+  console.log(id);
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const newSupplier = {
-      nombreProveedor,
-      codigoProveedor,
-      telefonoProveedor,
-      direccionProveedor,
-      emailProveedor,
+      nombre_proveedor: name,
+      telefono: Number(phone),
+      direccion: address,
+      correo: email,
     };
-    if (editIndex !== null) {
-      // Modificar un proveedor existente
-      const updatedSuppliers = [...suppliers];
-      updatedSuppliers[editIndex] = newSupplier;
-      setSuppliers(updatedSuppliers);
+    const validated = (newSupplier.nombre_proveedor && newSupplier.telefono && newSupplier.direccion);
+
+    console.log(validated);
+    if (validated) {
+
+      if (editIndex !== null) {
+        console.log('AQUI ESTOY');
+        // Modificar un proveedor existente
+        const newList = [...listSuppliers];
+        newList[editIndex] = newSupplier;
+        console.log(newList);
+        await supplierUpdate(newSupplier, id);
+        setListSuppliers(newList);
+        setIsOpen(true);
+        setText('Actualizado');
+        setTextModal('Actualizado');
+        setCreateSupplier(true);
+      } else {
+        // Agregar nuevo proveedor
+        const body = Object.values(newSupplier);
+        const newList = [...listSuppliers, newSupplier];
+        const updateListSupplier = newList;
+        console.log(updateListSupplier);
+        console.log(body);
+        await supplierCreate(body);
+        setText('creado');
+        setCreateSupplier(true);
+        setTextModal('creado');
+        setIsOpen(true);
+        setListSuppliers(updateListSupplier)
+      }   
+      setName("");
+      setPhone("");
+      setAddress("");
+      setEmail("");
+      setId(null);
       setEditIndex(null);
-    } else {
-      // Agregar nuevo proveedor
-      setSuppliers([...suppliers, newSupplier]);
-    }
-    // Limpiar los campos
-    setNombreProveedor("");
-    setCodigoProveedor("");
-    setTelefonoProveedor("");
-    setDireccionProveedor("");
-    setEmailProveedor("");
+  }else {
+    console.log('NI EL TIEMPO');
+    const newList = [...listSuppliers];
+    newList.splice(editIndex, 1);
+    console.log(newList);
+    setListSuppliers(newList);
+    await supplierDelete(id);
+    setText('eliminado');
+    setCreateSupplier(true);
+    setTextModal('eliminado');
+
+    setName("");
+    setPhone("");
+    setAddress("");
+    setEmail("");
+    setId(null);
+    setEditIndex(null);
   };
-
-  console.log(search);
-
+}
   return (
     <>
-      <Header />
+      <Header user={user} setUser={setUser}/>
       <button className="button-back" onClick={() => navigate('/home')} /> 
         
         <div className="card text-center">
               <div className="card-header">
-                GESTION CLIENTES
+                GESTION PROVEEDORES
               </div>
               <div className="card-body">
                 <div className="input-group mb-3">
                     <span className="input-group-text" id="basic-addon1">Nombre </span>
-                    <input type="text" 
-                        onChange={(event)=>{
-                        
+                    <input type="text"
+                        value={name}
+                        onChange={(e)=>{
+                          setName(e.target.value);
                         }} 
                     className="form-control"  placeholder="Nombre" aria-label="Username" aria-describedby="basic-addon1"/>
                   </div>
                   <div className="input-group mb-3">
                     <span className="input-group-text" id="basic-addon1">Telefono </span>
-                    <input type="number" 
-                        onChange={(event)=>{
-                        
+                    <input type="number"
+                        value={phone}
+                        onChange={(e)=>{
+                          setPhone(e.target.value);
                         }} 
                     className="form-control" placeholder="Telefono" aria-label="Username" aria-describedby="basic-addon1"/>
                   </div>
                   <div className="input-group mb-3">
                     <span className="input-group-text" id="basic-addon1">Direccion </span>
-                    <input type="text" 
-                        onChange={(event)=>{
-                        
+                    <input type="text"
+                        value={address}
+                        onChange={(e)=>{
+                          setAddress(e.target.value);
                         }} 
                     className="form-control" placeholder="direccion" aria-label="Username" aria-describedby="basic-addon1"/>
                   </div>
-                  <div className="input-group mb-3">
-                    <span className="input-group-text" id="basic-addon1">Código del Proveedor</span>
-                    <input type="number" 
-                        onChange={(event)=>{
-                        
-                        }} 
-                    className="form-control" placeholder="Código del Proveedor" aria-label="Username" aria-describedby="basic-addon1"/>
-                  </div>
+                  
                   <div className="input-group mb-3">
                     <span className="input-group-text" id="basic-addon1">Email del Proveedor</span>
-                    <input type="text" 
-                        onChange={(event)=>{
-                          
+                    <input type="text"
+                        value={email}
+                        onChange={(e)=>{
+                          setEmail(e.target.value);
                         }} 
                     className="form-control" placeholder="Email del Proveedor" aria-label="Username" aria-describedby="basic-addon1"/>
                   </div>        
@@ -124,12 +165,26 @@ export function Suppliers() {
                 {
                   edit?
                   <div>
-                 <button  className="btn btn-warning m-2" >Actualizar</button>
-                 <button  className="btn btn-danger m-2" >Cancelar</button>
+                  <button
+                  onClick={(e) => handleSubmit(e)}
+                    className="btn btn-warning m-2" 
+                  >Actualizar</button>
+                  <button
+                  onClick={() => {
+                    setEdit(false);
+                    setCreateSupplier(false);
+                  }}
+                    className="btn btn-danger m-2" 
+                  >Cancelar</button>
                  </div>
-                 :<button  className="btn btn-success" >Registrar</button>
+                 :<button
+                    className="btn btn-success"
+                    onClick={(e) => handleSubmit(e)} 
+                  >Registrar</button>
                 }
-
+                {
+                  createSupplier ? <p>Proveedor {text}</p> : <p>No realizo ninguna operacion hasta el momento.</p>
+                }
             <table className="table table-striped">
               <thead>
               <tr>
@@ -137,7 +192,7 @@ export function Suppliers() {
                 <th scope="col">Nombre</th>
                 <th scope="col">Telefono</th>
                 <th scope="col">Direccion</th>
-                <th scope="col">Código del Proveedor</th>
+                <th scope="col">Correo</th>
               </tr>
             </thead>
         <tbody>
@@ -148,18 +203,29 @@ export function Suppliers() {
                       <td>{i.nombre_proveedor}</td>
                       <td>{i.telefono}</td>
                       <td>{i.direccion}</td>
+                      <td>{i.correo ? i.correo : 'No registrado'}</td>
                       <td>
                       <div className="btn-group" role="group" aria-label="Basic example">
                         <button type="button" 
-                        onClick={()=>{
-                          setEditIndex(index);
-                        }}
-                        className="btn btn-info">Editar</button>
+                          className="btn btn-info"
+                          onClick={() => {
+                            setEditIndex(index);
+                            setId(i.id);
+                            setEdit(true);
+                            setName(i.nombre_proveedor);
+                            setPhone(i.telefono);
+                            setAddress(i.direccion);
+                            setEmail(i.correo);
+                          }}
+                        >Editar</button>
                         <button type="button" 
-                        onClick={()=>{
-                          deleteClient(val.id);
-                        }}
-                        className="btn btn-danger ">Eliminar</button>
+                          onClick={(e)=>{
+                            setEditIndex(index);
+                            setId(i.id);
+                            handleSubmit(e);
+                          }}
+                          className="btn btn-danger"
+                        >Eliminar</button>
                       </div>
                       </td>
                       <td></td>
@@ -172,6 +238,12 @@ export function Suppliers() {
               
               </div>
         </div>  
+        <Modal
+            isOpen={isOpen}
+            textModal={textModal}
+            setIsOpen={setIsOpen}
+            textInfo={'proveedor'}
+          />
 
     </>
   );
