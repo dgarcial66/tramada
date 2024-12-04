@@ -224,7 +224,7 @@ export function ListClients({user, setUser}) {
         </thead>
         <tbody>
         {
-          clientsList.map((val, key)=>{
+          clientsList?.map((val, key)=>{
             return  <tr key={val.id}>
                       <th>{val.id}</th>
                       <td>{val.nombre_cliente}</td>

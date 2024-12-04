@@ -29,7 +29,7 @@ CREATE TABLE `categoria_productos` (
 CREATE TABLE `clientes` (
   `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `nombre_cliente` varchar(55) NOT NULL,
-  `telefono_cliente` int(11) DEFAULT NULL,
+  `telefono_cliente` int(11) DEFAULT NULL UNIQUE,
   `direccion_cliente` varchar(100) DEFAULT NULL,
   `tipo_pago` int(11) DEFAULT NULL,
   `tipo_cliente` varchar(55) DEFAULT NULL
@@ -198,9 +198,9 @@ Estructura de tabla para la tabla `proveedor`
 
 CREATE TABLE `proveedor` (
   `id` int(10) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `nombre_proveedor` varchar(55) NOT NULL,
-  `telefono` int(10) DEFAULT NULL,
-  `correo` VARCHAR(120) DEFAULT NULL,
+  `nombre_proveedor` VARCHAR(55) NOT NULL UNIQUE,
+  `telefono` VARCHAR(15) DEFAULT NULL,
+  `correo` VARCHAR(120) DEFAULT NULL UNIQUE,
   `direccion` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -226,7 +226,7 @@ CREATE TABLE `rol` (
 
 CREATE TABLE `usuario` (
   `id` int(10) NOT NULL AUTO_INCEMENT PRIMARY KEY,
-  `email` varchar(55) NOT NULL,
+  `email` varchar(55) NOT NULL UNIQUE,
   `contraseña` varchar(255) NOT NULL,
   `id_rol` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
