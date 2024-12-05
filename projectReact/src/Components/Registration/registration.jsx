@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { ApiFetch } from "../../services/api";
 
-import "./registro.css"
+import "./Registration.css"
 
-export function Registro ({ setIsRegister }){
+export function Registration ({ setIsRegister }){
     const [ email, setEmail ] = useState('');
     const [ password, setPassword ] = useState('');
     const [ repeatPassword, setRepeatPassword ] = useState('');
@@ -53,40 +53,49 @@ export function Registro ({ setIsRegister }){
 
     return(
         <section>
-            <form onSubmit={handleRegister}>
-
-            <h1 className="texto-mensajes">REGISTRARSE</h1>
-            <div className="container-div">
+            <form className="formulario form-register"
+            onSubmit={handleRegister}
+            >
+                <img 
+                    className="arrow"
+                    src="https://img.icons8.com/?size=100&id=26194&format=png&color=000000" 
+                    alt="arrow left"
+                    onClick={() => setIsRegister(false)}
+                />
+                <h1>REGISTRARSE</h1>
+            
                 <input 
-                    className="inputs-registro" 
-                    type="text" 
+                    type="text"
+                    value={email}
+                    autoComplete="current-email"
                     name="usuario" 
                     id="correo"  
-                    placeholder="Correo electronico" autoComplete="current-email"
+                    placeholder="Correo electronico"
                     onChange={e => setEmail(e.target.value)}
                 />
                 <input 
-                    className="inputs-registro" 
                     type="password"
+                    value={password}
+                    autoComplete="current-password"
                     name="password" 
                     id="password" 
-                    placeholder="Contraseña" autoComplete="current-password"
-                    onChange={e => setPassword(e.target.value)} 
+                    placeholder="Contraseña"
+                    onChange={e => setPassword(e.target.value)}
                 />
-                <input 
-                    className="inputs-registro" 
-                    type="repeatPassword"
+                <input  
+                    type="Password"
+                    value={repeatPassword}
                     name="repeatPassword" 
                     id="repeatPassword" 
                     placeholder="repita Contraseña" autoComplete="current-password"
                     onChange={e => setRepeatPassword(e.target.value)}
                 />
+                <button>Registrarse</button>
                 {errorPass && <p>Las contraseña deben coincidir.</p>}
                 {errorEmail && <p>No pueden estar espacios vacio y debe tener un formato de correo.</p>}
                 {errorExistsEmail && <p>El correo esta vinculado a una cuenta existente</p>}
-                <button >Registrarse</button>
-            </div>
             </form>
         </section>
+        
     )
 } 

@@ -10,15 +10,14 @@ class ApiFetch {
         },
         body: JSON.stringify(body),
       });
+
       if (res.status === 400) {
         throw new Error(res.status);
       }
-      if (!res.ok) {
-        // Esto imprimirá el error específico
-        const errorData = await res.json();
-        console.log(errorData.message);
 
-        throw new Error(errorData.message);
+      if (!res.ok) {
+        const { message } = await res.json();
+        throw new Error(message.info);
       }
 
       return await res.json();

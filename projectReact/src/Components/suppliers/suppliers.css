@@ -121,4 +121,36 @@
     background-color: #da190b;
   }
   
+  .btn-filter--supplier {
+    position: relative;
+  }
+
+  .btn-filter--supplier button {
+    width: 148px;
+  }
   
+  .list-btn-supplier {
+    width: 220px;
+    position: absolute;
+    background-color: pink;
+    margin-top: 2px;
+    padding: 4px;
+    border-radius: 5px;
+    list-style: none;
+  }
+
+  .none {
+    display: none;
+  }
+
+  .block {
+    display: block;
+  }
+
+  .list-btn-supplier li {
+    margin: 4px;
+  }
+  .list-btn-supplier li:hover {
+    color: #fff;
+    cursor: pointer;
+  }

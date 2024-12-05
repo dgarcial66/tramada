@@ -1,12 +1,10 @@
-export const handleEdit = ({
+export const handleEdit = async ({
   products,
   clients,
   index,
   setName,
-  setPrice,
   setCode,
   setStock,
-  setCategory,
   setWeight,
   setEditIndex,
   setAddress,
@@ -15,6 +13,9 @@ export const handleEdit = ({
   materials,
   setTypeMaterial,
   setColor,
+  setPrice,
+  setVendor,
+  setCategory,
 }) => {
   console.log(products);
   console.log(clients);
@@ -36,31 +37,43 @@ export const handleEdit = ({
     setCo(client.co);
     setEditIndex(index);
   } else {
-    console.log(materials);
-    const material = materials[index];
-    setName(material.name);
-    setTypeMaterial(material.typeMaterial);
-    setColor(material.color);
-    setStock(material.stock);
-    setWeight(material.weight);
-    setEditIndex(index);
+    const material = await materials[index];
+    console.log(material);
+    if (material) {
+      setName(material.nombre_insumo);
+      setTypeMaterial(material.tipo_insumo);
+      setColor(material.color_insumo);
+      setStock(material.cantidad_insumo);
+      setWeight(material.peso_insumo);
+      setPrice(material.precio_insumo),
+        setVendor(material.proveedor),
+        setCategory(material.categoria);
+    }
   }
 };
 
-export const handleDelete = ({
-  products,
-  clients,
-  materials,
-  index,
-  setProducts,
-  setClients,
-  setMaterials,
+export const handleDelete = ({ id, setId }) => {
+  setId(id);
+};
+
+export const formatValues = ({
+  setName,
+  setTypeMaterial,
+  setColor,
+  setStock,
+  setWeight,
+  setPrice,
+  setVendor,
+  setCategory,
+  setIdMaterial,
 }) => {
-  if (products) {
-    setProducts(products.filter((_, i) => i !== index));
-  } else if (clients) {
-    setClients(clients.filter((_, i) => i !== index));
-  } else {
-    setMaterials(materials.filter((_, i) => i !== index));
-  }
+  setName("");
+  setTypeMaterial("");
+  setColor("");
+  setStock("");
+  setWeight("");
+  setPrice("");
+  setVendor("");
+  setCategory("");
+  setIdMaterial(null);
 };

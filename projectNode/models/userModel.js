@@ -16,7 +16,7 @@ class UserModel {
     } catch (error) {
       console.error("ERROR en consulta", error);
     } finally {
-      if (conn) conn.end();
+      if (conn) conn.release();
     }
   }
 
@@ -24,6 +24,7 @@ class UserModel {
     try {
       console.log("SOY EMAIL: ", email);
       conn = await pool.getConnection();
+      console.log("SIIII: ", conn);
       const query =
         "SELECT email, password, id_rol FROM usuario WHERE email = ?";
       const listQuery = [email];
@@ -34,7 +35,7 @@ class UserModel {
     } catch (error) {
       console.error("ERROR en consulta", error);
     } finally {
-      if (conn) conn.end();
+      if (conn) conn.release();
     }
   }
 
@@ -58,6 +59,8 @@ class UserModel {
       throw new Error(
         "Error al crear usuario ya existe o credenciales no correctas."
       );
+    } finally {
+      if (conn) conn.release();
     }
   }
 }
