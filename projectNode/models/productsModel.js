@@ -81,7 +81,7 @@ class ProductsModel {
         }
       }
 
-      async deleteProduct(id) {
+      async deleteProducts(id) {
         const conn = await pool.getConnection();
   
         try {
