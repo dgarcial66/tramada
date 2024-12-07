@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { Header } from "../Header/Header";
 import 'bootstrap/dist/css/bootstrap.min.css'
 import Axios from "axios";
+import { PDFDownloadLink } from "@react-pdf/renderer";
+import InventoryMovementsPDF from "../../../asset/Reports/reportInventoryMovements/reportInventoryMovements.jsx";
 
 export function InventoryMovements ({user, setUser}){
     const [inventoryList, setInventoryList] = useState([]);
@@ -28,6 +30,22 @@ export function InventoryMovements ({user, setUser}){
         <>
             <Header user={user} setUser={setUser} />
             <button className="button-back" onClick={() => navigate("/home")} />
+
+            <div className="card-footer text-body-secondary">
+            <button className="btn btn-info m-2" style={{ color: "white" }}>
+             <PDFDownloadLink
+            document={<InventoryMovementsPDF inventoryList={inventoryList} />}
+            fileName="InventoryMovements.pdf"
+             >
+             {({ loading }) => (
+              loading ? "Cargando reporte..." : <span style={{ color: "black" }}>Descargar Reporte</span>
+              )}
+            </PDFDownloadLink>
+             </button>
+            </div>
+
+
+
             <div>
                 <table className="table table-striped">
         <thead>
@@ -63,4 +81,5 @@ export function InventoryMovements ({user, setUser}){
     )
 
 }
+
 

@@ -5,7 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Swal from 'sweetalert2';
 import { Header } from "../Header/Header.jsx";
 import { useNavigate } from 'react-router-dom';
-import ReportOrdenProduccion from "../../../asset/Reports/reportOrdenProduccition.jsx"; // Asegúrate de tener la ruta correcta
+import ReportOrdenProduccion from "../../../asset/Reports/reportOrdenProduccition/reportOrdenProduccition.jsx";
 import { PDFDownloadLink } from '@react-pdf/renderer'; 
 
 
@@ -236,8 +236,7 @@ useEffect(() => {
 }, []);
 
 const handleGenerarReporte = () => {
-  // Llamar al método para generar el reporte
-  // Aquí no es necesario hacer nada más, solo mostrar el botón para generar el reporte.
+
 };
 
 
