@@ -1,8 +1,8 @@
 import React from "react"; 
 import { StyleSheet, View, Text, Page, Document, Image } from "@react-pdf/renderer";
-import logosena from "../img/logosena.png";
+import logosena from "../../img/logosena.png";
 
-// Definimos los estilos
+
 const styles = StyleSheet.create({
   page: {
     padding: 20,
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
   },
 });
 
-// Componente principal
+
 const ReportOrdenProduccion = ({ orden_de_produccion }) => {
   console.log("orden de produccion:", orden_de_produccion);
 
@@ -74,7 +74,7 @@ const ReportOrdenProduccion = ({ orden_de_produccion }) => {
         </View>
 
         <View style={styles.table}>
-          {/* Fila de encabezado de la tabla */}
+
           <View style={[styles.tableRow, styles.tableHeader]}>
             <Text style={[styles.tableCell, styles.tableText]}>ID</Text>
             <Text style={[styles.tableCell, styles.tableText]}>Fecha Orden</Text>
@@ -88,7 +88,7 @@ const ReportOrdenProduccion = ({ orden_de_produccion }) => {
             <Text style={[styles.tableCell, styles.tableText]}>Producto ID</Text>
           </View>
 
-          {/* Mapeo de los datos de la orden de producción */}
+
           {orden_de_produccion.map((odp, index) => (
             <View key={index} style={styles.tableRow}>
               <Text style={[styles.tableCell, styles.tableText]}>{odp.id}</Text>
