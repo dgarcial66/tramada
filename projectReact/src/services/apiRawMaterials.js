@@ -15,6 +15,23 @@ class ApiRawMaterials {
     }
   }
 
+  async createRawMaterials(body) {
+    try {
+      const res = await fetch("http://localhost:3000/api/v1/rawMaterials", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      });
+      console.log(res);
+      return res;
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
+
   async updateMaterial(body, id) {
     try {
       const res = await fetch(
@@ -36,6 +53,7 @@ class ApiRawMaterials {
   }
 
   async deductMaterial(id, body) {
+    console.log("SOY BODY ULTIMO: ", body);
     try {
       const res = await fetch(
         `http://localhost:3000/api/v1/rawMaterials/deduct/${id}`,

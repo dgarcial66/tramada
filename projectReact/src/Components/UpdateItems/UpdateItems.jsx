@@ -3,7 +3,18 @@ import { handlerUpdateItem } from "../../utils/handleUpdate";
 import './updateItems.css';
 import { useState } from "react";
 
-function UpdateItems({id, setIsOpenModal}) {
+function UpdateItems({
+    id,
+    setIsOpenModal,
+    setName,
+    setColor,
+    setStock,
+    setWeight,
+    setPrice,
+    setVendor,
+    setCategory,
+    setIdMaterial
+}) {
     const [ deductPrice, setDeductPrice ] = useState(0);
     const [ deductStock, setDeductStock ] = useState(0);
     const [ deductWeight, setDeductWeight ] = useState(0);
@@ -25,6 +36,14 @@ function UpdateItems({id, setIsOpenModal}) {
     }
         handlerUpdateItem(id, objBody);
         setIsOpenModal(false);
+        setName("");
+        setColor("");
+        setStock("");
+        setWeight("");
+        setPrice("");
+        setVendor("");
+        setCategory("");
+        setIdMaterial(null);
     }
     
     return createPortal(
