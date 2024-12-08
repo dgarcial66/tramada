@@ -11,7 +11,16 @@ class RawMaterialsService {
       console.log("SOY DATA SERVICE: ", data);
       return data;
     } catch (error) {
-      throw new Error(error);
+      throw error;
+    }
+  }
+
+  async createRawMaterials(body) {
+    try {
+      const data = await model.create(body);
+      return data;
+    } catch (error) {
+      throw error;
     }
   }
 

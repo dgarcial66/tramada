@@ -51,6 +51,7 @@ class ApiSupplier {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
       });
+      console.log("QUE SOY", res);
       return res;
     } catch (error) {
       console.error(error.message);

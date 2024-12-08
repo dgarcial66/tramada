@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { ApiSupplier } from "../services/apiSupplier";
+import { deleted } from "../actions/suppliers";
 
 const suppliesService = new ApiSupplier();
 
@@ -43,8 +44,9 @@ function useSuppliers() {
 
     const supplierDelete = async (id) => {
         try {
-            const res = await suppliesService.suppliesDelete(id);
-            return res;  
+            const res = await deleted(id);
+            console.log("SOY DE HOOK SUPPLIERS: ", res);
+            return res;
         } catch (error) {
             console.error(error.message);
             throw error;

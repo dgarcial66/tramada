@@ -1,4 +1,3 @@
-const { query } = require("express");
 const { pool } = require("../db/config.js");
 
 class RawMaterialsModel {
@@ -43,10 +42,16 @@ class RawMaterialsModel {
 
   async create(body) {
     const conn = await pool.getConnection();
+    const query =
+      "INSERT INTO insumos (nombre_insumo, color_insumo, peso_insumo, cantidad_insumo, precio_insumo, id_proveedor, categoria_insumos_id) VALUES (?, ?, ?, ?, ?, (SELECT id FROM proveedor WHERE nombre_proveedor = ?), (SELECT id FROM categoria_insumos WHERE nombre_categoria_insumo = ?) )";
 
     try {
+      const res = await conn.query(query, body);
+      return res;
     } catch (error) {
-      throw new Error(error);
+      throw error;
+    } finally {
+      if (conn) conn.release();
     }
   }
 
@@ -78,7 +83,7 @@ class RawMaterialsModel {
     try {
       // const query = "SELECT * FROM insumos INNER JOIN proveedor ON insumos.id_proveedor = proveedor.id";
       const query =
-        "SELECT id, nombre_insumo, color_insumo, peso_insumo, tipo_insumo, cantidad_insumo, precio_insumo, (SELECT nombre_proveedor FROM proveedor AS p WHERE i.id_proveedor = p.id) AS proveedor, (SELECT nombre_categoria_insumo FROM categoria_insumos AS c WHERE i.categoria_insumos_id = c.id) AS categoria FROM insumos AS i;";
+        "SELECT id, nombre_insumo, color_insumo, peso_insumo, cantidad_insumo, precio_insumo, (SELECT nombre_proveedor FROM proveedor AS p WHERE i.id_proveedor = p.id) AS proveedor, (SELECT nombre_categoria_insumo FROM categoria_insumos AS c WHERE i.categoria_insumos_id = c.id) AS categoria FROM insumos AS i;";
       const data = await conn.query(query);
 
       return data;

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom"
 import { Header } from "../Header/Header";
 import { useMaterials } from "../../hooks/useMaterial.jsx";
 import { formatValues, handleDelete, handleEdit } from "../../utils/utils.js"
-import { updateMaterial, deleteMaterial } from "../../actions/rawMaterial.js";
+import { updateMaterial, deleteMaterial, createMaterial } from "../../actions/rawMaterial.js";
 import { Modal } from "../Modal/Modal.jsx";
 import './rawMaterials.css';
 import { UpdateItems } from "../UpdateItems/UpdateItems.jsx";
@@ -11,7 +11,6 @@ import { UpdateItems } from "../UpdateItems/UpdateItems.jsx";
 export function RawMaterials({ user, setUser}) {
   const [ id, setId ] = useState(null);
   const [ name, setName ] = useState("");
-  const [ typeMaterial, setTypeMaterial] = useState("");
   const [ color, setColor ] = useState("");
   const [ stock, setStock ] = useState("");
   const [ weight, setWeight ] = useState("");
@@ -59,7 +58,6 @@ export function RawMaterials({ user, setUser}) {
         const material = materials.find(item => item.id === idMaterial);
         if(material) {
           setName(material.nombre_insumo);
-          setTypeMaterial(material.tipo_insumo);
           setColor(material.color_insumo);
           setStock(material.cantidad_insumo);
           setWeight(material.peso_insumo);
@@ -68,7 +66,7 @@ export function RawMaterials({ user, setUser}) {
           setCategory(material.categoria_insumos_id);
         }
       }
-    }, [materials, idMaterial])
+    }, [materials, idMaterial, isOpenModal])
         
     const handlerDeleteMaterial = async (id) => {
       try {
@@ -83,12 +81,11 @@ export function RawMaterials({ user, setUser}) {
     console.log(supplies);
 
     const handleSubmit = async (e) => {
-      let rta;
+
       try {
           e.preventDefault();
           const newMaterials = { 
             nombre_insumo: name,
-            tipo_insumo: typeMaterial,
             color_insumo: color,
             cantidad_insumo: stock,
             peso_insumo: weight,
@@ -98,27 +95,39 @@ export function RawMaterials({ user, setUser}) {
           };
           const values = Object.values(newMaterials);
           
-          
+          console.log('CALENTURA: ', values === undefined);
+
           if(values !== undefined) {
             if (idMaterial !== null) {
               try{
                 await updateMaterial(idMaterial, newMaterials)
                 const updateList = listMaterials.map(material => material.id === idMaterial ? {...material, ...newMaterials} : material);
-
-                console.log(updateList);
                 setListMaterials(updateList);
                 setMaterials(updateList)
                 setTextModal('actualizado');
                 setIsOpen(true);
-                console.log('Holaaaa');
-              }catch(err) {
-                console.log(err);
-                throw err;
+              }catch(error) {
+                console.log(error);
+                throw error;
+              }
+            }else {
+              try {
+                console.log('THE KILLERS');
+                const newArrayMaterials = Object.values(newMaterials);
+                await createMaterial(newArrayMaterials);
+                const updateList = [...listMaterials, newMaterials]
+                setListMaterials(updateList);
+                setMaterials(updateList)
+                setTextModal('creado');
+                setIsOpen(true);
+              } catch (error) {
+                console.log(error);
+                throw error;
               }
             }
 
-            formatValues({setName,
-              setTypeMaterial,
+            formatValues({
+              setName,
               setColor,
               setStock,
               setWeight,
@@ -155,16 +164,6 @@ export function RawMaterials({ user, setUser}) {
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  required
-                  className="input-text"
-                />
-              </div>
-              <div className="form-group">
-                <label>Tipo del Material</label>
-                <input
-                  type="text"
-                  value={typeMaterial}
-                  onChange={(e) => setTypeMaterial(e.target.value)}
                   required
                   className="input-text"
                 />
@@ -277,7 +276,7 @@ export function RawMaterials({ user, setUser}) {
                 {listMaterials?.map((item, index) => (
                   <li key={item.id} className="product-item">
                     <>
-                      Nombre del Material: {item.nombre_insumo} - Tipo de Material: {item.tipo_insumo} - Color: {item.color_insumo} - Stock: {item.cantidad_insumo} - Peso: {item.peso_insumo} kg - Precio: {item.precio_insumo}$ Categoria: {item.categoria}
+                      Nombre del Material: {item.nombre_insumo} - Color: {item.color_insumo} - Stock: {item.cantidad_insumo} - Peso: {item.peso_insumo} kg - Precio: {item.precio_insumo}$ Categoria: {item.categoria}
                     </>
     
                     <div className="product-actions">
@@ -291,7 +290,6 @@ export function RawMaterials({ user, setUser}) {
                                 index,
                                 setName,
                                 setStock,
-                                setTypeMaterial,
                                 setColor,
                                 setWeight,
                                 setPrice,
@@ -326,10 +324,20 @@ export function RawMaterials({ user, setUser}) {
             setIsOpen={setIsOpen}
             textInfo={textInfo}
           />
-          {isOpenModal ? <UpdateItems 
-            setIsOpenModal={setIsOpenModal}
-            id={idMaterial}
-          /> : null}
+          {isOpenModal ? 
+            <UpdateItems
+              setName={setName}
+              setColor={setColor}
+              setStock={setStock}
+              setWeight={setWeight}
+              setPrice={setPrice}
+              setVendor={setVendor}
+              setCategory={setCategory}
+              setIdMaterial={setIdMaterial}
+              setIsOpenModal={setIsOpenModal}
+              id={idMaterial}
+            /> : null
+          }
         </>
       );
 }

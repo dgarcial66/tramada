@@ -1,16 +1,21 @@
 function errorHandler(err, req, res, next) {
   console.error("Error capturado: ", err);
-  console.log(err.code, err.status);
-  const statusCode = err.statusCode || 500;
+  function statusCode(data) {
+    if (process.env.NODE_ENV === "development") {
+      return {
+        code: err.statusCode || 500,
+        ...data,
+      };
+    }
+    return {};
+  }
+
   const response = {
     message: err.message || "Error Interno del servidor",
-    ...statusCode(
-      process.env.NODE_ENV === "development" && { stack: err.stack }
-    ),
+    ...statusCode({ stack: err.stack }),
   };
 
-  console.error("SOY ERRORHANDLER", response);
-  res.status(statusCode).json(response);
+  res.status(response.code).json(response);
 
   next(err);
 }
