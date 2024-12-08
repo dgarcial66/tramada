@@ -137,7 +137,7 @@ export function Products({user, setUser}) {
     })
   }  
 
-  const deleteProduct = (id) => {
+  const deleteProducts = (id) => {
     Axios.delete(`http://localhost:3000/api/v1/products/${id}`) 
       .then(() => {
         getProducts();
@@ -313,7 +313,7 @@ export function Products({user, setUser}) {
                         >Editar</button>
                         <button type="button" className="btn btn-danger"
                         onClick={()=>{
-                         deleteProduct(val.id);
+                         deleteProducts(val.id);
                         }}
                         >Eliminar</button>
                       </div>

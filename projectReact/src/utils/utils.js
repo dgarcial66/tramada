@@ -11,7 +11,6 @@ export const handleEdit = async ({
   setNumberPhone,
   setCo,
   materials,
-  setTypeMaterial,
   setColor,
   setPrice,
   setVendor,
@@ -41,7 +40,6 @@ export const handleEdit = async ({
     console.log(material);
     if (material) {
       setName(material.nombre_insumo);
-      setTypeMaterial(material.tipo_insumo);
       setColor(material.color_insumo);
       setStock(material.cantidad_insumo);
       setWeight(material.peso_insumo);
@@ -58,7 +56,6 @@ export const handleDelete = ({ id, setId }) => {
 
 export const formatValues = ({
   setName,
-  setTypeMaterial,
   setColor,
   setStock,
   setWeight,
@@ -68,7 +65,6 @@ export const formatValues = ({
   setIdMaterial,
 }) => {
   setName("");
-  setTypeMaterial("");
   setColor("");
   setStock("");
   setWeight("");

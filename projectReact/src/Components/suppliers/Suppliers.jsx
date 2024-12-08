@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useSuppliers } from "../../hooks/useSuppliers";
 import { Modal } from "../Modal/Modal.jsx";
 import { Header } from "../Header/Header";
+import { handleDelete } from "../../utils/utilsSuppliers.js";
 import 'bootstrap/dist/css/bootstrap.min.css'
 import "./suppliers.css"; // Importa el archivo CSS para la sección de Suppliers
 
@@ -27,7 +28,8 @@ export function Suppliers({ user, setUser}) {
     filteredSuppliers,
     supplierCreate,
     supplierUpdate,
-    supplierDelete
+    supplierDelete,
+    formatInputs
   } = useSuppliers();
   const navigate = useNavigate();
 
@@ -37,7 +39,7 @@ export function Suppliers({ user, setUser}) {
   }, [suppliers,search])
 
   console.log(editIndex);
-
+  console.log(listSuppliers);
   console.log(id);
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -47,62 +49,90 @@ export function Suppliers({ user, setUser}) {
       direccion: address,
       correo: email,
     };
+
     const validated = (newSupplier.nombre_proveedor && newSupplier.telefono && newSupplier.direccion);
 
     console.log(validated);
-    if (validated) {
-
-      if (editIndex !== null) {
-        console.log('AQUI ESTOY');
-        // Modificar un proveedor existente
-        const newList = [...listSuppliers];
-        newList[editIndex] = newSupplier;
-        console.log(newList);
-        await supplierUpdate(newSupplier, id);
-        setListSuppliers(newList);
-        setIsOpen(true);
-        setText('Actualizado');
-        setTextModal('Actualizado');
-        setCreateSupplier(true);
-      } else {
-        // Agregar nuevo proveedor
-        const body = Object.values(newSupplier);
-        const newList = [...listSuppliers, newSupplier];
-        const updateListSupplier = newList;
-        console.log(updateListSupplier);
-        console.log(body);
-        await supplierCreate(body);
-        setText('creado');
-        setCreateSupplier(true);
-        setTextModal('creado');
-        setIsOpen(true);
-        setListSuppliers(updateListSupplier)
-      }   
-      setName("");
-      setPhone("");
-      setAddress("");
-      setEmail("");
+  if (validated) {
+    console.log("ROSADITO");
+    if (editIndex !== null) {
+      console.log('AQUI ESTOY');
+      // Modificar un proveedor existente
+      const newList = [...listSuppliers];
+      newList[editIndex] = newSupplier;
+      console.log(newList);
+      await supplierUpdate(newSupplier, id);
+      setListSuppliers(newList);
+      setIsOpen(true);
+      setText('Actualizado');
+      setTextModal('Actualizado');
+      setCreateSupplier(true);
+      formatInputs({
+        setName,
+        setPhone,
+        setAddress,
+        setEmail,
+        setId,
+        setEditIndex
+      })
+    } else {
+      // Agregar nuevo proveedor
+      const body = Object.values(newSupplier);
+      const newList = [...listSuppliers, newSupplier];
+      const updateListSupplier = newList;
+      console.log(updateListSupplier);
+      console.log(body);
+      await supplierCreate(body);
+      setText('creado');
+      setCreateSupplier(true);
+      setTextModal('creado');
+      setIsOpen(true);
+      setListSuppliers(updateListSupplier)
+      formatInputs({
+        setName,
+        setPhone,
+        setAddress,
+        setEmail,
+        setId,
+        setEditIndex
+      })
+    }   
+  }
+}
+  const handleRemove = async (id) => {
+    const index = listSuppliers.findIndex(supplier => supplier.id === id);
+    setId(id);
+    setEditIndex(index);
+    console.log(index);
+    try {
+      const {res, newList} = await handleDelete({
+        id,
+        index: editIndex,
+        list: listSuppliers,
+        service: supplierDelete,
+    })
+    if(res.status === 500) {
+      return;
+    }
+    console.log("YO SOY REAL HASTA LA MUERTE: ",res, newList);
+    setListSuppliers(newList);
+    setText("eliminado");
+    setCreateSupplier(true);
+    setTextModal("eliminado");
+    setIsOpen(true);
+    if(res) {
+      console.log(id);
+      console.log('RESTOOOOOOO');
+      return;
+    }
+    console.log('MUCHOOOOOOOOOOOOOO');
+    } catch (error) {
+      console.log(error);
+    }finally{
       setId(null);
       setEditIndex(null);
-  }else {
-    console.log('NI EL TIEMPO');
-    const newList = [...listSuppliers];
-    newList.splice(editIndex, 1);
-    console.log(newList);
-    setListSuppliers(newList);
-    await supplierDelete(id);
-    setText('eliminado');
-    setCreateSupplier(true);
-    setTextModal('eliminado');
-
-    setName("");
-    setPhone("");
-    setAddress("");
-    setEmail("");
-    setId(null);
-    setEditIndex(null);
-  };
-}
+    }
+  }
   return (
     <>
       <Header user={user} setUser={setUser}/>
@@ -218,12 +248,8 @@ export function Suppliers({ user, setUser}) {
                             setEmail(i.correo);
                           }}
                         >Editar</button>
-                        <button type="button" 
-                          onClick={(e)=>{
-                            setEditIndex(index);
-                            setId(i.id);
-                            handleSubmit(e);
-                          }}
+                        <button 
+                          onClick={()=> handleRemove(i.id) }
                           className="btn btn-danger"
                         >Eliminar</button>
                       </div>
@@ -239,11 +265,11 @@ export function Suppliers({ user, setUser}) {
               </div>
         </div>  
         <Modal
-            isOpen={isOpen}
-            textModal={textModal}
-            setIsOpen={setIsOpen}
-            textInfo={'proveedor'}
-          />
+          isOpen={isOpen}
+          textModal={textModal}
+          setIsOpen={setIsOpen}
+          textInfo={'proveedor'}
+        />
 
     </>
   );

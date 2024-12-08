@@ -16,6 +16,17 @@ rawMaterialsRouter.get("/", async (req, res, next) => {
   }
 });
 
+rawMaterialsRouter.post("/", async (req, res, next) => {
+  const { body } = req;
+  try {
+    const data = await service.createRawMaterials(body);
+    res.json(data);
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+});
+
 rawMaterialsRouter.patch("/:id", async (req, res, next) => {
   try {
     const { body, params } = req;
