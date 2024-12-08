@@ -305,17 +305,12 @@ export function Products({user, setUser}) {
                       <td>{val.categoria_productos_id}</td>
                       <td>{val.fecha_actualizacion}</td>
                       <td>
-                      <div className="btn-group" role="group" aria-label="Basic example">
+                      <div className="btn" role="group" aria-label="Basic example">
                         <button type="button" className="btn btn-info"
                          onClick={()=>{
                           editProduct(val);
                         }}
                         >Editar</button>
-                        <button type="button" className="btn btn-danger"
-                        onClick={()=>{
-                         deleteProducts(val.id);
-                        }}
-                        >Eliminar</button>
                       </div>
                       </td>
                       <td></td>
