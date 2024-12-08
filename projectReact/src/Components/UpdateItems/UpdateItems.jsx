@@ -1,7 +1,7 @@
 import { createPortal } from "react-dom";
 import { handlerUpdateItem } from "../../utils/handleUpdate";
-import './updateItems.css';
 import { useState } from "react";
+import './updateItems.css';
 
 function UpdateItems({
     id,
@@ -15,25 +15,25 @@ function UpdateItems({
     setCategory,
     setIdMaterial
 }) {
-    const [ deductPrice, setDeductPrice ] = useState(0);
-    const [ deductStock, setDeductStock ] = useState(0);
-    const [ deductWeight, setDeductWeight ] = useState(0);
-        
+    const [deductPrice, setDeductPrice] = useState(0);
+    const [deductStock, setDeductStock] = useState(0);
+    const [deductWeight, setDeductWeight] = useState(0);
+
     console.log(id);
 
     function handlerClick(e) {
-    e.preventDefault();
-    const objBody = {
-        peso_insumo: deductPrice,
-        cantidad_insumo: deductStock,
-        precio_insumo: deductWeight
-    }
+        e.preventDefault();
+        const objBody = {
+            peso_insumo: deductPrice,
+            cantidad_insumo: deductStock,
+            precio_insumo: deductWeight
+        };
 
-    console.log(objBody);
-    if(objBody.peso_insumo === 0 && objBody.cantidad_insumo === 0 && objBody.precio_insumo === 0) {
-        setIsOpenModal(false);
-        return;
-    }
+        console.log(objBody);
+        if (objBody.peso_insumo === 0 && objBody.cantidad_insumo === 0 && objBody.precio_insumo === 0) {
+            setIsOpenModal(false);
+            return;
+        }
         handlerUpdateItem(id, objBody);
         setIsOpenModal(false);
         setName("");
@@ -45,42 +45,59 @@ function UpdateItems({
         setCategory("");
         setIdMaterial(null);
     }
-    
+
     return createPortal(
         <section className="container-portal">
             <form>
                 <h1>Actualiza Cantidades</h1>
-                <p>Aqui actualiza la cantidad del stock, peso y precio para un insumos en especifico.</p>
-                <div>
-                    <label>Stock</label>
-                    <input 
+                <p>Aquí actualiza la cantidad del stock, peso y precio para un insumo específico.</p>
+                <div className="input-group mb-3">
+                    <span className="input-group-text" id="basic-addon1">Stock</span>
+                    <input
                         type="text"
+                        className="form-control"
                         value={deductStock}
                         onChange={(e) => setDeductStock(Number(e.target.value))}
+                        placeholder="Stock disponible"
+                        aria-label="Stock"
+                        aria-describedby="basic-addon1"
                     />
-                    <label>Peso Kg</label>
+                </div>
+                <div className="input-group mb-3">
+                    <span className="input-group-text" id="basic-addon1">Peso (Kg)</span>
                     <input
                         type="text"
+                        className="form-control"
                         value={deductPrice}
                         onChange={(e) => setDeductPrice(Number(e.target.value))}
-                        />
-                    <label>Precio</label>
+                        placeholder="Peso del insumo"
+                        aria-label="Peso"
+                        aria-describedby="basic-addon1"
+                    />
+                </div>
+                <div className="input-group mb-3">
+                    <span className="input-group-text" id="basic-addon1">Precio</span>
                     <input
                         type="text"
+                        className="form-control"
                         value={deductWeight}
                         onChange={(e) => setDeductWeight(Number(e.target.value))}
-                        />
+                        placeholder="Precio unitario"
+                        aria-label="Precio"
+                        aria-describedby="basic-addon1"
+                    />
                 </div>
                 <button
-                    className="btn-submit"
+                    className="btn btn-success"
                     onClick={handlerClick}
-                    >Descontar
+                >
+                    Descontar
                 </button>
             </form>
-
         </section>,
         document.body
-    )
+    );
+
 }
 
 export { UpdateItems };
