@@ -95,7 +95,7 @@ export function RawMaterials({ user, setUser}) {
           };
           const values = Object.values(newMaterials);
           
-          console.log('CALENTURA: ', values === undefined);
+          console.log('CALENTURA: ', values);
 
           if(values !== undefined) {
             if (idMaterial !== null) {
@@ -113,6 +113,7 @@ export function RawMaterials({ user, setUser}) {
             }else {
               try {
                 console.log('THE KILLERS');
+                console.log(newMaterials);
                 const newArrayMaterials = Object.values(newMaterials);
                 await createMaterial(newArrayMaterials);
                 const updateList = [...listMaterials, newMaterials]
@@ -146,7 +147,7 @@ export function RawMaterials({ user, setUser}) {
           throw error;
         }
     };
-    console.log(id);
+    //console.log(id);
     console.log(listMaterials);
     console.log(isOpenModal);
     return (
@@ -276,7 +277,7 @@ export function RawMaterials({ user, setUser}) {
                 {listMaterials?.map((item, index) => (
                   <li key={item.id} className="product-item">
                     <>
-                      Nombre del Material: {item.nombre_insumo} - Color: {item.color_insumo} - Stock: {item.cantidad_insumo} - Peso: {item.peso_insumo} kg - Precio: {item.precio_insumo}$ Categoria: {item.categoria}
+                      Nombre del Material: {item.nombre_insumo} - Color: {item.color_insumo} - Stock: {item.cantidad_insumo} - Peso: {item.peso_insumo} kg - Precio: {item.precio_insumo}$ Categoria: {item.categoria ? item.categoria : item.categoria_insumos_id}
                     </>
     
                     <div className="product-actions">
