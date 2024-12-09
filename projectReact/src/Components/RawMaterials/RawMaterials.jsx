@@ -9,6 +9,7 @@ import './rawMaterials.css';
 import { UpdateItems } from "../UpdateItems/UpdateItems.jsx";
 
 export function RawMaterials({ user, setUser }) {
+  const [id, setId] = useState(null);
   const [name, setName] = useState("");
   const [color, setColor] = useState("");
   const [stock, setStock] = useState("");

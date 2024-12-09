@@ -10,6 +10,7 @@ import { PDFDownloadLink } from '@react-pdf/renderer';
 
 
 
+
 function OrdenProduccion({user, setUser}) {
   const [fecha_entrega, setFechaEntrega] = useState('');
   const [cantidad_productos_solicitada, setCantidadProductosSolicitada] = useState('');
@@ -31,7 +32,7 @@ function OrdenProduccion({user, setUser}) {
 
   const add = () => {
 
-    if (!fecha_entrega || !cantidad_productos_solicitada || !cantidad_insumo_necesaria || !usuario_id || !estado_orden || !insumos_id || !producto_id) {
+    if (!fecha_entrega || !cantidad_productos_solicitada || !cantidad_insumo_necesaria || !usuario_id || !insumos_id || !producto_id) {
       Swal.fire({
         icon: "error",
         title: "Campos incompletos",
@@ -310,9 +311,9 @@ return (
             onChange={(event) => setEstadoOrden(event.target.value)}
             className="form-control"
           >
-            <option value="en proceso">En proceso</option>
-            <option value="completado">Completado</option>
-            <option value="en revision">En revisión</option>
+            <option value="en proceso">en proceso</option>
+            <option value="completado">completado</option>
+            <option value="en revision">en revisión</option>
           </select>
         </div>
 
