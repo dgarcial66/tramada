@@ -30,8 +30,8 @@ export function InventoryMovements ({user, setUser}){
         <>
             <Header user={user} setUser={setUser} />
             <button className="button-back" onClick={() => navigate("/home")} />
-
-            <div className="card-footer text-body-secondary">
+              <div className="container mt-4">
+              <div className="card-footer text-body-secondary">
             <button className="btn btn-info m-2" style={{ color: "white" }}>
              <PDFDownloadLink
             document={<InventoryMovementsPDF inventoryList={inventoryList} />}
@@ -76,6 +76,8 @@ export function InventoryMovements ({user, setUser}){
         </tbody>
         </table> 
         </div>
+              </div>
+            
         </>
     
     )

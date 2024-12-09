@@ -10,6 +10,8 @@ const { inventoryRouter } = require("./inventoryRouter.js")
 const { orderRoutes } = require("./orderRoutes.js");
 const { salesRoutes } = require("./salesRoutes.js");
 const { detailsalesRoutes } = require("./detailsaleRoutes.js");
+const { historicalPricesRouter } = require("./historicalPricesRoutes.js");
+const { historicalPricesMaterialsRouter } = require("./historicalPricesMaterialsRoutes.js");
 
 
 BigInt.prototype.toJSON = function () {
@@ -30,6 +32,8 @@ function routerApi(app) {
   routes.use("/order", orderRoutes);
   routes.use("/sales", salesRoutes);
   routes.use("/detail-sales", detailsalesRoutes);
+  routes.use("/historical-prices", historicalPricesRouter);
+  routes.use("/historical-prices-materials", historicalPricesMaterialsRouter);
 
 }
 
