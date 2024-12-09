@@ -35,20 +35,24 @@ router.post("/", async (req, res) => {
   try {
  
     if (!fecha_entrega || !cantidad_productos_solicitada || !cantidad_insumo_necesaria || !usuario_id || !insumos_id || !producto_id) {
+      console.error("error al actualizar orden", err.message)
       return res.status(400).json({ error: 'Faltan campos requeridos' });
     }
 
 
     if (!/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}/.test(fecha_entrega)) {
+      console.error("error al actualizar orden", err.message)
       return res.status(400).json({ error: 'La fecha de entrega debe estar en formato YYYY-MM-DD HH:MM:SS' });
     }
 
     if (isNaN(cantidad_productos_solicitada) || isNaN(cantidad_insumo_necesaria)) {
+      console.error("error al actualizar orden", err.message)
       return res.status(400).json({ error: 'Las cantidades deben ser números enteros' });
     }
 
     const validStatuses = ['completado', 'en proceso', 'en revision'];
     if (!validStatuses.includes(estado_orden)) {
+      console.error("error al actualizar orden", err.message)
       return res.status(400).json({ error: 'Estado de orden no válido' });
     }
 
@@ -85,6 +89,7 @@ router.put("/:id", async (req, res) => {
     const updatedOrder = await orderModel.updateOrder({ ...req.body, id: req.params.id });
     res.json(updatedOrder);
   } catch (err) {
+    console.error("error al actualizar orden", err.message)
     res.status(500).json({ error: "Error al actualizar la orden: " + err.message });
   }
 });
