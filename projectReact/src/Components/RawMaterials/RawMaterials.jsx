@@ -9,7 +9,6 @@ import './rawMaterials.css';
 import { UpdateItems } from "../UpdateItems/UpdateItems.jsx";
 
 export function RawMaterials({ user, setUser }) {
-  const [id, setId] = useState(null);
   const [name, setName] = useState("");
   const [color, setColor] = useState("");
   const [stock, setStock] = useState("");
@@ -301,7 +300,7 @@ export function RawMaterials({ user, setUser }) {
                   <td>{item.cantidad_insumo}</td>
                   <td>{item.peso_insumo} Kg</td>
                   <td>${item.precio_insumo}</td>
-                  <td>{item.categoria}</td>
+                  <td>{item.categoria ? item.categoria : item.categoria_insumos_id}</td>
                   <td>
                     <button
                       onClick={async () => {
