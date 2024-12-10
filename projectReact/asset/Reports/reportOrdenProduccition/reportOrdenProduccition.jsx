@@ -58,6 +58,19 @@ const styles = StyleSheet.create({
   tableText: {
     fontSize: 10,
   },
+  tableTitle: {
+    fontSize: 14,
+    fontWeight: "bold",
+    marginTop: 20,
+    marginBottom: 5,
+    textAlign: "center",
+  },
+  titleLine: {
+    borderBottomWidth: 1,
+    borderBottomColor: "#000",
+    width: "100%",
+    marginTop: 5,
+  }
 });
 
 
@@ -70,11 +83,13 @@ const ReportOrdenProduccion = ({ orden_de_produccion }) => {
         <View style={styles.headerContainer}>
           <Image src={logosena} style={styles.icon} />
           <Text style={styles.headerText}>Sena</Text>
+          <Text style={styles.headerText}>tramada tejidos</Text>
           <Text style={styles.dateText}>Fecha: {new Date().toLocaleDateString()}</Text>
         </View>
 
         <View style={styles.table}>
-
+        <Text style={styles.tableTitle}>orden de produccion</Text> 
+        <View style={styles.titleLine} />
           <View style={[styles.tableRow, styles.tableHeader]}>
             <Text style={[styles.tableCell, styles.tableText]}>ID</Text>
             <Text style={[styles.tableCell, styles.tableText]}>Fecha Orden</Text>
