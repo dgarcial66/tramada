@@ -47,6 +47,14 @@ GET http://localhost:3000/api/v1/rawMaterials HTTP/1.1
 Content-Type: application/json
 
 
+###
+POST http://localhost:3000/api/v1/rawMaterials HTTP/1.1
+Content-Type: application/json
+
+[
+    "Proveedor122","Rosa",14,100,20000,"mikelocal","Hilo"
+]
+
 ### 
 GET http://localhost:3000/api/v1/categories/raw HTTP/1.1
 Content-Type: application/json
@@ -88,3 +96,7 @@ Content-Type: application/json
     987654321,
     "calle 26 #33 - 95"
 ]
+
+### 
+DELETE http://localhost:3000/api/v1/supplier/20 HTTP/1.1
+Content-Type: application/json

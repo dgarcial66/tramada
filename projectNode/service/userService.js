@@ -9,7 +9,6 @@ class UserService {
   async getUser() {
     try {
       const row = await model.getUser();
-
       return row;
     } catch (error) {
       console.error("ERROR en consulta", error);
