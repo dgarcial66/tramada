@@ -40,3 +40,63 @@ Content-Type: application/json
     "email": "yisusGG@ejemplo.com",
     "password": "123456"
 }
+
+
+###
+GET http://localhost:3000/api/v1/rawMaterials HTTP/1.1
+Content-Type: application/json
+
+
+###
+POST http://localhost:3000/api/v1/rawMaterials HTTP/1.1
+Content-Type: application/json
+
+[
+    "Proveedor122","Rosa",14,100,20000,"mikelocal","Hilo"
+]
+
+### 
+GET http://localhost:3000/api/v1/categories/raw HTTP/1.1
+Content-Type: application/json
+
+###
+PATCH  http://localhost:3000/api/v1/rawMaterials/3 HTTP/1.1
+Content-Type: application/json
+
+{
+    "nombre_insumo": "Tela de Algodoncho",
+    "color_insumo": "rosado"
+}
+
+###
+DELETE  http://localhost:3000/api/v1/rawMaterials/3 HTTP/1.1
+Content-Type: application/json
+
+
+###
+GET http://localhost:3000/api/v1/supplier HTTP/1.1
+Content-Type: application/json
+
+### 
+PATCH http://localhost:3000/api/v1/supplier/1 HTTP/1.1
+Content-Type: application/json
+
+{
+    "nombre_proveedor": "Textiles S.A.S",
+    "telefono": 987654321
+}
+
+
+### 
+POST http://localhost:3000/api/v1/supplier HTTP/1.1
+Content-Type: application/json
+
+[
+    "Textiles S.A.S",
+    987654321,
+    "calle 26 #33 - 95"
+]
+
+### 
+DELETE http://localhost:3000/api/v1/supplier/20 HTTP/1.1
+Content-Type: application/json

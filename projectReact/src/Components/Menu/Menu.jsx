@@ -11,7 +11,7 @@ export function Menu ({ setUser }){
     return(
         <>
         {ClickProducts ? (
-          <MenuProductos /> // Si se hace clic en Productos, renderiza el componente MenuProductos
+          <MenuProductos /> 
         ) : (
           <>
           <Header setUser={setUser} />
@@ -21,7 +21,7 @@ export function Menu ({ setUser }){
               <div className="container-padre">
                 <figure className="container-hijo">
                   <img
-                    onClick={() => navigate('/products')} // Al hacer clic, cambia el estado
+                    onClick={() => navigate('/products')}
                     className="Productos"
                     src="https://img.icons8.com/?size=100&id=9671&format=png&color=000000"
                     alt="icono-productos"
@@ -57,12 +57,32 @@ export function Menu ({ setUser }){
                 </figure>
                 <figure className="container-hijo">
                   <img
+                  onClick={() => navigate('/Inventory')}
                     className="Estadisticas"
                     src="https://img.icons8.com/?size=100&id=11496&format=png&color=000000"
                     alt="icono-estadisticas"
                   />
-                  <h2>ESTADISTICAS</h2>
+                  <h2>MOVIMIENTOS INVENTARIO</h2>
                 </figure>
+                <figure className="container-hijo">
+                  <img
+                  onClick={() => navigate('/Ventas')}
+                    className="Ventas"
+                    src="https://img.icons8.com/?size=100&id=76961&format=png" 
+                    alt="icono-ventas"
+                  />
+                  <h2>VENTAS</h2>
+                </figure>
+                
+                <figure className="container-hijo">
+                <img
+                onClick={() => navigate('/historical-prices')} 
+                src="https://img.icons8.com/?size=100&id=7YM7E0FU20tN&format=png&color=000000"
+                alt="icono-historico-precios"
+                />
+                <h2>HISTÓRICO DE PRECIOS</h2>
+                </figure>
+
                 <figure className="container-hijo">
                   <img
                   onClick={() => navigate('/Config')}
@@ -72,6 +92,8 @@ export function Menu ({ setUser }){
                   />
                   <h2>CONFIGURACION</h2>
                 </figure>
+
+
               </div>
             </section>
           </>
