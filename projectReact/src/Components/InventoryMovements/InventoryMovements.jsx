@@ -12,7 +12,8 @@ export function InventoryMovements ({user, setUser}){
     const navigate = useNavigate()
 
     const getInventory = () =>{
-        Axios.get("http://localhost:3000/api/v1/inventory"). then((response) =>{
+        Axios.get("http://localhost:3000/api/v1/inventory")
+        .then((response) =>{
           setInventoryList(response.data);
         })
       }  

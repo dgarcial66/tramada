@@ -1,10 +1,10 @@
 const express = require("express");
 const cors = require("cors");
-const { options } = require("./access-origin/index.js");
-const { routerApi } = require("./routes/index.js");
-const { errorAuthHandler } = require("./middlewares/errorAuthHandler.js");
-const { errorHandler } = require("./middlewares/errorhandle.js");
-require("./utils/auth");
+const cookieParser = require("cookie-parser");
+const { options } = require("./src/access-origin/index.js");
+const { routerApi } = require("./src/routes/index.js");
+const { errorAuthHandler } = require("./src/middlewares/errorAuthHandler.js");
+const { errorHandler } = require("./src/middlewares/errorhandle.js");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -12,6 +12,7 @@ const PORT = process.env.PORT || 3000;
 app.disable("x-powered-by");
 app.use(express.json());
 app.use(cors(options));
+app.use(cookieParser());
 
 app.get("/", (req, res) => {
   console.log("SOY ENTORNO", process.env.DB_USER);
