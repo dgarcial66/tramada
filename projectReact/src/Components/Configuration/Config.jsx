@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Header } from "../Header/Header";
 import './config.css'
@@ -7,6 +7,12 @@ import './config.css'
 export function Config({ user, setUser}){
     const [ activeForm, setActiveForm ] = useState(false);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if(user.email.length === 0){
+            navigate('/');
+        }
+    }, [])
 
     const handleForm = () => {
         setActiveForm(!activeForm);

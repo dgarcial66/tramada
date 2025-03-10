@@ -1,20 +1,36 @@
 import "./login.css"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { ApiFetch } from "../../services/api.js"
 
 export function Login({ setUser, setIsRegister }){
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+    const [ token, setToken ] = useState(undefined);
     const [error, setError] = useState(false)
     const [errorUser, setErrorUser] = useState(false)
     const [errorPassword, setErrorPassword ] = useState(false);
 
+    useEffect(() => {
+        async function getInfo() {
+            const infoUser = await ApiFetch.isLogin();
+            console.log("SOY USER EN USEFFECT: ", infoUser);
+            console.log("SOY USER EN USEFFECT STATUS: ", infoUser.status);
+            if(infoUser.status !== 200) {
+                console.log("USUARIO NO EXISTE: ");
+                return;
+            }
+            setUser(infoUser.data);
+        }
+        getInfo();
+    }, [])
+
     const userAuth = async (body) => {
         let string = '';
         try {
-            const data = await ApiFetch.authUser(body)
-            setUser(data)
-            console.log(data);
+            const info = await ApiFetch.authUser(body)
+            setToken(info.token);
+            setUser(info.data)
+            console.log(info);
         } catch (error) {
             console.log(error);
             string = error.message.split('com').pop().trim();
@@ -47,7 +63,7 @@ export function Login({ setUser, setIsRegister }){
             email: email,
             password: password
         }
-
+        console.log("AQUI TENEMOS DATA: ", data);
         userAuth(data);
         
     }

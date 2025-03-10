@@ -17,15 +17,22 @@ class UserService {
     }
   }
 
-  async findForAuth(email) {
+  async getUserName(email) {
+    if (!email) return { message: "Email not provided" };
     try {
-      const row = await model.findByEmail(email);
+      const user = await model.getUserName(email);
+      return user;
+    } catch (error) {
+      console.error("ERROR en consulta ", error);
+    }
+  }
+  async findForAuth(email, password) {
+    try {
+      const row = await model.findByEmail(email, password);
 
       return row;
     } catch (error) {
       console.error("ERROR en consulta", error);
-    } finally {
-      if (conn) conn.end();
     }
   }
 
@@ -33,7 +40,7 @@ class UserService {
     try {
       const queryInsert = await model.create(body);
 
-      return queryInsert.affectedRows;
+      return queryInsert;
     } catch (error) {
       console.error(error);
       throw new Error(

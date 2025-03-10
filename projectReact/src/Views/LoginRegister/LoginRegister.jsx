@@ -9,6 +9,7 @@ const LoginRegister = ({ user, setUser }) => {
   const navigate = useNavigate();
   
   useEffect(() => {
+    console.log("SOY USER EN LOGINREGISTER: ", user);
     if(!Object.values(user).every(value => value === '' || value === null || value === undefined)) {
       navigate('/home')
     }
