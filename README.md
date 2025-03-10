@@ -107,8 +107,8 @@ Este proyecto está bajo la licencia MIT. Consulta el archivo [MIT](https://gith
 
 Agradecimientos a los colaboradores:
 
-- [dGarcia66](https://github.com/dgarcial66): Por [contribución].
-- [lopaspi89](https://github.com/lopaspi89): Por [contribución].
+- [dGarcia66](https://github.com/dgarcial66): Por \*\*contribución.
+- [lopaspi89](https://github.com/lopaspi89): Por \*\*contribución.
 
 ## Estado del Proyecto
 
