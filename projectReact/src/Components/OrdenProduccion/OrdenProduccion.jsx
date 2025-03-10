@@ -23,12 +23,9 @@ function OrdenProduccion({user, setUser}) {
   const [ordenesList, setOrdenes] = useState([]);
   const [editar, setEditar] = useState(false); 
   
-
   const [id, setId] = useState();
 
   const navigate = useNavigate();
-
-
 
   const add = () => {
 
@@ -61,7 +58,6 @@ function OrdenProduccion({user, setUser}) {
       });
       return;
     }
-  
 
     Axios.post("http://localhost:3000/api/v1/order", {
       fecha_entrega: fechaEntregadaFormateada,

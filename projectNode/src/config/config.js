@@ -7,6 +7,8 @@ const config = {
   dbHost: process.env.DB_HOST,
   dbName: process.env.DB_NAME,
   dbPortMdb: process.env.DB_PORT_MARIADB,
+  secretAccess: process.env.ACCESS_TOKEN,
+  secretRefresh: process.env.REFRESH_TOKEN,
 };
 
 module.exports = { config };

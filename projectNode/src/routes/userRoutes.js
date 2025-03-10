@@ -16,7 +16,6 @@ userRoutes.post("/", async (req, res) => {
   try {
     let body = req.body;
     const result = await service.create(body);
-
     res.json({ affecteRows: result, data: body });
   } catch (e) {
     res.status(409).json({ affectedRows: 0, message: e.message });
