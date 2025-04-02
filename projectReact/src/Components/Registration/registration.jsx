@@ -52,7 +52,7 @@ export function Registration ({ setIsRegister }){
     }
 
     return(
-        <section>
+        <section className="padre-formulario">
             <form className="formulario form-register"
             onSubmit={handleRegister}
             >
