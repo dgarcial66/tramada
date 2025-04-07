@@ -86,7 +86,7 @@ export function Login({ setUser, setIsRegister }) {
                         placeholder="Ingrese su contraseña"
                         autoComplete="current-password"
                     />
-                    <button>Iniciar sesion</button>
+                    <button>Iniciar sesión</button>
                     <button
                         onClick={() => {
                             setIsRegister(true)

@@ -135,138 +135,142 @@ export function Suppliers({ user, setUser }) {
   }
   return (
     <>
-      <Header user={user} setUser={setUser} />
-      <button className="button-back" onClick={() => navigate('/home')} />
-      <div className="container">
-        <div className="card">
-          <div className="card-header">
-            GESTIÓN PROVEEDORES
-          </div>
-          <div className="card-body">
-            <div className="input-group">
-              <span className="input-label" id="basic-addon1">Nombre </span>
-              <input type="text"
-                value={name}
-                onChange={(e) => {
-                  setName(e.target.value);
-                }}
-                className="input-field" placeholder="Nombre" aria-label="Username" aria-describedby="basic-addon1" />
+      <section className="container-father-services">
+        <Header user={user} setUser={setUser} />
+        <img className="back" src="https://img.icons8.com/?size=100&id=26194&format=png&color=000000" onClick={() => navigate("/home")} />
+        <div className="container">
+          <div className="card">
+            <div className="card-header">
+              GESTIÓN PROVEEDORES
             </div>
-            <div className="input-group">
-              <span className="input-label" id="basic-addon1">Telefono </span>
-              <input type="number"
-                value={phone}
-                onChange={(e) => {
-                  setPhone(e.target.value);
-                }}
-                className="input-field" placeholder="Telefono" aria-label="Username" aria-describedby="basic-addon1" />
-            </div>
-            <div className="input-group">
-              <span className="input-label" id="basic-addon1">Direccion </span>
-              <input type="text"
-                value={address}
-                onChange={(e) => {
-                  setAddress(e.target.value);
-                }}
-                className="input-field" placeholder="direccion" aria-label="Username" aria-describedby="basic-addon1" />
-            </div>
+            <div className="card-body">
+              <div className="input-group">
+                <span className="input-label" id="basic-addon1">Nombre </span>
+                <input type="text"
+                  value={name}
+                  onChange={(e) => {
+                    setName(e.target.value);
+                  }}
+                  className="input-field" placeholder="Nombre" aria-label="Username" aria-describedby="basic-addon1" />
+              </div>
+              <div className="input-group">
+                <span className="input-label" id="basic-addon1">Telefono </span>
+                <input type="number"
+                  value={phone}
+                  onChange={(e) => {
+                    setPhone(e.target.value);
+                  }}
+                  className="input-field" placeholder="Telefono" aria-label="Username" aria-describedby="basic-addon1" />
+              </div>
+              <div className="input-group">
+                <span className="input-label" id="basic-addon1">Direccion </span>
+                <input type="text"
+                  value={address}
+                  onChange={(e) => {
+                    setAddress(e.target.value);
+                  }}
+                  className="input-field" placeholder="direccion" aria-label="Username" aria-describedby="basic-addon1" />
+              </div>
 
-            <div className="input-group">
-              <span className="input-label" id="basic-addon1">Email del Proveedor</span>
-              <input type="text"
-                value={email}
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                }}
-                className="input-field" placeholder="Email del Proveedor" aria-label="Username" aria-describedby="basic-addon1" />
+              <div className="input-group">
+                <span className="input-label" id="basic-addon1">Email del Proveedor</span>
+                <input type="text"
+                  value={email}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                  }}
+                  className="input-field" placeholder="Email del Proveedor" aria-label="Username" aria-describedby="basic-addon1" />
+              </div>
             </div>
-          </div>
-          <div className="card-footer">
-            {/* Buscador */}
-            <div className="search-container1">
-              <label>Buscar Proveedor por Código</label>
-              <input
-                type="text"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                className="input-text"
-              />
-            </div>
-            {
-              edit ?
-                <div>
-                  <button
+            <div className="card-footer">
+              {/* Buscador */}
+              <div className="search-container1">
+                <label>Buscar Proveedor por Código</label>
+                <input
+                  type="text"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  className="input-text"
+                />
+              </div>
+              {
+                edit ?
+                  <div>
+                    <button
+                      onClick={(e) => handleSubmit(e)}
+                      className="btn btn-update"
+                    >Actualizar</button>
+                    <button
+                      onClick={() => {
+                        setEdit(false);
+                        setCreateSupplier(false);
+                      }}
+                      className="btn btn-cancel"
+                    >Cancelar</button>
+                  </div>
+                  : <button
+                    className="btn btn-register"
                     onClick={(e) => handleSubmit(e)}
-                    className="btn btn-update"
-                  >Actualizar</button>
-                  <button
-                    onClick={() => {
-                      setEdit(false);
-                      setCreateSupplier(false);
-                    }}
-                    className="btn btn-cancel"
-                  >Cancelar</button>
-                </div>
-                : <button
-                  className="btn btn-register"
-                  onClick={(e) => handleSubmit(e)}
-                >Registrar</button>
-            }
-            {
-              createSupplier ? <p>Proveedor {text}</p> : <p>No realizo ninguna operacion hasta el momento.</p>
-            }
-            <table className="table">
-              <thead>
-                <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">Nombre</th>
-                  <th scope="col">Telefono</th>
-                  <th scope="col">Direccion</th>
-                  <th scope="col">Correo</th>
-                </tr>
-              </thead>
-              <tbody>
-                {
-                  listSuppliers?.map((i, index) => {
-                    return <tr key={i.id}>
-                      <th>{i.id}</th>
-                      <td>{i.nombre_proveedor}</td>
-                      <td>{i.telefono}</td>
-                      <td>{i.direccion}</td>
-                      <td>{i.correo ? i.correo : 'No registrado'}</td>
-                      <td>
-                        <div className="group-btn" role="group" aria-label="Basic example">
-                          <button type="button"
-                            className="btn btn-edit"
-                            onClick={() => {
-                              setEditIndex(index);
-                              setId(i.id);
-                              setEdit(true);
-                              setName(i.nombre_proveedor);
-                              setPhone(i.telefono);
-                              setAddress(i.direccion);
-                              setEmail(i.correo);
-                            }}
-                          >Editar</button>
-                          <button
-                            onClick={() => handleRemove(i.id)}
-                            className="btn btn-delete"
-                          >Eliminar</button>
-                        </div>
-                      </td>
-                      <td></td>
-                    </tr>
-                  })
-                }
-              </tbody>
-
-            </table>
+                  >Registrar</button>
+              }
+              {
+                createSupplier ? <p>Proveedor {text}</p> : <p>No realizo ninguna operacion hasta el momento.</p>
+              }
+            </div>
 
           </div>
-        </div>
-      </div>
+          <table className="table">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Telefono</th>
+                    <th scope="col">Direccion</th>
+                    <th scope="col">Correo</th>
+                    <th scope="col">Opciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {
+                    listSuppliers?.map((i, index) => {
+                      return <tr key={i.id}>
+                        <th>{i.id}</th>
+                        <td>{i.nombre_proveedor}</td>
+                        <td>{i.telefono}</td>
+                        <td>{i.direccion}</td>
+                        <td>{i.correo ? i.correo : 'No registrado'}</td>
+                        <td>
+                          <div className="group-btn" role="group" aria-label="Basic example">
+                            <button type="button"
+                              className="btn btn-edit"
+                              onClick={() => {
+                                setEditIndex(index);
+                                setId(i.id);
+                                setEdit(true);
+                                setName(i.nombre_proveedor);
+                                setPhone(i.telefono);
+                                setAddress(i.direccion);
+                                setEmail(i.correo);
+                              }}
+                            >Editar</button>
+                            <button
+                              onClick={() => handleRemove(i.id)}
+                              className="btn btn-delete"
+                            >Eliminar</button>
+                          </div>
+                        </td>
+                      </tr>
+                    })
+                  }
+                </tbody>
 
-      
+              </table>
+        </div>
+
+      </section>
+
+
+
       <Modal
         isOpen={isOpen}
         textModal={textModal}

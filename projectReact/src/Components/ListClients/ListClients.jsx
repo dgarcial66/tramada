@@ -5,6 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import Swal from 'sweetalert2'
 import Axios from "axios";
 
+
 export function ListClients({ user, setUser }) {
   const [nombre, setNombre] = useState("");
   const [telefono, setTelefono] = useState("");
@@ -146,91 +147,95 @@ export function ListClients({ user, setUser }) {
 
   return (
     <>
-      <Header user={user} setUser={setUser} />
-      <button className="button-back" onClick={() => navigate("/home")} />
-
-      <div className="container">
-        <div className="card">
-          <div className="card-header">
-            GESTIÓN CLIENTES
+      <section className="container-father-services" id="container-father-services">
+        <Header user={user} setUser={setUser} />
+        <img className="back" src="https://img.icons8.com/?size=100&id=26194&format=png&color=000000" onClick={() => navigate("/home")} />
+        <div className="container">
+          <div className="card">
+            <div className="card-header">
+              GESTIÓN CLIENTES
+            </div>
+            <div className="card-body">
+              <div className="input-group">
+                <span className="input-label">Nombre</span>
+                <input type="text" value={nombre}
+                  onChange={(event) => { setNombre(event.target.value) }}
+                  className="input-field" placeholder="Nombre" />
+              </div>
+              <div className="input-group">
+                <span className="input-label">Teléfono</span>
+                <input type="number" value={telefono}
+                  onChange={(event) => { setTelefono(event.target.value) }}
+                  className="input-field" placeholder="Teléfono" />
+              </div>
+              <div className="input-group">
+                <span className="input-label">Dirección</span>
+                <input type="text" value={direccion}
+                  onChange={(event) => { setDireccion(event.target.value) }}
+                  className="input-field" placeholder="Dirección" />
+              </div>
+              <div className="input-group">
+                <span className="input-label">Tipo de pago</span>
+                <input type="number" value={pago}
+                  onChange={(event) => { setPago(event.target.value) }}
+                  className="input-field" placeholder="Tipo de pago" />
+              </div>
+              <div className="input-group">
+                <span className="input-label">Tipo</span>
+                <input type="text" value={tclient}
+                  onChange={(event) => { setTclient(event.target.value) }}
+                  className="input-field" placeholder="Tipo" />
+              </div>
+            </div>
+            <div className="card-footer">
+              {
+                editar ?
+                  <div>
+                    <button className="btn btn-update" onClick={updateClient}>Actualizar</button>
+                    <button className="btn btn-cancel" onClick={clean}>Cancelar</button>
+                  </div>
+                  : <button className="btn btn-register" onClick={addClient}>Registrar</button>
+              }
+            </div>
           </div>
-          <div className="card-body">
-            <div className="input-group">
-              <span className="input-label">Nombre</span>
-              <input type="text" value={nombre}
-                onChange={(event) => { setNombre(event.target.value) }}
-                className="input-field" placeholder="Nombre" />
-            </div>
-            <div className="input-group">
-              <span className="input-label">Teléfono</span>
-              <input type="number" value={telefono}
-                onChange={(event) => { setTelefono(event.target.value) }}
-                className="input-field" placeholder="Teléfono" />
-            </div>
-            <div className="input-group">
-              <span className="input-label">Dirección</span>
-              <input type="text" value={direccion}
-                onChange={(event) => { setDireccion(event.target.value) }}
-                className="input-field" placeholder="Dirección" />
-            </div>
-            <div className="input-group">
-              <span className="input-label">Tipo de pago</span>
-              <input type="number" value={pago}
-                onChange={(event) => { setPago(event.target.value) }}
-                className="input-field" placeholder="Tipo de pago" />
-            </div>
-            <div className="input-group">
-              <span className="input-label">Tipo</span>
-              <input type="text" value={tclient}
-                onChange={(event) => { setTclient(event.target.value) }}
-                className="input-field" placeholder="Tipo" />
-            </div>
-          </div>
-          <div className="card-footer">
-            {
-              editar ?
-                <div>
-                  <button className="btn btn-update" onClick={updateClient}>Actualizar</button>
-                  <button className="btn btn-cancel" onClick={clean}>Cancelar</button>
-                </div>
-                : <button className="btn btn-register" onClick={addClient}>Registrar</button>
-            }
-          </div>
+          <table className="table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Nombre</th>
+                <th>Teléfono</th>
+                <th>Dirección</th>
+                <th>Tipo de pago</th>
+                <th>Tipo</th>
+                <th>Opciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                clientsList?.map((val) => (
+                  <tr key={val.id}>
+                    <td>{val.id}</td>
+                    <td>{val.nombre_cliente}</td>
+                    <td>{val.telefono_cliente}</td>
+                    <td>{val.direccion_cliente}</td>
+                    <td>{val.tipo_pago}</td>
+                    <td>{val.tipo_cliente}</td>
+                    <td>
+                      <div className="group-btn">
+                        <button onClick={() => editClient(val)} className="btn btn-edit">Editar</button>
+                        <button onClick={() => deleteClient(val.id)} className="btn btn-delete">Eliminar</button>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              }
+            </tbody>
+          </table>
         </div>
-        <table className="table">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Nombre</th>
-              <th>Teléfono</th>
-              <th>Dirección</th>
-              <th>Tipo de pago</th>
-              <th>Tipo</th>
-              <th>Opciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            {
-              clientsList?.map((val) => (
-                <tr key={val.id}>
-                  <td>{val.id}</td>
-                  <td>{val.nombre_cliente}</td>
-                  <td>{val.telefono_cliente}</td>
-                  <td>{val.direccion_cliente}</td>
-                  <td>{val.tipo_pago}</td>
-                  <td>{val.tipo_cliente}</td>
-                  <td>
-                    <div className="group-btn">
-                      <button onClick={() => editClient(val)} className="btn btn-edit">Editar</button>
-                      <button onClick={() => deleteClient(val.id)} className="btn btn-delete">Eliminar</button>
-                    </div>
-                  </td>
-                </tr>
-              ))
-            }
-          </tbody>
-        </table>
-      </div>
+
+      </section>
+
+
 
     </>
   );

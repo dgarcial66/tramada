@@ -1,0 +1,11 @@
+/* Asegura que solo afecte a esta página */
+.cardmin .btn-edit {
+    width: auto !important; /* Evita que se expanda */
+    padding: 8px 16px !important; /* Ajusta el relleno */
+    font-size: 14px !important; /* Reduce el tamaño del texto */
+    display: inline-block !important; /* Evita que ocupe todo el ancho */
+    margin: 10px auto !important; /* Ajusta el margen */
+}
+
+  
+  

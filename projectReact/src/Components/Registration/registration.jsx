@@ -87,7 +87,7 @@ export function Registration ({ setIsRegister }){
                     value={repeatPassword}
                     name="repeatPassword" 
                     id="repeatPassword" 
-                    placeholder="repita Contraseña" autoComplete="current-password"
+                    placeholder="Repita contraseña" autoComplete="current-password"
                     onChange={e => setRepeatPassword(e.target.value)}
                 />
                 <button>Registrarse</button>
