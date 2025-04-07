@@ -52,7 +52,7 @@ export function Registration ({ setIsRegister }){
     }
 
     return(
-        <section>
+        <section className="padre-formulario">
             <form className="formulario form-register"
             onSubmit={handleRegister}
             >
@@ -87,7 +87,7 @@ export function Registration ({ setIsRegister }){
                     value={repeatPassword}
                     name="repeatPassword" 
                     id="repeatPassword" 
-                    placeholder="repita Contraseña" autoComplete="current-password"
+                    placeholder="Repita contraseña" autoComplete="current-password"
                     onChange={e => setRepeatPassword(e.target.value)}
                 />
                 <button>Registrarse</button>

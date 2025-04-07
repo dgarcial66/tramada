@@ -1,83 +1,175 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background-color: #f8f8f8;
+    color: #333;
+}
+
+
+.container-father-menu {
+    width: 100%;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    position: relative;
+    height: 100vh;
+    background-image: url(../../../asset/img/fondo_home.jpeg);
+}
+
 .container-menu {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 0;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-}
-
-.container-padre{    
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 60px;
-}    
-
-.container-padre figure{
-    border: 1px solid black;
-    text-align: center;
-    border: solid 2px;
-    padding: 18px;
+    gap: 16px;
+    background: rgba(255, 255, 255, 0.705); /* Fondo negro con transparencia */
+    padding: 40px;
     border-radius: 8px;
-
-}
-
-.container-padre h2{
-    font-size: 0.8rem;
-}
-.titulo{
-    display: flex;
+    color: white;
+    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.979); /* Sombra más notoria */
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    box-sizing: border-box;
+    position: relative;
+    backdrop-filter: blur(10px); /* Efecto de desenfoque */ 
     justify-content: center;
-    padding: 20px;
+    margin-top: 100px;
+
 }
 
-.iconos-menu {
-    display: flex;
-    justify-content: space-between;
-    border-bottom: solid 1px rgb(238, 211, 238);
-    background-color: rgb(238, 211, 238);
+
+.container-padre {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    justify-content: center;
+    justify-items: center;
+    align-items: center;
     width: 100%;
+    padding: 15px 0;
 
-
-}
-
-.logo-menu {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.logo-menu figure {
-    height: 38px;
-}
-
-.logo-menu img {
-    width: 240px;
-}
-
-.menu-logo-main {
-    width: 200px;
-}
-
-.perfil-menu {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 12px;
-    margin: 0;
-}
-
-.perfil-menu button {
-    height: 32px;
-    margin: 0;
-}
-
-.perfil-menu img {
-    max-width: 38px;
-    border-radius: 50%;
 }
 
 .container-hijo {
-    width: 140px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    justify-content: center; 
+    text-align: center; 
+    margin: 0 25px;
+    padding: 10px 0;
     cursor: pointer;
+    text-transform: uppercase;
+    font-size: 14px;
+    letter-spacing: 1px;
+    color: #333;
+    font-weight: 500;
+    transition: color 0.3s ease;
+    position: relative; 
+}
+
+.container-hijo:hover {
+    color: #888;
+}
+
+
+.container-hijo::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 1px;
+    bottom: 0;
+    left: 0;
+    background-color: #333;
+    transition: width 0.3s ease;
+}
+
+.container-hijo:hover::after {
+    width: 100%;
+}
+
+
+.menu-logo-main {
+    width: 150px;
+    margin-bottom: 20px;
+}
+
+
+h1 {
+    font-size: 24px;
+    font-weight: 300;
+    letter-spacing: 2px;
+    margin-bottom: 30px;
+    color: #333;
+}
+
+h2 {
+    font-size: 12px;
+    font-weight: 400;
+    margin-top: 5px;
+    color: #666;
+}
+
+
+
+
+/* Tablet (768px o menos) */
+@media (max-width: 768px) {
+    .container-padre {
+        grid-template-columns: repeat(2, 1fr); /* 2 columnas */
+    }
+
+    .container-hijo {
+        margin: 0 15px; /* Reducir margen */
+    }
+
+    h1 {
+        font-size: 20px; /* Tamaño de fuente más pequeño */
+    }
+}
+
+
+/* Móvil (480px o menos) */
+@media (max-width: 480px) {
+    .container-padre {
+        grid-template-columns: 1fr; /* 1 columna */
+    }
+
+    .container-hijo {
+        margin: 0 10px;
+        padding: 8px 0;
+    }
+
+    .menu-logo-main {
+        width: 120px; /* Logo más pequeño */
+    }
+
+    .iconos-menu {
+        flex-direction: column; /* Apilar logo y perfil */
+        gap: 10px;
+        padding: 10px;
+    }
+
+    .perfil-menu {
+        margin-top: 10px;
+    }
+}
+
+@media (max-width: 768px) {
+    .container-father-menu {
+        height: auto; /* Altura flexible */
+        min-height: 100vh; /* Mínimo el alto de la pantalla */
+    }
+}
+
+@media (max-width: 480px) {
+    .container-hijo {
+        font-size: 12px; /* Texto más pequeño */
+    }
+
+    h1 {
+        font-size: 18px;
+        margin-bottom: 20px;
+    }
 }
 

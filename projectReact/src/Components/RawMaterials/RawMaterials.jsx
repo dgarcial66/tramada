@@ -7,6 +7,7 @@ import { updateMaterial, deleteMaterial, createMaterial } from "../../actions/ra
 import { Modal } from "../Modal/Modal.jsx";
 import './rawMaterials.css';
 import { UpdateItems } from "../UpdateItems/UpdateItems.jsx";
+import fondoInsumos from "../../../asset/img/fondo_insumos.png"
 
 export function RawMaterials({ user, setUser }) {
   const [id, setId] = useState(null);
@@ -147,200 +148,210 @@ export function RawMaterials({ user, setUser }) {
 
   return (
     <>
-      <Header user={user} setUser={setUser} />
-      <button className="button-back" onClick={() => navigate("/home")} />
-      <div className="container mt-4" style={{ backgroundColor: "white", color: "black" }}>
-        <h1>Gestión de Material</h1>
+      <section className="container-father-services" style={{backgroundImage:`url(${fondoInsumos})`}}>
+        <Header user={user} setUser={setUser} />
+        <img className="back" src="https://img.icons8.com/?size=100&id=26194&format=png&color=000000" onClick={() => navigate("/home")} />
+        <div className="container">
 
-        {/* Formulario para agregar o modificar productos */}
-        <div className="form-producto">
-          <div className="input-group mb-3">
-            <span className="input-group-text" id="basic-addon1">Nombre del Material</span>
-            <input
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-              className="form-control"
-              style={{ backgroundColor: "white", color: "black" }}
-            />
-          </div>
-          <div className="input-group mb-3">
-            <span className="input-group-text" id="basic-addon1">Color</span>
-            <input
-              type="text"
-              value={color}
-              onChange={(e) => setColor(e.target.value)}
-              required
-              className="form-control"
-              style={{ backgroundColor: "white", color: "black" }}
-            />
-          </div>
-          <div className="input-group mb-3">
-            <span className="input-group-text" id="basic-addon1">Stock</span>
-            <input
-              type="text"
-              value={stock}
-              onChange={(e) => setStock(e.target.value)}
-              required
-              className="form-control"
-              style={{ backgroundColor: "white", color: "black" }}
-            />
-          </div>
-          <div className="input-group mb-3">
-            <span className="input-group-text" id="basic-addon1">Peso (kg)</span>
-            <input
-              type="text"
-              value={weight}
-              onChange={(e) => setWeight(e.target.value)}
-              required
-              className="form-control"
-              style={{ backgroundColor: "white", color: "black" }}
-            />
-          </div>
-          <div className="input-group mb-3">
-            <span className="input-group-text" id="basic-addon1">Precio</span>
-            <input
-              type="text"
-              value={price}
-              onChange={(e) => setPrice(e.target.value)}
-              required
-              className="form-control"
-              style={{ backgroundColor: "white", color: "black" }}
-            />
-          </div>
-          <div className="input-group mb-3">
-            <span className="input-group-text" id="basic-addon1">Proveedor</span>
-            <input
-              type="text"
-              value={vendor}
-              onChange={(e) => setVendor(e.target.value)}
-              required
-              className="form-control"
-              style={{ backgroundColor: "white", color: "black" }}
-            />
-          </div>
-          <div className="input-group mb-3">
-            <span className="input-group-text" id="basic-addon1">Categoria</span>
-            <input
-              type="text"
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-              required
-              className="form-control"
-              style={{ backgroundColor: "white", color: "black" }}
-            />
-          </div>
-          <div className="form-btn-info">
-            <button
-              className="btn btn-success"
-              onClick={(e) => {
-                e.preventDefault();
-                handleSubmit(e);
-              }}
-            >
-              {idMaterial !== null ? "Modificar" : "Agregar"} Material
-            </button>
-            {notModify && <p className="text-danger">El proveedor o la categoria no existen para el insumo.</p>}
-          </div>
-        </div>
+          {/* Formulario para agregar o modificar productos */}
+
+          <div className="card">
+            <div className="card-header">Gestión de material</div>
+            <div className="card-body">
+              <div className="input-group">
+                <span className="input-label" id="basic-addon1">Nombre del Material</span>
+                <input placeholder="Nombre del material"
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                  className="input-field"
+                  style={{ backgroundColor: "white", color: "black" }}
+                />
+              </div>
+              <div className="input-group">
+                <span className="input-label" id="basic-addon1">Color</span>
+                <input placeholder="Color"
+                  type="text"
+                  value={color}
+                  onChange={(e) => setColor(e.target.value)}
+                  required
+                  className="input-field"
+                  style={{ backgroundColor: "white", color: "black" }}
+                />
+              </div>
+              <div className="input-group">
+                <span className="input-label" id="basic-addon1">Stock</span>
+                <input placeholder="Stock"
+                  type="text"
+                  value={stock}
+                  onChange={(e) => setStock(e.target.value)}
+                  required
+                  className="input-field"
+                  style={{ backgroundColor: "white", color: "black" }}
+                />
+              </div>
+              <div className="input-group">
+                <span className="input-label" id="basic-addon1">Peso (kg)</span>
+                <input placeholder="Peso en kg"
+                  type="text"
+                  value={weight}
+                  onChange={(e) => setWeight(e.target.value)}
+                  required
+                  className="input-field"
+                  style={{ backgroundColor: "white", color: "black" }}
+                />
+              </div>
+              <div className="input-group">
+                <span className="input-label" id="basic-addon1">Precio</span>
+                <input placeholder="Precio en COP"
+                  type="text"
+                  value={price}
+                  onChange={(e) => setPrice(e.target.value)}
+                  required
+                  className="input-field"
+                  style={{ backgroundColor: "white", color: "black" }}
+                />
+              </div>
+              <div className="input-group">
+                <span className="input-label" id="basic-addon1">Proveedor</span>
+                <input placeholder="Proveedor"
+                  type="text"
+                  value={vendor}
+                  onChange={(e) => setVendor(e.target.value)}
+                  required
+                  className="input-field"
+                  style={{ backgroundColor: "white", color: "black" }}
+                />
+              </div>
+              <div className="input-group">
+                <span className="input-label" id="basic-addon1">Categoría</span>
+                <input placeholder="Categoría"
+                  type="text"
+                  value={category}
+                  onChange={(e) => setCategory(e.target.value)}
+                  required
+                  className="input-field"
+                  style={{ backgroundColor: "white", color: "black" }}
+                />
+              </div>
+
+              <div className="form-btn-edit">
+                <button
+                  className="btn btn-register"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleSubmit(e);
+                  }}
+                >
+                  {idMaterial !== null ? "Modificar" : "Agregar"} Material
+                </button>
+                {notModify && <p className="text-danger">El proveedor o la categoria no existen para el insumo.</p>}
+              </div>
 
 
-        <div className="search-container">
-          <label><h6>Buscar Material</h6></label>
-          <input
-            type="text"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="form-control"
-          />
-        </div>
 
-        <div className="btn-filter--supplier">
-          <button
-            className="btn btn-success"
-            onClick={() => {
-              if (listType === "none") setListType("block");
-              else if (listType === "block") setListType("none");
-            }}
-          >
-            Filtrar
-          </button>
-          <ul className={`list-btn-supplier ${listType} `} style={{ backgroundColor: "white" }}>
-            {supplies?.map((supplies) => (
-              <li
-                className="list-group-item"
-                key={supplies.id} onClick={() => setNameSupplier(supplies.nombre_proveedor)}
-                style={{ backgroundColor: "white", color: "black" }}>
-                {supplies.nombre_proveedor}
-              </li>
-            ))}
-            <li onClick={() => setNameSupplier('')} style={{ backgroundColor: "white", color: "black" }}>todos</li>
-          </ul>
-        </div>
-        <h2>Lista de Material</h2>
+              <div className="input-group">
+                <span className="input-label">Buscar Material</span>
+                <input
+                  type="text"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  className="input-field"
+                />
+              </div>
 
-        {listMaterials ? (
-          <table className="table table-striped">
-            <thead>
-              <tr>
-                <th>Nombre</th>
-                <th>Color</th>
-                <th>Stock</th>
-                <th>Peso</th>
-                <th>Precio</th>
-                <th>Categoria</th>
-                <th>Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              {listMaterials?.map((item, index) => (
-                <tr key={item.id}>
-                  <td>{item.nombre_insumo}</td>
-                  <td>{item.color_insumo}</td>
-                  <td>{item.cantidad_insumo}</td>
-                  <td>{item.peso_insumo} Kg</td>
-                  <td>${item.precio_insumo}</td>
-                  <td>{item.categoria ? item.categoria : item.categoria_insumos_id}</td>
-                  <td>
-                    <button
-                      onClick={async () => {
-                        const selectedMaterial = materials[index];
-                        setIdMaterial(selectedMaterial.id);
-                        await handleEdit({
-                          materials,
-                          index,
-                          setName,
-                          setStock,
-                          setColor,
-                          setWeight,
-                          setPrice,
-                          setVendor,
-                          setCategory
-                        });
-                      }}
-                      className="btn btn-info"
-                    >
-                      Editar
-                    </button>
-                    <button
-                      onClick={() => {
-                        setIdMaterial(item.id);
-                        setIsOpenModal(true);
-                      }}
-                      className="btn btn-danger"
-                    >
-                      Descontar
-                    </button>
-                  </td>
+              <div className="btn-filter--supplier">
+                <button
+                  className="btn btn-register"
+                  onClick={() => {
+                    if (listType === "none") setListType("block");
+                    else if (listType === "block") setListType("none");
+                  }}
+                >
+                  Filtrar
+                </button>
+                <ul className={`list-btn-supplier ${listType} `} style={{ backgroundColor: "white" }}>
+                  {supplies?.map((supplies) => (
+                    <li
+                      className="list-group-item"
+                      key={supplies.id} onClick={() => setNameSupplier(supplies.nombre_proveedor)}
+                      style={{ backgroundColor: "white", color: "black" }}>
+                      {supplies.nombre_proveedor}
+                    </li>
+                  ))}
+                  <li onClick={() => setNameSupplier('')} style={{ backgroundColor: "white", color: "black" }}>todos</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <h1>Lista de materiales</h1>
+          {listMaterials ? (
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Color</th>
+                  <th>Stock</th>
+                  <th>Peso</th>
+                  <th>Precio</th>
+                  <th>Categoria</th>
+                  <th>Acciones</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        ) : (
-          <p>No hay Material disponibles.</p>
-        )}
-      </div>
+              </thead>
+              <tbody>
+                {listMaterials?.map((item, index) => (
+                  <tr key={item.id}>
+                    <td>{item.nombre_insumo}</td>
+                    <td>{item.color_insumo}</td>
+                    <td>{item.cantidad_insumo}</td>
+                    <td>{item.peso_insumo} Kg</td>
+                    <td>${item.precio_insumo}</td>
+                    <td>{item.categoria ? item.categoria : item.categoria_insumos_id}</td>
+                    <td>
+                      <button
+                        onClick={async () => {
+                          const selectedMaterial = materials[index];
+                          setIdMaterial(selectedMaterial.id);
+                          await handleEdit({
+                            materials,
+                            index,
+                            setName,
+                            setStock,
+                            setColor,
+                            setWeight,
+                            setPrice,
+                            setVendor,
+                            setCategory
+                          });
+                        }}
+                        className="btn btn-edit"
+                      >
+                        Editar
+                      </button>
+                      <button
+                        onClick={() => {
+                          setIdMaterial(item.id);
+                          setIsOpenModal(true);
+                        }}
+                        className="btn btn-delete"
+                      >
+                        Descontar
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <p>No hay Material disponibles.</p>
+          )}
+        </div>
+
+
+      </section>
+
 
       <Modal
         isOpen={isOpen}

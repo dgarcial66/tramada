@@ -1,495 +1,375 @@
-:root {
-    /* Colores */
-    --backgroundButton: #A0A603;
 
-
-    /*Espacios*/
-    --container80: 80%;
-    --margenGap24: 24px;
-    --marginGap8: 8px;
-}
-
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-html {
-    font-size: 62.5%;
-    font-family: "Roboto", sans-serif;
-}
-
-body {
-    overflow: hidden;
-}
-
-/* Estilos para el hearder de inicio de sesión */
-
-.container-logo figure {
-    max-width: 490px;
-    margin: 0 auto;
-}
-
-.container-icono {
-    margin: 0 auto;
-}
-
-.container-icono img {
-    max-width: 227px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: center;
-}
-
-/* Estilos para el main de inicio de sesión */
-
-main {
-    width: 100%;
-    height: 80vh;
-}
-
-.container-form--login {
-    height: 100%;
-    position: relative;
-}
-
-.content-form--title {
-    width: var(--container80);
-    position: absolute;
-    top: 30%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-}
-
-.content-title--form--login {
-    width: var(--container80);
-    font-size: 1.8rem;
-    margin-bottom: 38px;
-}
-
-.content-form--login {
-    width: var(--container80);
-}
-
-.content-form--login form {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    font-size: 1.4rem;
-    margin-bottom: var(--marginGap8);
-}
-
-.content-form--login form div {
-    margin-bottom: var(--margenGap24);
-}
-
-.content-form--login form div {
-    display: flex;
-    flex-direction: column;
-    gap: var(--margenGap8);
-    text-align: start;
-}
-
-.content-form--login input {
-    width: 320px;
-    height: 38px;
-    border: solid 1px;
-    border-radius: var(--marginGap8);
-    margin-top: var(--marginGap8);
-}
-
-.content-form--login form button {
-    width: 320px;
-    height: 38px;
-    border: solid 1px;
-    border-radius: var(--marginGap8);
-    background-color: var(--backgroundButton);
-
-    cursor: pointer;
-}
-
-.content-form--login form button:hover {
-    color: aliceblue;
-    transition: 400ms ease;
-}
-
-.content-description--registre {
-    font-size: 1.4rem;
-}
-
-/* estilos header */
-.iconos-menu {
-    display: flex;
-    justify-content: space-between;
-    border-bottom: solid 1px rgb(36, 15, 15);
-    background-color: #A0A603;
-
-}
-
-.logo-menu img {
-    width: 300px;
-    margin: 12px 8px 0px;
-}
-
-.perfil-menu img {
-    max-width: 50px;
-    margin: 15% 12px 8px 0px;
-}
-
-/* estilos main para la vista home*/
-
-.main-home {
-    display: flex;
-    flex-direction: row;
-    height: 100vh;
-}
-
-.Menu {
-    width: 15%;
-    border-right: solid 1px rgb(36, 15, 15);
-    background-color: #7a4e49;
-}
-
-.Menu ul {
-    font-size: 1.8rem;
-    padding: 24px;
-
-}
-
-.Menu a {
-    text-decoration: none;
-    color: black;
-
-}
-
-.list-menu li {
-    font-size: 3.5rem;
-    margin-top: 32px;
-    list-style: none;
-    font-family: "Aubrey", system-ui;
-    font-weight: 400;
-    font-style: normal;
-}
-
-.list-menu li:hover {
-    cursor: pointer;
-    color: #A0A603;
-}
-
-.container-main-home {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 5%;
-}
-
-.container-logo-home {
-    display: flex;
-    justify-content: space-between;
-}
-
-
-.container-logo-home h1 {
-    font-size: 5.2rem;
-    margin: 70px 0 0 40px;
-    font-family: "Aubrey", system-ui;
-    font-weight: 600;
-    font-style: normal;
-
-}
-
-.container-logo-home img {
-    width: 190px;
-    margin: 20px 40px 0 0;
+/* Fondo general */
+section.padre-formulario {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url(../projectReact/asset/img/fondo_tramada.webp);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+section.container-father-services{
+  min-height: 100vh;
+  padding-bottom: 90px;
+  background-image: url(../projectReact/asset/img/fondo_general.png);
+}
+
+/* Estructura del formulario con fondo transparente oscuro */
+.formulario {
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: rgba(0, 0, 0, 0.219); /* Fondo negro con transparencia */
+  padding: 40px;
+  border-radius: 8px;
+  color: white;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Sombra más notoria */
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  box-sizing: border-box;
+  position: relative;
+  backdrop-filter: blur(10px); /* Efecto de desenfoque */
+}
+
+/* Flecha de regreso */
+.arrow {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.arrow:hover {
+  transform: translateX(-4px);
+}
+
+/* Títulos */
+.formulario h1 {
+  font-size: 24px;
+  font-weight: 300;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+  color: white;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+/* Campos de entrada */
+.formulario input {
+  width: 100%;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 4px;
+  font-size: 14px;
+  color: white;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+}
+
+.formulario input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.formulario input:focus {
+  outline: none;
+  border-color: white;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Botones */
+.formulario button {
+  width: 100%;
+  padding: 12px;
+  color: white;
+  font-size: 17px;
+  font-weight: 500;
+  background: transparent;
+  border: 2px solid white;
+  border-radius: 4px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.5s ease;
+  margin-top: 8px;
+  box-sizing: border-box;
 }
 
-.container-logos-menu {
-    display: flex;
-    justify-content: center;
-    gap: 100px;
+.formulario button:hover {
+  background: white;
+  color: black;
 }
 
-.container-logos-menu section {
-    text-align: center;
-    border: solid 2px;
-    padding: 18px;
-    border-radius: 8px;
+/* Mensajes de error */
+.formulario p {
+  color: #ff4d4d;
+  font-size: 13px;
+  text-align: center;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  margin: 8px 0;
 }
 
-.container-logos-menu section:hover {
-    color: #A0A603;
-    cursor: pointer;
+/* Estilo específico para Register */
+.form-register {
+  padding-top: 60px;
 }
 
-.container-logos-menu section img {
-    margin-bottom: 28px;
 
-}
+/*ESTILOS GENERALES PARA TABLAS Y LISTAS*/
 
-.container-logos-menu a {
-    text-decoration: none;
-    color: black;
+/*Botón de retroceso*/
+.back {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: 40px;
+  height: 40px;
+  margin-top: 50px;
+  cursor: pointer;
+  transition: transform 0.7s ease;
+  filter: invert(100%);
+  
 }
 
-/* estilos de la tabla productos */
-.tabla-productos {
-    width: 100%;
+.back:hover {
+  transform: translateX(-2px);
 }
 
-.estilo-tabla {
-    border: solid 1px;
-    border-color: white;
-    margin: 5% auto;
-    background-color: rgb(206, 199, 199);
 
+/* Contenedor principal */
+.container {
+  max-width: 1200px;
+  margin: 20px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
 }
 
-.estilo-tabla th,
-.estilo-tabla td {
-    border: solid 1px;
-    border-color: #7a4e49;
-    padding: 15px;
-    font-size: 1.8rem;
-    text-align: center;
+/* Tarjeta */
+.card {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.05);
+  text-align: center;
 }
 
-.estilo-head-tabla {
-    background-color: #A0A603;
+/* Encabezado */
+.card-header {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 15px;
 }
 
-.estilo-tabla button {
-    padding: 0px;
-    width: 100px;
+/* Cuerpo */
+.card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-/*estilos tabla de insumos*/
-.tabla-insumos {
-    width: 100%;
+/* Grupos de entrada */
+.input-group {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
 }
 
-.estilo-tabla {
-    border: solid 1px;
-    border-color: white;
-    margin: 5% auto;
-    background-color: rgb(206, 199, 199);
-
+.input-label {
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 5px;
 }
 
-.estilo-tabla th,
-.estilo-tabla td {
-    border: solid 1px;
-    border-color: #7a4e49;
-    padding: 15px;
-    font-size: 1.8rem;
-    text-align: center;
+.input-field {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 14px;
+  width: 100%;
+  background: #f9f9f9;
+  transition: 0.3s ease-in-out;
 }
 
-.estilo-head-tabla {
-    background-color: #A0A603;
+.input-field:focus {
+  background: #fff;
+  border-color: #007bff;
+  outline: none;
 }
 
-.estilo-tabla button {
-    padding: 0px;
-    width: 100px;
+/* Pie de la tarjeta */
+.card-footer {
+  margin-top: 15px;
 }
-
-/*estilos_menu_configuracion*/
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Open Sans';
+/* Botones */
+.btn {
+  padding: 8px 15px;
+  border: 2px solid transparent;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.3s;
+  font-weight: bold;
+  margin: 5px;
 }
 
-.menu-configuracion {
-    max-width: 1500px;
-    margin: auto;
-    background-color: #333;
-    font-size: 20px;
-    margin-top: 50px;
+/* Estilos de botones minimalistas */
+.btn-register {
+  background: #28a745;
+  color: white;
+  border-color: #28a745;
 }
 
-.menu-horizontal {
-    list-style: none;
-    display: flex;
-    justify-content: space-around;
+.btn-register:hover {
+  background: transparent;
+  color: #28a745;
+  border-color: #28a745;
 }
 
-.menu-horizontal>li>a {
-    display: block;
-    padding: 15px 20px;
-    color: white;
-    text-decoration: none;
+.btn-update {
+  background: #ffc107;
+  color: black;
+  border-color: #ffc107;
 }
 
-.menu-horizontal>li:hover {
-    background-color: black;
+.btn-update:hover {
+  background: transparent;
+  color: #ffc107;
+  border-color: #ffc107;
 }
 
-.menu-vertical {
-    position: absolute;
-    display: none;
-    list-style: none;
-    width: 200px;
-    background-color: rgba(0, 0, 0, .5);
+.btn-cancel {
+  background: #dc3545;
+  color: white;
+  border-color: #dc3545;
 }
 
-.menu-horizontal li:hover .menu-vertical {
-    display: block;
+.btn-cancel:hover {
+  background: transparent;
+  color: #dc3545;
+  border-color: #dc3545;
 }
 
-.menu-vertical li:hover {
-    background-color: black;
+/* Tarjeta con transparencia y desenfoque */
+.card {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(5px);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgb(255, 255, 255);
+  text-align: center;
+  width: 90%;
+  max-width: 1000px;
+  margin-top: 50px;
 }
 
-.menu-vertical li a {
-    display: block;
-    color: white;
-    text-decoration: none;
-    padding: 15px 15px 15px 20px;
+/* Tabla minimalista y centrada */
+.table-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  
 }
 
-#html {
-    margin: auto;
-    padding: 20px;
-    max-width: 900px;
-    background: white;
-
+.table {
+  width: 95%;
+  border-collapse: collapse;
+  margin-top: 50px;
+  background: rgba(255, 255, 255, 0.568) ; /* más transparente */
+  box-shadow: 0px 2px 8px rgb(255, 255, 255);
+  border-radius: 10px;
+  overflow: hidden;
+  --bs-table-bg: rgba(255, 255, 255, 0.705);
 }
 
-/* estilos clientes */
-.menu-clientes {
-    width: 20%;
-    height: 30%;
-    display: flex;
-    flex-direction: column;
-    margin: 2%;
-    gap: 30px;
-    border: solid 2px;
-    border-radius: 5%;
-    border-color: #7a4e49;
-    padding: 10px;
+/* Encabezados de la tabla */
+.table thead {
+  font-weight: bold;
+  text-transform: uppercase;
 }
-
-.busqueda {
-    display: flex;
-    gap: 10px;
-
 
+/* Celdas de la tabla */
+.table th, .table td {
+  padding: 10px;
+  text-align: center;
+  border-bottom: 1px solid #eee;
 }
 
-.menu-clientes h1 {
-    font-size: 3.0rem;
-    font-family: "Aubrey", system-ui;
-    font-weight: 400;
-    font-style: normal;
-    color: #A0A603;
-
+/* Última fila sin borde inferior */
+.table tbody tr:last-child td {
+  border-bottom: none;
 }
-
-.busqueda input,
-button {
-    font-size: 1.2rem;
-    height: 20px;
-
 
-}
 
-.menu-clientes-vertical a {
-    text-decoration: none;
 
+/* Grupo de botones */
+.group-btn {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
 }
-
-.menu-clientes-vertical li {
-    font-size: 1.5rem;
-    list-style: none;
-    color: black;
-
 
+/* Botones */
+.btn-custom {
+  font-weight: normal;
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out, border-color 0.3s ease-in-out;
+  padding: 6px 12px;
+  border-width: 2px;
+  border-style: solid;
+  border-radius: 5px;
 }
 
-.menu-clientes-vertical li:hover {
-    background-color: #A0A603;
+/* Botón Editar */
+.btn-edit {
+  background-color: #007bff;
+  color: white !important;
+  border: 2px solid #007bff !important;
 }
-
-/* estilos grafico */
-
-
-.container-estadisticas {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    margin-left: -650px;
-    margin-top: 40px;
-    gap: 34px;
-    flex-direction: column;
-    font-size: 1.2rem;
-    color: black;
-    }
-.title-grafico{
 
-    font-family: "Aubrey", system-ui;
-    font-weight: 400;
-    font-style: normal;
-    font-size: 3.0rem;
-    color: #A0A603;
-
+.btn-edit:hover, .btn-edit:focus {
+  background-color: transparent !important;
+  color: #007bff !important;
+  border: 2px solid #007bff !important;
 }
 
-.grafico {
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
-    background: conic-gradient(red 0deg 10deg, blue 0deg 170deg, green 0deg 268deg,
-            yellow 10deg 50deg);
-    box-shadow: 1px 1px 5px 1px rgb(70, 70, 70);
+/* Botón Eliminar */
+.btn-delete {
+  background-color: #dc3545;
+  color: white !important;
+  border: 2px solid #dc3545 !important;
 }
 
-.leyenda-all {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
+.btn-delete:hover, .btn-delete:focus {
+  background-color: transparent !important;
+  color: #dc3545 !important;
+  border: 2px solid #dc3545 !important;
 }
 
-[class^="color-"] {
-    width: 15px;
-    height: 15px;
-    background-color: red;
-    margin-right: 8px;
-    border-radius: 3px;
+/* Responsividad */
+@media (max-width: 768px) {
+  .container {
+    width: 95%;
+  }
 
-}
+  .table {
+    font-size: 12px;
+  }
 
-.color-ventas-sacos {
-    background-color: blue;
+  .btn-custom {
+    padding: 5px 10px;
+  }
 }
 
-.color-ventas-pantalones {
-    background-color: yellow;
-}
 
-.color-ventas-tops {
-    background-color: green;
-}
 
-.contenedor-menu-estadisticas {
-    display: flex;
-    width: 100%;
-    flex-direction: column;
-}
 
-.tabla-clientes {
-    margin-top: -80%;
-    margin-left: 22%;
 
-}
+  
