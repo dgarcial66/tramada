@@ -85,49 +85,51 @@ const ReportHistorial = ({ HistoricalPricesMaterialsList, historicalPricesList, 
 
 
         {filter === "all" || filter === "materials" ? (
-          <View style={styles.table}>
-            <Text style={styles.tableTitle}>Historial de Precios de Insumos</Text> 
-            <View style={styles.titleLine} />
-            <View style={[styles.tableRow, styles.tableHeader]}>
-              <Text style={[styles.tableCell, styles.tableText]}>ID</Text>
-              <Text style={[styles.tableCell, styles.tableText]}>Precio Insumo</Text>
-              <Text style={[styles.tableCell, styles.tableText]}>Fecha Registrada</Text>
-              <Text style={[styles.tableCell, styles.tableText]}>Insumos ID</Text>
-            </View>
+  <View style={styles.table}>
+    <Text style={styles.tableTitle}>Historial de Precios de Insumos</Text> 
+    <View style={styles.titleLine} />
+    <View style={[styles.tableRow, styles.tableHeader]}>
+      <Text style={[styles.tableCell, styles.tableText]}>ID</Text>
+      <Text style={[styles.tableCell, styles.tableText]}>Nombre Insumo</Text>
+      <Text style={[styles.tableCell, styles.tableText]}>Precio Insumo</Text>
+      <Text style={[styles.tableCell, styles.tableText]}>Fecha Registrada</Text>
+    </View>
 
-            {HistoricalPricesMaterialsList.map((val) => (
-              <View key={val.id} style={styles.tableRow}>
-                <Text style={[styles.tableCell, styles.tableText]}>{val.id}</Text>
-                <Text style={[styles.tableCell, styles.tableText]}>{val.precio_insumo}</Text>
-                <Text style={[styles.tableCell, styles.tableText]}>{new Date(val.fecha_historial).toLocaleDateString()}</Text>
-                <Text style={[styles.tableCell, styles.tableText]}>{val.insumos_id}</Text>
-              </View>
-            ))}
-          </View>
-        ) : null}
+    {HistoricalPricesMaterialsList.map((val) => (
+      <View key={val.id} style={styles.tableRow}>
+        <Text style={[styles.tableCell, styles.tableText]}>{val.id}</Text>
+        <Text style={[styles.tableCell, styles.tableText]}>{val.nombre_insumo}</Text>
+        <Text style={[styles.tableCell, styles.tableText]}>{val.precio_insumo}</Text>
+        <Text style={[styles.tableCell, styles.tableText]}>{new Date(val.fecha_historial).toLocaleDateString()}</Text>
+      </View>
+    ))}
+  </View>
+) : null}
 
 
-        {filter === "all" || filter === "products" ? (
-          <View style={styles.table}>
-            <Text style={styles.tableTitle}>Historial de Precios de Productos</Text> 
-            <View style={styles.titleLine} />
-            <View style={[styles.tableRow, styles.tableHeader]}>
-              <Text style={[styles.tableCell, styles.tableText]}>ID</Text>
-              <Text style={[styles.tableCell, styles.tableText]}>Precio Producto</Text>
-              <Text style={[styles.tableCell, styles.tableText]}>Fecha Registrada</Text>
-              <Text style={[styles.tableCell, styles.tableText]}>Producto ID</Text>
-            </View>
 
-            {historicalPricesList.map((val) => (
-              <View key={val.id} style={styles.tableRow}>
-                <Text style={[styles.tableCell, styles.tableText]}>{val.id}</Text>
-                <Text style={[styles.tableCell, styles.tableText]}>{val.precios_producto}</Text>
-                <Text style={[styles.tableCell, styles.tableText]}>{new Date(val.fecha_historial).toLocaleDateString()}</Text>
-                <Text style={[styles.tableCell, styles.tableText]}>{val.producto_id}</Text>
-              </View>
-            ))}
-          </View>
-        ) : null}
+{filter === "all" || filter === "products" ? (
+  <View style={styles.table}>
+    <Text style={styles.tableTitle}>Historial de Precios de Productos</Text> 
+    <View style={styles.titleLine} />
+    <View style={[styles.tableRow, styles.tableHeader]}>
+      <Text style={[styles.tableCell, styles.tableText]}>ID</Text>
+      <Text style={[styles.tableCell, styles.tableText]}>Nombre Producto</Text> {/* ✅ Cambiado */}
+      <Text style={[styles.tableCell, styles.tableText]}>Precio Producto</Text>
+      <Text style={[styles.tableCell, styles.tableText]}>Fecha Registrada</Text>
+    </View>
+
+    {historicalPricesList.map((val) => (
+      <View key={val.id} style={styles.tableRow}>
+        <Text style={[styles.tableCell, styles.tableText]}>{val.id}</Text>
+        <Text style={[styles.tableCell, styles.tableText]}>{val.nombre_producto}</Text> {/* ✅ Cambiado */}
+        <Text style={[styles.tableCell, styles.tableText]}>{val.precios_producto}</Text>
+        <Text style={[styles.tableCell, styles.tableText]}>{new Date(val.fecha_historial).toLocaleDateString()}</Text>
+      </View>
+    ))}
+  </View>
+) : null}
+
       </Page>
     </Document>
   );

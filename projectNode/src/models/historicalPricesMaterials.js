@@ -7,9 +7,12 @@ class HistoricalPricesMaterials {
     const conn = await pool.getConnection();
 
     try {
-      const query = "SELECT * FROM historial_precios_insumos";
+      const query = `
+        SELECT hpi.*, i.nombre_insumo 
+        FROM historial_precios_insumos hpi
+        JOIN insumos i ON hpi.insumos_id = i.id
+      `;
       const data = await conn.query(query);
-
       return data;
     } catch (err) {
       throw new Error(err);
@@ -18,14 +21,17 @@ class HistoricalPricesMaterials {
     }
   }
 
-
   async getHistoricalPricesByMaterial(materialId) {
     const conn = await pool.getConnection();
 
     try {
-      const query = "SELECT * FROM historial_precios_insumos WHERE insumos_id = ?";
+      const query = `
+        SELECT hpi.*, i.nombre_insumo 
+        FROM historial_precios_insumos hpi
+        JOIN insumos i ON hpi.insumos_id = i.id
+        WHERE hpi.insumos_id = ?
+      `;
       const data = await conn.query(query, [materialId]);
-
       return data;
     } catch (err) {
       throw new Error(err);
