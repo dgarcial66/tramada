@@ -6,9 +6,14 @@ class HistoricalPrices {
 
     async getHistoricalPrices() {
         const conn = await pool.getConnection();
-
+    
         try {
-            const query = "SELECT * FROM historial_precios_productos";
+            const query = `
+    SELECT h.id, h.precios_producto, h.fecha_historial, h.producto_id, p.nombre_producto AS nombre_producto
+    FROM historial_precios_productos h
+    JOIN productos p ON h.producto_id = p.id
+`;
+
             const data = await conn.query(query);
             return data;
         } catch (err) {
@@ -17,6 +22,7 @@ class HistoricalPrices {
             conn.release();
         }
     }
+    
 
 
     async getHistoricalPricesByProduct(productId) {

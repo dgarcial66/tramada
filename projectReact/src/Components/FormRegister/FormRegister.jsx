@@ -58,7 +58,7 @@ export function FormRegister ({
   const navigate = useNavigate()
   
   const filterLists = filteredProducts?.length ? filteredProducts : filteredClients;
-  // const listMaterials = filteredMaterials?.length ? filteredMaterials : materials;
+
   console.log('SOY MATERIAL: ', materials);
 
   const suppliesPromise = async () => {
@@ -71,7 +71,7 @@ export function FormRegister ({
   }, []);
 
 
-  // listRawMaterial = listMaterials.filter(materials => materials.id_proveedor === idSupplier);
+
 
     
     if(isListClient || filteredProducts){
@@ -216,7 +216,7 @@ export function FormRegister ({
             <button type="button" className="btn-submit" onClick={() => navigate('/OrdenProduccion')}>Orden de produccion</button>
           </form>
   
-          {/* Buscador */}
+          {/* barra de buscar*/}
           <div className="search-container">
             <label>Buscar {textButton}</label>
             <input

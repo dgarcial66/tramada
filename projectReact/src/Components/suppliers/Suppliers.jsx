@@ -5,7 +5,7 @@ import { Modal } from "../Modal/Modal.jsx";
 import { Header } from "../Header/Header";
 import { handleDelete } from "../../utils/utilsSuppliers.js";
 import 'bootstrap/dist/css/bootstrap.min.css'
-import "./suppliers.css"; // Importa el archivo CSS para la sección de Suppliers
+import "./suppliers.css"; 
 
 export function Suppliers({ user, setUser }) {
   const [name, setName] = useState("");

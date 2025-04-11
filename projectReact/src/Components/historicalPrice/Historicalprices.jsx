@@ -87,28 +87,33 @@ export function Historicalprices({ user, setUser }) {
                             <div>
                                 <h1 style={{color:'white'}}>Historial de Precios de Insumos</h1>
                                 <table className="table">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">ID</th>
-                                            <th scope="col">Precio Insumo</th>
-                                            <th scope="col">Fecha Registrada</th>
-                                            <th scope="col">Insumos ID</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {filteredMaterials.length > 0 ? (
-                                            filteredMaterials.map((val) => (
-                                                <tr key={val.id}>
-                                                    <td>{val.id}</td>
-                                                    <td>{val.precio_insumo}</td>
-                                                    <td>{new Date(val.fecha_historial).toLocaleDateString()}</td>
-                                                    <td>{val.insumos_id}</td>
-                                                </tr>
-                                            ))
-                                        ) : (
-                                            <tr><td colSpan="4">No hay datos disponibles</td></tr>
-                                        )}
-                                    </tbody>
+                                <thead>
+                                 <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Nombre Insumo</th> {/* NUEVO */}
+                                <th scope="col">Precio Insumo</th>
+                                <th scope="col">Fecha Registrada</th>
+                                 
+                                 </tr>
+                                </thead>
+
+                                <tbody>
+                                {filteredMaterials.length > 0 ? (
+                                filteredMaterials.map((val) => (
+                                <tr key={val.id}>
+                                <td>{val.id}</td>
+                                <td>{val.nombre_insumo}</td> 
+                                <td>{val.precio_insumo}</td>
+                                <td>{new Date(val.fecha_historial).toLocaleDateString()}</td>
+                               
+                                 </tr>
+                                 ))
+                                ) : (
+                                <tr><td colSpan="5">No hay datos disponibles</td></tr>
+                                 )}
+                                </tbody>
+
+
                                 </table>
                             </div>
                         ) : null}
@@ -117,23 +122,27 @@ export function Historicalprices({ user, setUser }) {
                             <div>
                                 <h1 style={{color:'white'}}>Historial de Precios de Productos</h1>
                                 <table className="table">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">ID</th>
-                                            <th scope="col">Precio Producto</th>
-                                            <th scope="col">Fecha Registrada</th>
-                                            <th scope="col">Producto ID</th>
-                                        </tr>
+                                <thead>
+                                  <tr>
+                                 <th scope="col">ID</th>
+                                  <th scope="col">Nombre Producto</th> 
+                                 <th scope="col">Precio Producto</th>
+                                 <th scope="col">Fecha Registrada</th>
+      
+                                  </tr>
                                     </thead>
+
                                     <tbody>
                                         {filteredProducts.length > 0 ? (
                                             filteredProducts.map((val) => (
                                                 <tr key={val.id}>
-                                                    <td>{val.id}</td>
-                                                    <td>{val.precios_producto}</td>
-                                                    <td>{new Date(val.fecha_historial).toLocaleDateString()}</td>
-                                                    <td>{val.producto_id}</td>
+                                             <td>{val.id}</td>
+                                             <td>{val.nombre_producto}</td> 
+                                            <td>{val.precios_producto}</td>
+                                            <td>{new Date(val.fecha_historial).toLocaleDateString()}</td>
+    
                                                 </tr>
+
                                             ))
                                         ) : (
                                             <tr><td colSpan="4">No hay datos disponibles</td></tr>
@@ -159,6 +168,5 @@ export function Historicalprices({ user, setUser }) {
         </>
     );
 }
-
 
 

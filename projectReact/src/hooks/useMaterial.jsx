@@ -15,7 +15,7 @@ function useMaterials() {
     const [ categories, setCategories ] = useState([]);
 
     const listMaterials =  async () => {
-        // const filteredMaterials = materials.filter((material) => material.name.toLowerCase().includes(search.toLowerCase()));
+      
         const res = await rawMaterialService.getMaterials();
         const data = await res.json();
         setMaterials(data)  
