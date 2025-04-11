@@ -286,9 +286,9 @@ export function RawMaterials({ user, setUser }) {
             </div>
           </div>
 
-          <h1>Lista de materiales</h1>
+          <h1 style={{color:"white"}}>Lista de materiales</h1>
           {listMaterials ? (
-            <table className="table">
+            <table className="table" style={{marginTop:"1px"}} >
               <thead>
                 <tr>
                   <th>Nombre</th>
