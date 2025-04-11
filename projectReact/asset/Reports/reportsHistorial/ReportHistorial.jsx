@@ -114,7 +114,7 @@ const ReportHistorial = ({ HistoricalPricesMaterialsList, historicalPricesList, 
     <View style={styles.titleLine} />
     <View style={[styles.tableRow, styles.tableHeader]}>
       <Text style={[styles.tableCell, styles.tableText]}>ID</Text>
-      <Text style={[styles.tableCell, styles.tableText]}>Nombre Producto</Text> {/* ✅ Cambiado */}
+      <Text style={[styles.tableCell, styles.tableText]}>Nombre Producto</Text> 
       <Text style={[styles.tableCell, styles.tableText]}>Precio Producto</Text>
       <Text style={[styles.tableCell, styles.tableText]}>Fecha Registrada</Text>
     </View>
@@ -122,7 +122,7 @@ const ReportHistorial = ({ HistoricalPricesMaterialsList, historicalPricesList, 
     {historicalPricesList.map((val) => (
       <View key={val.id} style={styles.tableRow}>
         <Text style={[styles.tableCell, styles.tableText]}>{val.id}</Text>
-        <Text style={[styles.tableCell, styles.tableText]}>{val.nombre_producto}</Text> {/* ✅ Cambiado */}
+        <Text style={[styles.tableCell, styles.tableText]}>{val.nombre_producto}</Text> 
         <Text style={[styles.tableCell, styles.tableText]}>{val.precios_producto}</Text>
         <Text style={[styles.tableCell, styles.tableText]}>{new Date(val.fecha_historial).toLocaleDateString()}</Text>
       </View>

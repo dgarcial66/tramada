@@ -102,7 +102,7 @@ export function Historicalprices({ user, setUser }) {
                                 filteredMaterials.map((val) => (
                                 <tr key={val.id}>
                                 <td>{val.id}</td>
-                                <td>{val.nombre_insumo}</td> {/* Mostramos el nombre del insumo */}
+                                <td>{val.nombre_insumo}</td> 
                                 <td>{val.precio_insumo}</td>
                                 <td>{new Date(val.fecha_historial).toLocaleDateString()}</td>
                                
@@ -125,7 +125,7 @@ export function Historicalprices({ user, setUser }) {
                                 <thead>
                                   <tr>
                                  <th scope="col">ID</th>
-                                  <th scope="col">Nombre Producto</th> {/* ✅ Nueva columna */}
+                                  <th scope="col">Nombre Producto</th> 
                                  <th scope="col">Precio Producto</th>
                                  <th scope="col">Fecha Registrada</th>
       
@@ -137,7 +137,7 @@ export function Historicalprices({ user, setUser }) {
                                             filteredProducts.map((val) => (
                                                 <tr key={val.id}>
                                              <td>{val.id}</td>
-                                             <td>{val.nombre_producto}</td> {/* ✅ Aquí lo mostramos */}
+                                             <td>{val.nombre_producto}</td> 
                                             <td>{val.precios_producto}</td>
                                             <td>{new Date(val.fecha_historial).toLocaleDateString()}</td>
     

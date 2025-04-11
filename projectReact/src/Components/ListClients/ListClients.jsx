@@ -85,7 +85,7 @@ export function ListClients({ user, setUser }) {
     })
       .then(() => {
         getClient();
-        clean(); // Actualiza la lista de clientes     
+        clean();    
         Swal.fire({
           icon: "success",
           title: "Cliente actualizado",

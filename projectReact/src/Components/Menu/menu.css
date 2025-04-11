@@ -23,15 +23,15 @@ body {
     flex-direction: column;
     align-items: center;
     gap: 16px;
-    background: rgba(255, 255, 255, 0.705); /* Fondo negro con transparencia */
+    background: rgba(255, 255, 255, 0.705); 
     padding: 40px;
     border-radius: 8px;
     color: white;
-    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.979); /* Sombra más notoria */
+    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.979); 
     font-family: 'Helvetica Neue', Arial, sans-serif;
     box-sizing: border-box;
     position: relative;
-    backdrop-filter: blur(10px); /* Efecto de desenfoque */ 
+    backdrop-filter: blur(10px); 
     justify-content: center;
     margin-top: 100px;
 
@@ -113,26 +113,26 @@ h2 {
 
 
 
-/* Tablet (768px o menos) */
+/*media queries */
 @media (max-width: 768px) {
     .container-padre {
-        grid-template-columns: repeat(2, 1fr); /* 2 columnas */
+        grid-template-columns: repeat(2, 1fr); 
     }
 
     .container-hijo {
-        margin: 0 15px; /* Reducir margen */
+        margin: 0 15px; 
     }
 
     h1 {
-        font-size: 20px; /* Tamaño de fuente más pequeño */
+        font-size: 20px; 
     }
 }
 
 
-/* Móvil (480px o menos) */
+
 @media (max-width: 480px) {
     .container-padre {
-        grid-template-columns: 1fr; /* 1 columna */
+        grid-template-columns: 1fr; 
     }
 
     .container-hijo {
@@ -141,11 +141,11 @@ h2 {
     }
 
     .menu-logo-main {
-        width: 120px; /* Logo más pequeño */
+        width: 120px; 
     }
 
     .iconos-menu {
-        flex-direction: column; /* Apilar logo y perfil */
+        flex-direction: column; 
         gap: 10px;
         padding: 10px;
     }
@@ -157,14 +157,14 @@ h2 {
 
 @media (max-width: 768px) {
     .container-father-menu {
-        height: auto; /* Altura flexible */
-        min-height: 100vh; /* Mínimo el alto de la pantalla */
+        height: auto; 
+        min-height: 100vh; 
     }
 }
 
 @media (max-width: 480px) {
     .container-hijo {
-        font-size: 12px; /* Texto más pequeño */
+        font-size: 12px; 
     }
 
     h1 {
