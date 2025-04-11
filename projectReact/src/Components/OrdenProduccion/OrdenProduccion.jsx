@@ -239,184 +239,189 @@ function OrdenProduccion({ user, setUser }) {
 
   return (
     <>
-      <Header user={user} setUser={setUser} />
-      <button className="button-back" onClick={() => navigate("/home")} />
-      <div className="container">
-        <div className="card">
-          <div className="card-header">GESTIÓN DE ÓRDENES DE PRODUCCIÓN</div>
-          <div className="card-body">
-            <div className="input-group">
-              <span className="input-label">Fecha de Solicitud:</span>
-              <input
-                type="datetime-local"
-                onChange={(event) => setFechaEntrega(event.target.value)}
-                className="input-field-"
-                value={fecha_entrega}
-                placeholder="Fecha de entrega"
-              />
-            </div>
 
-            <div className="input-group">
-              <span className="input-label">Cantidad productos solicitada:</span>
-              <input
-                type="number"
-                value={cantidad_productos_solicitada}
-                onChange={(event) => setCantidadProductosSolicitada(event.target.value)}
-                className="input-field"
-                placeholder="Cantidad de productos solicitada"
-              />
-            </div>
-
-            <div className="input-group">
-              <span className="input-label">Cantidad de Insumos necesarios:</span>
-              <input
-                type="number"
-                value={cantidad_insumo_necesaria}
-                onChange={(event) => setCantidadInsumoNecesaria(event.target.value)}
-                className="input-field"
-                placeholder="Cantidad de insumos necesarios"
-              />
-            </div>
-
-            <div className="input-group">
-              <span className="input-label">ID de Empleado:</span>
-              <input
-                type="number"
-                value={usuario_id}
-                onChange={(event) => setUsuarioId(event.target.value)}
-                className="input-field"
-                placeholder="ID del empleado"
-              />
-            </div>
-
-            <div className="input-group">
-              <span className="input-label">Anotaciones:</span>
-              <input
-                type="text"
-                value={anotaciones}
-                onChange={(event) => setAnotaciones(event.target.value)}
-                className="input-field"
-                placeholder="Anotaciones"
-              />
-            </div>
-
-            <div className="input-group">
-              <span className="input-label">Estado de la orden:</span>
-              <select
-                value={estado_orden}
-                onChange={(event) => setEstadoOrden(event.target.value)}
-                className="input-field"
-              >
-                <option value="en proceso">En proceso</option>
-                <option value="completado">Completado</option>
-                <option value="en revision">En revisión</option>
-              </select>
-            </div>
-
-            <div className="input-group">
-              <span className="input-label">ID de los insumos:</span>
-              <input
-                type="number"
-                value={insumos_id}
-                onChange={(event) => setInsumosId(event.target.value)}
-                className="input-field"
-                placeholder="ID de insumos"
-              />
-            </div>
-
-            <div className="input-group">
-              <span className="input-label">ID de producto:</span>
-              <input
-                type="number"
-                value={producto_id}
-                onChange={(event) => setProductoId(event.target.value)}
-                className="input-field"
-                placeholder="ID del producto"
-              />
-            </div>
-          </div>
-
-          <div className="card-footer">
-            <button className="btn btn-edit" style={{ color: "white" }} onClick={handleGenerarReporte}>
-
-              <PDFDownloadLink
-                document={<ReportOrdenProduccion orden_de_produccion={ordenesList} />}
-                fileName="reporte_orden_produccion.pdf"
-              >
-                {({ loading }) => (
-                  loading ? "Cargando reporte..." : <span style={{ color: "black" }}>Descargar Reporte</span>
-                )}
-              </PDFDownloadLink>
-            </button>
-            {editar ? (
-              <div>
-                <button className="btn btn-update" onClick={update}>
-                  Actualizar
-                </button>
-                <button className="btn btn-cancel" onClick={limpiarCampos}>
-                  Cancelar
-                </button>
+      <section className='container-father-services'>
+        <Header user={user} setUser={setUser} />
+        <img className="back" src="https://img.icons8.com/?size=100&id=26194&format=png&color=000000" onClick={() => navigate("/home")} />
+        <div className="container">
+          <div className="card">
+            <div className="card-header">GESTIÓN DE ÓRDENES DE PRODUCCIÓN</div>
+            <div className="card-body">
+              <div className="input-group">
+                <span className="input-label">Fecha de Solicitud:</span>
+                <input
+                  type="datetime-local"
+                  onChange={(event) => setFechaEntrega(event.target.value)}
+                  className="input-field-"
+                  value={fecha_entrega}
+                  placeholder="Fecha de entrega"
+                />
               </div>
-            ) : (
-              <button className="btn btn-register" onClick={add}>
-                Registrar
+
+              <div className="input-group">
+                <span className="input-label">Cantidad productos solicitada:</span>
+                <input
+                  type="number"
+                  value={cantidad_productos_solicitada}
+                  onChange={(event) => setCantidadProductosSolicitada(event.target.value)}
+                  className="input-field"
+                  placeholder="Cantidad de productos solicitada"
+                />
+              </div>
+
+              <div className="input-group">
+                <span className="input-label">Cantidad de Insumos necesarios:</span>
+                <input
+                  type="number"
+                  value={cantidad_insumo_necesaria}
+                  onChange={(event) => setCantidadInsumoNecesaria(event.target.value)}
+                  className="input-field"
+                  placeholder="Cantidad de insumos necesarios"
+                />
+              </div>
+
+              <div className="input-group">
+                <span className="input-label">ID de Empleado:</span>
+                <input
+                  type="number"
+                  value={usuario_id}
+                  onChange={(event) => setUsuarioId(event.target.value)}
+                  className="input-field"
+                  placeholder="ID del empleado"
+                />
+              </div>
+
+              <div className="input-group">
+                <span className="input-label">Anotaciones:</span>
+                <input
+                  type="text"
+                  value={anotaciones}
+                  onChange={(event) => setAnotaciones(event.target.value)}
+                  className="input-field"
+                  placeholder="Anotaciones"
+                />
+              </div>
+
+              <div className="input-group">
+                <span className="input-label">Estado de la orden:</span>
+                <select
+                  value={estado_orden}
+                  onChange={(event) => setEstadoOrden(event.target.value)}
+                  className="input-field"
+                >
+                  <option value="en proceso">En proceso</option>
+                  <option value="completado">Completado</option>
+                  <option value="en revision">En revisión</option>
+                </select>
+              </div>
+
+              <div className="input-group">
+                <span className="input-label">ID de los insumos:</span>
+                <input
+                  type="number"
+                  value={insumos_id}
+                  onChange={(event) => setInsumosId(event.target.value)}
+                  className="input-field"
+                  placeholder="ID de insumos"
+                />
+              </div>
+
+              <div className="input-group">
+                <span className="input-label">ID de producto:</span>
+                <input
+                  type="number"
+                  value={producto_id}
+                  onChange={(event) => setProductoId(event.target.value)}
+                  className="input-field"
+                  placeholder="ID del producto"
+                />
+              </div>
+            </div>
+
+            <div className="card-footer">
+              <button className="btn btn-edit" style={{ color: "white" }} onClick={handleGenerarReporte}>
+
+                <PDFDownloadLink
+                  document={<ReportOrdenProduccion orden_de_produccion={ordenesList} />}
+                  fileName="reporte_orden_produccion.pdf"
+                >
+                  {({ loading }) => (
+                    loading ? "Cargando reporte..." : <span style={{ color: "black" }}>Descargar Reporte</span>
+                  )}
+                </PDFDownloadLink>
               </button>
-            )}
+              {editar ? (
+                <div>
+                  <button className="btn btn-update" onClick={update}>
+                    Actualizar
+                  </button>
+                  <button className="btn btn-cancel" onClick={limpiarCampos}>
+                    Cancelar
+                  </button>
+                </div>
+              ) : (
+                <button className="btn btn-register" onClick={add}>
+                  Registrar
+                </button>
+              )}
 
 
+            </div>
           </div>
+
+          <table className="table">
+            <thead>
+              <tr>
+                <th scope="col">id</th>
+                <th scope="col">Fecha de Entrega</th>
+                <th scope="col">Cantidad Solicitada</th>
+                <th scope="col">Cantidad Insumos</th>
+                <th scope="col">ID Empleado</th>
+                <th scope="col">Anotaciones</th>
+                <th scope="col">Estado Orden</th>
+                <th scope="col">ID Insumos</th>
+                <th scope="col">ID Producto</th>
+                <th scope="col">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {ordenesList.map((val) => (
+                <tr key={val.id}>
+                  <th>{val.id}</th>
+                  <td>{new Date(val.fecha_entrega).toLocaleString()}</td>
+                  <td>{val.cantidad_productos_solicitada}</td>
+                  <td>{val.cantidad_insumo_necesaria}</td>
+                  <td>{val.usuario_id}</td>
+                  <td>{val.anotaciones || "No hay anotaciones"}</td>
+                  <td>{val.estado_orden}</td>
+                  <td>{val.insumos_id}</td>
+                  <td>{val.producto_id}</td>
+                  <td>
+                    <div className="btn-group" role="group">
+                      <button
+                        type="button"
+                        onClick={() => editarOrden(val)}
+                        className="btn btn-edit"
+                      >
+                        Editar
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => deleteOrden(val)}
+                        className="btn btn-delete"
+                      >
+                        Eliminar
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
 
-        <table className="table">
-          <thead>
-            <tr>
-              <th scope="col">id</th>
-              <th scope="col">Fecha de Entrega</th>
-              <th scope="col">Cantidad Solicitada</th>
-              <th scope="col">Cantidad Insumos</th>
-              <th scope="col">ID Empleado</th>
-              <th scope="col">Anotaciones</th>
-              <th scope="col">Estado Orden</th>
-              <th scope="col">ID Insumos</th>
-              <th scope="col">ID Producto</th>
-              <th scope="col">Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            {ordenesList.map((val) => (
-              <tr key={val.id}>
-                <th>{val.id}</th>
-                <td>{new Date(val.fecha_entrega).toLocaleString()}</td>
-                <td>{val.cantidad_productos_solicitada}</td>
-                <td>{val.cantidad_insumo_necesaria}</td>
-                <td>{val.usuario_id}</td>
-                <td>{val.anotaciones || "No hay anotaciones"}</td>
-                <td>{val.estado_orden}</td>
-                <td>{val.insumos_id}</td>
-                <td>{val.producto_id}</td>
-                <td>
-                  <div className="btn-group" role="group">
-                    <button
-                      type="button"
-                      onClick={() => editarOrden(val)}
-                      className="btn btn-edit"
-                    >
-                      Editar
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => deleteOrden(val)}
-                      className="btn btn-delete"
-                    >
-                      Eliminar
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      </section>
+
     </>
   )
 }
