@@ -90,7 +90,7 @@ export function Historicalprices({ user, setUser }) {
                                 <thead>
                                  <tr>
                                 <th scope="col">ID</th>
-                                <th scope="col">Nombre Insumo</th> {/* NUEVO */}
+                                <th scope="col">Nombre Insumo</th> 
                                 <th scope="col">Precio Insumo</th>
                                 <th scope="col">Fecha Registrada</th>
                                  

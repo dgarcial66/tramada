@@ -5,13 +5,7 @@ class CategoryModel {
     this.conn = null;
   }
 
-  // async getCategoryName(name) {
-  //   try {
-  //     const
-  //   }catch (error) {
-  //     throw new Error(error)
-  //   }
-  // }
+  
 
   async getCategoryRaw() {
     try {

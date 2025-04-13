@@ -22,10 +22,68 @@ function OrdenProduccion({ user, setUser }) {
   const [producto_id, setProductoId] = useState('');
   const [ordenesList, setOrdenes] = useState([]);
   const [editar, setEditar] = useState(false);
+  const [usuarios, setUsuarios] = useState([]);
+  const [insumos, setInsumos] = useState([]);
+  const [productos, setProductos] = useState([]);
 
   const [id, setId] = useState();
 
   const navigate = useNavigate();
+
+
+  // // Aquí obtenemos los usuarios
+  useEffect(() => {
+    Axios.get("http://localhost:3000/api/v1/user")
+      .then((response) => {
+        setUsuarios(response.data);
+      })
+      .catch((error) => {
+        console.error("Error al obtener los usuarios", error);
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "No se pudo obtener la lista de usuarios.",
+        });
+      });
+  }, []);
+
+
+
+ // Aquí obtenemos los insumos
+useEffect(() => {
+  Axios.get("http://localhost:3000/api/v1/rawMaterials")
+    .then((response) => {
+      setInsumos(response.data); // ✅ Ahora sí
+    })
+    .catch((error) => {
+      console.error("Error al obtener los insumos", error);
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "No se pudo obtener la lista de insumos.",
+      });
+    });
+}, []);
+
+// Aquí obtenemos los productos
+
+useEffect(() => {
+  Axios.get("http://localhost:3000/api/v1/products")
+    .then((response) => {
+      setProductos(response.data);
+    })
+    .catch((error) => {
+      console.error("Error al obtener los productos", error);
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "No se pudo obtener la lista de productos.",
+      });
+    });
+}, []);
+
+
+
 
   const add = () => {
 
@@ -38,14 +96,7 @@ function OrdenProduccion({ user, setUser }) {
       return;
     }
 
-    if (!/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}/.test(fecha_entrega)) {
-      Swal.fire({
-        icon: "error",
-        title: "Fecha inválida",
-        text: "La fecha debe estar en formato válido (YYYY-MM-DDTHH:MM).",
-      });
-      return;
-    }
+   
 
 
     const fechaEntregadaFormateada = formatDateForDB(fecha_entrega);
@@ -209,13 +260,15 @@ function OrdenProduccion({ user, setUser }) {
 
     return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
   };
+  
 
-
+// aqui se organizan las ordenes desde la mas reciente a la mas antigua
 
   const getOrdenes = async () => {
     try {
       const response = await Axios.get("http://localhost:3000/api/v1/order");
-      setOrdenes(response.data);
+      const ordenesOrdenadas = response.data.sort((a, b) => b.id - a.id); // orden descendente por ID
+      setOrdenes(ordenesOrdenadas);
     } catch (error) {
       console.error("Error al obtener órdenes:", error);
       Swal.fire({
@@ -226,6 +279,7 @@ function OrdenProduccion({ user, setUser }) {
       });
     }
   };
+  
 
 
   useEffect(() => {
@@ -279,17 +333,25 @@ function OrdenProduccion({ user, setUser }) {
                   placeholder="Cantidad de insumos necesarios"
                 />
               </div>
+             
+
+              {/* Aquí obtenemos la lista de usuarios y la mostramos en un select para elegir el ID de empleado*/}
 
               <div className="input-group">
-                <span className="input-label">ID de Empleado:</span>
-                <input
-                  type="number"
-                  value={usuario_id}
-                  onChange={(event) => setUsuarioId(event.target.value)}
-                  className="input-field"
-                  placeholder="ID del empleado"
-                />
-              </div>
+               <span className="input-label">ID de Empleado:</span>
+               <select
+                value={usuario_id}
+               onChange={(event) => setUsuarioId(event.target.value)}
+               className="input-field"
+                 >
+               <option value="">Seleccione un usuario</option>
+               {usuarios.map((usuario) => (
+              <option key={usuario.id} value={usuario.id}>
+              {usuario.id} - {usuario.email}
+             </option>
+              ))}
+                </select>
+             </div>
 
               <div className="input-group">
                 <span className="input-label">Anotaciones:</span>
@@ -315,28 +377,43 @@ function OrdenProduccion({ user, setUser }) {
                 </select>
               </div>
 
-              <div className="input-group">
-                <span className="input-label">ID de los insumos:</span>
-                <input
-                  type="number"
-                  value={insumos_id}
-                  onChange={(event) => setInsumosId(event.target.value)}
-                  className="input-field"
-                  placeholder="ID de insumos"
-                />
-              </div>
+
+
+             {/*  Aquí obtenemos la lista de insumos y la mostramos en un select para elegir el ID de insumos */}
 
               <div className="input-group">
-                <span className="input-label">ID de producto:</span>
-                <input
-                  type="number"
+               <span className="input-label">ID de los insumos:</span>
+               <select
+               value={insumos_id}
+                onChange={(event) => setInsumosId(event.target.value)}
+                className="input-field"
+                 >
+                 <option value="">Seleccione un insumo</option>
+                 {insumos.map((insumo) => (
+                <option key={insumo.id} value={insumo.id}>
+                 {insumo.id} - {insumo.nombre_insumo}
+                </option>
+                  ))}
+                 </select>
+                </div>
+
+
+                <div className="input-group">
+                 <span className="input-label">ID de producto:</span>
+                 <select
                   value={producto_id}
                   onChange={(event) => setProductoId(event.target.value)}
                   className="input-field"
-                  placeholder="ID del producto"
-                />
-              </div>
-            </div>
+                  >
+                   <option value="">Seleccione un producto</option>
+                   {productos.map((producto) => (
+                  <option key={producto.id} value={producto.id}>
+                   {producto.id} - {producto.nombre_producto}
+                 </option>
+                   ))}
+                 </select>
+                </div>
+                </div>
 
             <div className="card-footer">
               <button className="btn btn-edit" style={{ color: "white" }} onClick={handleGenerarReporte}>
@@ -376,7 +453,7 @@ function OrdenProduccion({ user, setUser }) {
                 <th scope="col">Fecha de Entrega</th>
                 <th scope="col">Cantidad Solicitada</th>
                 <th scope="col">Cantidad Insumos</th>
-                <th scope="col">ID Empleado</th>
+                <th scope="col">Email Empleado</th>
                 <th scope="col">Anotaciones</th>
                 <th scope="col">Estado Orden</th>
                 <th scope="col">ID Insumos</th>
@@ -391,11 +468,11 @@ function OrdenProduccion({ user, setUser }) {
                   <td>{new Date(val.fecha_entrega).toLocaleString()}</td>
                   <td>{val.cantidad_productos_solicitada}</td>
                   <td>{val.cantidad_insumo_necesaria}</td>
-                  <td>{val.usuario_id}</td>
+                  <td>{val.nombre_usuario}</td>
                   <td>{val.anotaciones || "No hay anotaciones"}</td>
                   <td>{val.estado_orden}</td>
-                  <td>{val.insumos_id}</td>
-                  <td>{val.producto_id}</td>
+                  <td>{val.nombre_insumo}</td>
+                 <td>{val.nombre_producto}</td>
                   <td>
                     <div className="btn-group" role="group">
                       <button

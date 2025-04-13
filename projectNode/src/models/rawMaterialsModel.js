@@ -94,6 +94,22 @@ class RawMaterialsModel {
     }
   }
 
+//obtener id insumos 
+async getRawMaterialsList() {
+  const conn = await pool.getConnection();
+  try {
+    const query = "SELECT id, nombre_insumo FROM insumos";
+    const data = await conn.query(query);
+    return data;
+  } catch (error) {
+    console.error("Error al obtener la lista de insumos:", error);
+    throw error;
+  } finally {
+    if (conn) conn.release();
+  }
+}
+  
+
   async deduct(id, quantities) {
     const conn = await pool.getConnection();
     try {
@@ -113,7 +129,13 @@ class RawMaterialsModel {
     } finally {
       if (conn) conn.release();
     }
+
+    
+
+
   }
 }
+
+
 
 module.exports = { RawMaterialsModel };
