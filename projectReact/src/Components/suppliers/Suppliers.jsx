@@ -253,10 +253,6 @@ export function Suppliers({ user, setUser }) {
                                 setEmail(i.correo);
                               }}
                             >Editar</button>
-                            <button
-                              onClick={() => handleRemove(i.id)}
-                              className="btn btn-delete"
-                            >Eliminar</button>
                           </div>
                         </td>
                       </tr>
