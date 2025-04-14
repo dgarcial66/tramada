@@ -8,9 +8,9 @@ class UserModel {
   async getUser() {
     try {
       conn = await pool.getConnection();
-      const query = "SELECT email, password, id_rol FROM usuario";
+      const query = "SELECT id, email, password, id_rol FROM usuario";
 
-      const row = conn.query(query);
+      const row = await conn.query(query);
 
       return row;
     } catch (error) {

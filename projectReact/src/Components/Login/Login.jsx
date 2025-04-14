@@ -1,7 +1,6 @@
 import '../../../../styles/styles.css'
 import { useEffect, useState } from "react"
 import { ApiFetch } from "../../services/api.js"
-import "./login.css"
 
 export function Login({ setUser, setIsRegister }) {
     const [email, setEmail] = useState("")
