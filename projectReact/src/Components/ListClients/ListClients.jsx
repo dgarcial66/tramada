@@ -223,7 +223,6 @@ export function ListClients({ user, setUser }) {
                     <td>
                       <div className="group-btn">
                         <button onClick={() => editClient(val)} className="btn btn-edit">Editar</button>
-                        <button onClick={() => deleteClient(val.id)} className="btn btn-delete">Eliminar</button>
                       </div>
                     </td>
                   </tr>
