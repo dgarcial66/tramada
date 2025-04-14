@@ -9,18 +9,7 @@ const {
 const authRouter = express.Router();
 const service = new UserService();
 
-// authRouter.post(
-//   "/login",
-//   passport.authenticate("local", { session: false }),
-//   async (req, res, next) => {
-//     try {
-//       console.log("SOY REQ USER: ", req.user);
-//       res.json(req.user);
-//     } catch (err) {
-//       console.log("Este error en authRouter: ", err);
-//     }
-//   }
-// );
+
 
 authRouter.get("/verify", verifyTokenAccess, async (req, res, next) => {
   const isEmail = req.user && req.user.email;

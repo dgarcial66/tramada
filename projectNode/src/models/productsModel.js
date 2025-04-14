@@ -18,6 +18,21 @@ class ProductsModel {
         }
     }
 
+    async getSimpleProducts() {
+      let conn;
+      try {
+        conn = await pool.getConnection();
+        const query = "SELECT id, nombre_producto FROM productos";
+        const rows = await conn.query(query);
+        return rows;
+      } catch (error) {
+        console.error("Error al obtener productos básicos:", error);
+        throw new Error("Error al obtener productos");
+      } finally {
+        if (conn) conn.release();
+      }
+    }
+
     async addProduct(body) {
         const conn = await pool.getConnection();
     

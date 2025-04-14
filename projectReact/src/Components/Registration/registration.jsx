@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { ApiFetch } from "../../services/api";
 
-import "./Registration.css"
+
 
 export function Registration ({ setIsRegister }){
     const [ email, setEmail ] = useState('');
