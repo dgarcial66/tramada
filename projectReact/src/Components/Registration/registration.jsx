@@ -27,29 +27,30 @@ export function Registration ({ setIsRegister }){
 
     const handleRegister = (e) => {
         e.preventDefault();
-
-        if(!(email.length > 0) || !(password.length > 0)||!(repeatPassword.length > 0)) {
+    
+        // Limpiar errores antes de validar
+        setErrorEmail(false);
+        setErrorPass(false);
+        setErrorExistsEmail(false);
+    
+        if (!(email.trim()) || !(password.trim()) || !(repeatPassword.trim())) {
             setErrorEmail(true);
             return;
         }
-
-        if(password !== repeatPassword) {
-            setErrorEmail(false);
+    
+        if (password !== repeatPassword) {
             setErrorPass(true);
             return;
         }
-
-        const newUser = {
-            email: email,
-            password: password
-        }
-
-        try{
+    
+        const newUser = { email, password };
+    
+        try {
             createUser(newUser);
-        }catch(err) {
+        } catch (err) {
             console.log(err);
         }
-    }
+    };
 
     return(
         <section className="padre-formulario">
