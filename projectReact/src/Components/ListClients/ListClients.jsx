@@ -15,6 +15,8 @@ export function ListClients({ user, setUser }) {
   const [clientsList, setClientList] = useState([]);
   const [id, setId] = useState("");
   const [editar, setEditar] = useState(false);
+  const paymentOptions = ["Efectivo", "Tarjeta"];
+  const opcionesCliente = ["Regular", "VIP", "Mayorista", "Minorista"];
 
 
   const clean = () => {
@@ -175,17 +177,37 @@ export function ListClients({ user, setUser }) {
                   className="input-field" placeholder="Dirección" />
               </div>
               <div className="input-group">
-                <span className="input-label">Tipo de pago</span>
-                <input type="number" value={pago}
-                  onChange={(event) => { setPago(event.target.value) }}
-                  className="input-field" placeholder="Tipo de pago" />
-              </div>
-              <div className="input-group">
-                <span className="input-label">Tipo</span>
-                <input type="text" value={tclient}
-                  onChange={(event) => { setTclient(event.target.value) }}
-                  className="input-field" placeholder="Tipo" />
-              </div>
+              <span className="input-label">Tipo de pago</span>
+              <select 
+                value={pago}
+                onChange={(event) => { setPago(event.target.value) }}
+                className="input-field"
+              >
+                {/* aqui esta el select para el tipo de pago  */}
+                <option value="">Seleccione un tipo de pago</option>
+                {paymentOptions.map((option, index) => (
+                  <option key={index} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="input-group">
+              <span className="input-label">Tipo</span>
+              <select 
+                value={tclient}
+                onChange={(event) => { setTclient(event.target.value) }}
+                className="input-field"
+                required
+              >
+                <option value="">Seleccione tipo de cliente</option>
+                {opcionesCliente.map((opcion, index) => (
+                  <option key={index} value={opcion}>
+                    {opcion}
+                  </option>
+                ))}
+              </select>
+            </div>
             </div>
             <div className="card-footer">
               {
