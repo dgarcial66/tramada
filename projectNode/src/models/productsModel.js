@@ -3,19 +3,34 @@ const { pool } = require("../db/config.js");
 class ProductsModel {
     constructor(){}
 
-    async getProducts(){
-        const conn = await pool.getConnection();
 
-        try{
-            const query = "SELECT * FROM productos";
-            const data = await conn.query(query);
-
-            return data;
-        }catch(err){
-            throw new Error(err)
-        }finally{
-           conn.release(); 
-        }
+    async getProducts() {
+      const conn = await pool.getConnection();
+      try {
+          const query = `
+              SELECT 
+                  p.id,
+                  p.nombre_producto,
+                  p.genero_producto,
+                  p.tipo_producto,
+                  p.talla_producto,
+                  p.color_producto,
+                  p.peso_producto,
+                  p.cantidad_producto,
+                  p.precio_producto,
+                  p.categoria_productos_id,
+                  cp.nombre_categoria AS nombre_categoria,
+                  p.fecha_actualizacion
+              FROM productos p
+              JOIN categoria_productos cp ON p.categoria_productos_id = cp.id
+          `;
+          const data = await conn.query(query);
+          return data;
+      } catch (err) {
+          throw new Error(err);
+      } finally {
+          conn.release();
+      }
     }
 
     async getSimpleProducts() {
@@ -108,10 +123,26 @@ class ProductsModel {
           conn.release();
         }
       };
-  
 
 
 
+// Aqui obtenemos las categorias desde la base de datos 
+       async getProductCategories() {
+    const conn = await pool.getConnection();
+    try {
+      const query = "SELECT id, nombre_categoria FROM categoria_productos"; 
+      const data = await conn.query(query);
+      console.log('Datos de categorías desde DB:', data); 
+      return data;
+    } catch (err) {
+      console.error("Error en getProductCategories:", err);
+      throw err;
+    } finally {
+      conn.release();
+    }
+  }
+
+ 
 }
 
 module.exports = {ProductsModel};
