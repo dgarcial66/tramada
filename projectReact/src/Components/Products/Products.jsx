@@ -20,6 +20,7 @@ export function Products({ user, setUser }) {
   const [fecha, setFecha] = useState("");
   const [productslist, setProductsList] = useState([]);
   const [editar, setEditar] = useState(false);
+  const [categorias, setCategorias] = useState([]);
 
   const navigate = useNavigate()
 
@@ -164,8 +165,26 @@ export function Products({ user, setUser }) {
       navigate('/')
     } else {
       getProducts();
+      getCategorias();
     }
   }, [user, navigate])
+
+
+// aqui se hace el llamado a la api para obtener las categorias
+  const getCategorias = () => {
+    return Axios.get("http://localhost:3000/api/v1/products/product-categories")
+      .then((response) => {
+        setCategorias(response.data);
+      })
+      .catch((error) => {
+        console.error("Error completo:", error);
+        Swal.fire({
+          icon: "warning",
+          title: "Advertencia",
+          text: "No se pudieron cargar las categorías",
+        });
+      });
+  };
 
 
 
@@ -191,30 +210,75 @@ export function Products({ user, setUser }) {
                   }}
                   className="input-field" placeholder="Ingrese nombre del producto" aria-label="Username" aria-describedby="basic-addon1" />
               </div>
+
+
+              {/*select para el genero del producto  */}
               <div className="input-group">
-                <span className="input-label" id="basic-addon1">Género </span>
-                <input type="text" value={genero}
-                  onChange={(event) => {
-                    setGenero(event.target.value)
-                  }}
-                  className="input-field" placeholder="Ingrese el genero del producto" aria-label="Username" aria-describedby="basic-addon1" />
+            <span className="input-label" id="basic-addon1">Género </span>
+            <select
+            value={genero}
+            onChange={(event) => setGenero(event.target.value)}
+            className="input-field"
+            aria-label="Género"
+  >
+            <option value="">Selecciona un género</option>
+            <option value="Masculino">Masculino</option>
+            <option value="Femenino">Femenino</option>
+            <option value="Unisex">Unisex</option>
+            <option value="Infantil">Infantil</option>
+            </select>
+            </div>
+
+
+             {/*select para el tipo de producto*/ }
+            <div className="input-group">
+            <span className="input-label" id="basic-addon1">Tipo </span>
+            <select
+             value={tipo}
+             onChange={(event) => setTipo(event.target.value)}
+             className="input-field"
+            aria-label="Tipo de producto"
+            >
+                  <option value="" disabled>Seleccione el tipo de producto</option>
+                  <option value="Camiseta">Camiseta</option>
+                  <option value="Camisa">Camisa</option>
+                  <option value="Pantalón">Pantalón</option>
+                  <option value="Sudadera">Sudadera</option>
+                  <option value="Vestido">Vestido</option>
+                  <option value="Falda">Falda</option>
+                  <option value="Chaqueta">Chaqueta</option>
+                  <option value="Blusa">Blusa</option>
+                  <option value="Short">Short</option>
+                  <option value="Ropa interior">Ropa interior</option>
+                  <option value="Ropa deportiva">Ropa deportiva</option>
+                  <option value="Ropa de dormir">Ropa de dormir</option>
+                  <option value="Bufanda">Bufanda</option>
+                  <option value="Abrigo">Abrigo</option>
+                  <option value="Ropa infantil">Ropa infantil</option>
+                  <option value="Accesorios textiles">Accesorios textiles</option>
+                </select>
               </div>
+
+
+              {/*select para la talla de la ropa */ }
               <div className="input-group">
-                <span className="input-label" id="basic-addon1">Tipo </span>
-                <input type="text" value={tipo}
-                  onChange={(event) => {
-                    setTipo(event.target.value)
-                  }}
-                  className="input-field" placeholder="Ingrese el tipo de producto" aria-label="Username" aria-describedby="basic-addon1" />
-              </div>
-              <div className="input-group">
-                <span className="input-label" id="basic-addon1">Talla </span>
-                <input type="text" value={talla}
-                  onChange={(event) => {
-                    setTalla(event.target.value)
-                  }}
-                  className="input-field" placeholder="Ingrese la talla del producto" aria-label="Username" aria-describedby="basic-addon1" />
-              </div>
+              <span className="input-label" id="basic-addon1">Talla</span>
+              <select
+                value={talla}
+                onChange={(event) => setTalla(event.target.value)}
+                className="input-field"
+                aria-label="Talla del producto"
+              >
+                <option value="" disabled>Seleccione la talla</option>
+                <option value="XS">XS</option>
+                <option value="S">S</option>
+                <option value="M">M</option>
+                <option value="L">L</option>
+                <option value="XL">XL</option>
+                <option value="XXL">XXL</option>
+              </select>
+            </div>
+
               <div className="input-group">
                 <span className="input-label" id="basic-addon1">Color </span>
                 <input type="text" value={color}
@@ -247,14 +311,27 @@ export function Products({ user, setUser }) {
                   }}
                   className="input-field" placeholder="Ingrese el precio del producto" aria-label="Username" aria-describedby="basic-addon1" />
               </div>
+              
+              
+              {/* Este es el select para categorias */}
               <div className="input-group">
-                <span className="input-label" id="basic-addon1">Categoría </span>
-                <input type="text" value={categoria}
-                  onChange={(event) => {
-                    setCategoria(event.target.value)
-                  }}
-                  className="input-field" placeholder="Ingrese la categoria a la que pertenece" aria-label="Username" aria-describedby="basic-addon1" />
-              </div>
+              <span className="input-label">Categoría:</span>
+              <select
+                value={categoria}
+                onChange={(event) => setCategoria(event.target.value)}
+                className="input-field"
+                required
+              >
+                <option value="">Seleccione una categoría</option>
+                {categorias.map((cat) => (
+                  <option key={cat.id} value={cat.id}>
+                    {cat.id} - {cat.nombre_categoria.trim()} 
+                  </option>
+                ))}
+              </select>
+            </div>
+
+
               <div className="input-group">
                 <span className="input-label" id="basic-addon1">Fecha actualización</span>
                 <input type="datetime-local" value={fecha}
@@ -279,7 +356,7 @@ export function Products({ user, setUser }) {
           <table className="table">
             <thead>
               <tr>
-                <th scope="col">#</th>
+                <th scope="col">id</th>
                 <th scope="col">Nombre</th>
                 <th scope="col">Genero</th>
                 <th scope="col">Tipo</th>
@@ -306,7 +383,11 @@ export function Products({ user, setUser }) {
                     <td>{val.peso_producto}</td>
                     <td>{val.cantidad_producto}</td>
                     <td>{val.precio_producto}</td>
-                    <td>{val.categoria_productos_id}</td>
+                    <td>
+  {categorias.find(cat => cat.id === val.categoria_productos_id)?.nombre_categoria || val.categoria_productos_id}
+</td>
+
+
                     <td>{val.fecha_actualizacion}</td>
                     <td>
                       <div className="group-btn" role="group" aria-label="Basic example">

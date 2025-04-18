@@ -56,11 +56,12 @@ CREATE TABLE IF NOT EXISTS `clientes` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Volcando datos para la tabla tramada_dbc.clientes: ~3 rows (aproximadamente)
+-- Volcando datos para la tabla tramada_dbc.clientes: ~4 rows (aproximadamente)
 INSERT INTO `clientes` (`id`, `nombre_cliente`, `telefono_cliente`, `direccion_cliente`, `tipo_pago`, `tipo_cliente`) VALUES
 	(1, 'jacinto  arbelaes', '1234567890', 'Calle Falsa 123', 1, 'Regular'),
 	(2, 'gabriela gonzales', '987654321', 'Avenida Siempreviva 456', 2, 'VIP'),
-	(3, 'andres gutierrez', '123456789', 'Boulevard Central 789', 1, 'Nuevo');
+	(3, 'andres gutierrez', '123456789', 'Boulevard Central 789', 1, 'Nuevo'),
+	(5, 'davdada', '32221179141', 'CALLE 3B N-5-35 EST3', 2, '2');
 
 -- Volcando estructura para tabla tramada_dbc.detalle_venta
 CREATE TABLE IF NOT EXISTS `detalle_venta` (
@@ -110,9 +111,9 @@ CREATE TABLE IF NOT EXISTS `historial_precios_productos` (
   PRIMARY KEY (`id`),
   KEY `FKhistorial_745263` (`producto_id`),
   CONSTRAINT `FKhistorial_745263` FOREIGN KEY (`producto_id`) REFERENCES `productos` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Volcando datos para la tabla tramada_dbc.historial_precios_productos: ~10 rows (aproximadamente)
+-- Volcando datos para la tabla tramada_dbc.historial_precios_productos: ~9 rows (aproximadamente)
 INSERT INTO `historial_precios_productos` (`id`, `precios_producto`, `fecha_historial`, `producto_id`) VALUES
 	(1, 100.00, '2024-11-20 02:15:49', 4),
 	(2, 150.00, '2024-11-20 02:15:49', 5),
@@ -125,8 +126,7 @@ INSERT INTO `historial_precios_productos` (`id`, `precios_producto`, `fecha_hist
 	(9, 200.00, '2024-11-20 02:23:03', 6),
 	(10, 500.00, '2024-12-03 01:54:22', 7),
 	(11, 100.00, '2024-12-06 22:18:10', 8),
-	(12, 50.00, '2024-12-07 23:53:48', 9),
-	(13, 80000.00, '2024-12-09 17:14:53', 10);
+	(12, 50.00, '2024-12-07 23:53:48', 9);
 
 -- Volcando estructura para tabla tramada_dbc.insumos
 CREATE TABLE IF NOT EXISTS `insumos` (
@@ -168,16 +168,11 @@ CREATE TABLE IF NOT EXISTS `movimientos_inventario` (
   KEY `FKmovimiento469901` (`producto_id`),
   CONSTRAINT `FKmovimiento315619` FOREIGN KEY (`insumos_id`) REFERENCES `insumos` (`id`),
   CONSTRAINT `FKmovimiento469901` FOREIGN KEY (`producto_id`) REFERENCES `productos` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Volcando datos para la tabla tramada_dbc.movimientos_inventario: ~6 rows (aproximadamente)
+-- Volcando datos para la tabla tramada_dbc.movimientos_inventario: ~1 rows (aproximadamente)
 INSERT INTO `movimientos_inventario` (`id`, `tipo_movimiento`, `cantidad`, `fecha_movimiento`, `motivo`, `insumos_id`, `producto_id`) VALUES
-	(25, 'salida', 50, '2024-12-07 04:04:12', 'Orden en proceso', 6, 5),
-	(27, 'entrada', 100, '2024-12-10 13:30:00', 'Compra de material', 6, NULL),
-	(28, 'salida', 30, '2024-12-10 14:00:00', 'Uso para producción', 6, NULL),
-	(29, 'ajuste', 20, '2024-12-10 15:00:00', 'Ajuste por inventario', 6, NULL),
-	(30, 'perdida', 15, '2024-12-10 16:00:00', 'Material dañado', 6, NULL),
-	(31, 'entrada', 200, '2024-12-10 17:00:00', 'Nueva compra de hilo', NULL, 5);
+	(25, 'salida', 50, '2024-12-07 04:04:12', 'Orden en proceso', 6, 5);
 
 -- Volcando estructura para tabla tramada_dbc.orden_de_produccion
 CREATE TABLE IF NOT EXISTS `orden_de_produccion` (
@@ -199,15 +194,14 @@ CREATE TABLE IF NOT EXISTS `orden_de_produccion` (
   CONSTRAINT `fk_insumos_orden` FOREIGN KEY (`insumos_id`) REFERENCES `insumos` (`id`),
   CONSTRAINT `fk_producto_orden` FOREIGN KEY (`producto_id`) REFERENCES `productos` (`id`),
   CONSTRAINT `fk_usuario_orden` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Volcando datos para la tabla tramada_dbc.orden_de_produccion: ~6 rows (aproximadamente)
+-- Volcando datos para la tabla tramada_dbc.orden_de_produccion: ~5 rows (aproximadamente)
 INSERT INTO `orden_de_produccion` (`id`, `fecha_orden`, `fecha_entrega`, `cantidad_productos_solicitada`, `cantidad_insumo_necesaria`, `usuario_id`, `anotaciones`, `estado_orden`, `insumos_id`, `producto_id`) VALUES
 	(3, '2024-11-24 20:45:13', '2024-12-01 20:00:00', 100, 50, 1, 'Orden prioritaria', 'en proceso', 4, 5),
 	(20, '2024-12-07 03:12:26', '2024-12-07 03:12:00', 100, 50, 1, 'mm', 'en proceso', 4, 5),
 	(27, '2024-12-07 04:04:12', '2024-12-14 04:02:00', 100, 50, 2, 'wdasd', 'en proceso', 6, 5),
-	(28, '2024-12-07 04:05:23', '2024-12-21 04:04:00', 20, 10, 3, 'lklkm', 'completado', 15, 8),
-	(31, '2024-12-09 17:08:28', '2024-12-09 17:07:00', 100, 50, 1, 'buena', 'completado', 4, 5);
+	(28, '2024-12-07 04:05:23', '2024-12-21 04:04:00', 20, 10, 3, 'lklkm', 'completado', 15, 8);
 
 -- Volcando estructura para tabla tramada_dbc.orden_produccion_movimiento
 CREATE TABLE IF NOT EXISTS `orden_produccion_movimiento` (
@@ -281,17 +275,16 @@ CREATE TABLE IF NOT EXISTS `productos` (
   PRIMARY KEY (`id`),
   KEY `FKproductos779460` (`categoria_productos_id`),
   CONSTRAINT `FKproductos779460` FOREIGN KEY (`categoria_productos_id`) REFERENCES `categoria_productos` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Volcando datos para la tabla tramada_dbc.productos: ~7 rows (aproximadamente)
+-- Volcando datos para la tabla tramada_dbc.productos: ~6 rows (aproximadamente)
 INSERT INTO `productos` (`id`, `nombre_producto`, `genero_producto`, `tipo_producto`, `talla_producto`, `color_producto`, `peso_producto`, `cantidad_producto`, `precio_producto`, `categoria_productos_id`, `fecha_actualizacion`) VALUES
 	(4, 'Producto A', 'Masculino', 'Material', 'M', 'Rojo', 5, 50, 100, 1, '2024-11-20 02:15:49'),
 	(5, 'Producto B', 'Femenino', 'Herramienta', 'S', 'Negro', 3, 30, 150, 2, '2024-11-20 02:15:49'),
 	(6, 'Producto C', 'Unisex', 'Equipo', 'L', 'Azul', 10, 20, 200, 3, '2024-11-20 02:15:49'),
 	(7, 'ma ', 'm', 'm', 'm', 'm', 5, 50, 500, 1, '2024-12-03 01:52:00'),
 	(8, 'ma', 'ma', 'ma', 'ma', 'ma', 52, 52, 100, 2, '2024-12-24 22:19:00'),
-	(9, 'saco', 'n', 'n', 'n', 'n', 50, 50, 50, 1, '2024-12-07 23:53:00'),
-	(10, 'chaqueta', 'femenino', 'cuero', 's', 'azul', 50, 50, 80000, 1, '2024-12-09 17:15:00');
+	(9, 'saco', 'n', 'n', 'n', 'n', 50, 50, 50, 1, '2024-12-07 23:53:00');
 
 -- Volcando estructura para tabla tramada_dbc.proveedor
 CREATE TABLE IF NOT EXISTS `proveedor` (
