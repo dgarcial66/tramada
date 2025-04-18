@@ -54,7 +54,7 @@ class RawMaterialsModel {
       parseFloat(body.precio_insumo), 
       body.nombre_proveedor, 
       body.nombre_categoria_insumo 
-  
+    ]
 
     if (valoresConvertidos.slice(2, 5).some(isNaN)) {
       throw new Error("Los valores de peso, cantidad y precio deben ser números válidos");
