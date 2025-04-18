@@ -4,19 +4,23 @@ class Sales {
     constructor(){}
 
     async getSales() {
-        const conn = await pool.getConnection();
+      const conn = await pool.getConnection();
     
-        try {
-          const query = "SELECT * FROM venta";
-          const data = await conn.query(query);
+      try {
+        const query = `
+          SELECT v.*, c.nombre_cliente 
+          FROM venta v
+          JOIN clientes c ON v.clientes_id = c.id
+        `;
+        const data = await conn.query(query);
     
-          return data;
-        } catch (err) {
-          throw new Error(err);
-        } finally {
-          conn.release();
-        }
+        return data;
+      } catch (err) {
+        throw new Error(err);
+      } finally {
+        conn.release();
       }
+    }
 
       async addSales(body) {
         const conn = await pool.getConnection();

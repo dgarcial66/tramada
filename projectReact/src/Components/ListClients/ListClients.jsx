@@ -15,7 +15,7 @@ export function ListClients({ user, setUser }) {
   const [clientsList, setClientList] = useState([]);
   const [id, setId] = useState("");
   const [editar, setEditar] = useState(false);
-  const paymentOptions = ["Efectivo", "Tarjeta"];
+  const paymentOptions = ["Efectivo", "Transferencia Bancaria"];
   const opcionesCliente = ["Regular", "VIP", "Mayorista", "Minorista"];
 
 
@@ -176,6 +176,7 @@ export function ListClients({ user, setUser }) {
                   onChange={(event) => { setDireccion(event.target.value) }}
                   className="input-field" placeholder="Dirección" />
               </div>
+
               <div className="input-group">
               <span className="input-label">Tipo de pago</span>
               <select 
