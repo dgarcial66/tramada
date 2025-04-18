@@ -51,7 +51,7 @@ export function InventoryMovements({ user, setUser }) {
             <table className="table">
               <thead>
                 <tr>
-                  <th scope="col">#</th>
+                  <th scope="col">Id</th>
                   <th scope="col">Tipo de Movimiento</th>
                   <th scope="col">Cantidad</th>
                   <th scope="col">Fecha de movimiento</th>
