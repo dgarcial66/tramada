@@ -42,13 +42,43 @@ class RawMaterialsModel {
 
   async create(body) {
     const conn = await pool.getConnection();
-    const query =
-      "INSERT INTO insumos (nombre_insumo, color_insumo, peso_insumo, cantidad_insumo, precio_insumo, id_proveedor, categoria_insumos_id) VALUES (?, ?, ?, ?, ?, (SELECT id FROM proveedor WHERE nombre_proveedor = ?), (SELECT id FROM categoria_insumos WHERE nombre_categoria_insumo = ?) )";
-
+    
+    // Validación y conversión de valores numéricos
+    const valoresConvertidos = [
+      body.nombre_insumo, // string
+      body.color_insumo,  // string
+      parseFloat(body.peso_insumo), // decimal
+      parseFloat(body.cantidad_insumo), // decimal
+      parseFloat(body.precio_insumo), // decimal
+      body.nombre_proveedor, // string para subconsulta
+      body.nombre_categoria_insumo // string para subconsulta
+    ];
+  
+    // Verificar que los valores numéricos son válidos
+    if (valoresConvertidos.slice(2, 5).some(isNaN)) {
+      throw new Error("Los valores de peso, cantidad y precio deben ser números válidos");
+    }
+  
+    const query = `
+      INSERT INTO insumos 
+      (nombre_insumo, color_insumo, peso_insumo, cantidad_insumo, precio_insumo, id_proveedor, categoria_insumos_id) 
+      VALUES (?, ?, ?, ?, ?, 
+        (SELECT id FROM proveedor WHERE nombre_proveedor = ?), 
+        (SELECT id FROM categoria_insumos WHERE nombre_categoria_insumo = ?)
+      )`;
+  
     try {
-      const res = await conn.query(query, body);
-      return res;
+      const res = await conn.query(query, valoresConvertidos);
+
+      return {
+        success: true,
+        data: {
+          id: res.insertId,
+          ...body
+        }
+      };
     } catch (error) {
+      console.error("Error en create:", error);
       throw error;
     } finally {
       if (conn) conn.release();
