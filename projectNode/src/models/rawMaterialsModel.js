@@ -40,21 +40,22 @@ class RawMaterialsModel {
     }
   }
 
+
+
   async create(body) {
     const conn = await pool.getConnection();
     
-    // Validación y conversión de valores numéricos
+
     const valoresConvertidos = [
-      body.nombre_insumo, // string
-      body.color_insumo,  // string
-      parseFloat(body.peso_insumo), // decimal
-      parseFloat(body.cantidad_insumo), // decimal
-      parseFloat(body.precio_insumo), // decimal
-      body.nombre_proveedor, // string para subconsulta
-      body.nombre_categoria_insumo // string para subconsulta
-    ];
+      body.nombre_insumo, 
+      body.color_insumo,  
+      parseFloat(body.peso_insumo), 
+      parseFloat(body.cantidad_insumo), 
+      parseFloat(body.precio_insumo), 
+      body.nombre_proveedor, 
+      body.nombre_categoria_insumo 
   
-    // Verificar que los valores numéricos son válidos
+
     if (valoresConvertidos.slice(2, 5).some(isNaN)) {
       throw new Error("Los valores de peso, cantidad y precio deben ser números válidos");
     }
@@ -111,7 +112,7 @@ class RawMaterialsModel {
     const conn = await pool.getConnection();
 
     try {
-      // const query = "SELECT * FROM insumos INNER JOIN proveedor ON insumos.id_proveedor = proveedor.id";
+     
       const query =
         "SELECT id, nombre_insumo, color_insumo, peso_insumo, cantidad_insumo, precio_insumo, (SELECT nombre_proveedor FROM proveedor AS p WHERE i.id_proveedor = p.id) AS proveedor, (SELECT nombre_categoria_insumo FROM categoria_insumos AS c WHERE i.categoria_insumos_id = c.id) AS categoria FROM insumos AS i;";
       const data = await conn.query(query);

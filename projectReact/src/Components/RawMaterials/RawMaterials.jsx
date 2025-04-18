@@ -45,7 +45,7 @@ export function RawMaterials({ user, setUser }) {
 
   const navigate = useNavigate();
 
-
+// aqui se obtienen los nombres para los proveedores 
   useEffect(() => {
     const fetchProveedores = async () => {
       try {
@@ -59,7 +59,7 @@ export function RawMaterials({ user, setUser }) {
     fetchProveedores();
   }, []);
 
-// 2. Cargar categorías
+// aqui se obtienen las categorias de insumos 
 useEffect(() => {
   const fetchCategorias = async () => {
     try {
@@ -140,7 +140,7 @@ useEffect(() => {
     try {
       e.preventDefault();
       
-      // Convertir valores numéricos y validar
+    
       const peso = parseFloat(weight);
       const cantidad = parseFloat(stock);
       const precio = parseFloat(price);
@@ -149,7 +149,7 @@ useEffect(() => {
         throw new Error("Los valores de peso, stock y precio deben ser números válidos");
       }
   
-      // Obtener nombres de proveedor y categoría
+      // aqui obtenemos los nombres para  proveedor y categoría
       const proveedorSeleccionado = proveedores.find(p => p.id === vendor);
       const categoriaSeleccionada = categoriasInsumos.find(c => c.id === category);
   
@@ -170,7 +170,7 @@ useEffect(() => {
       };
       
       if (idMaterial !== null) {
-        // Lógica para actualización
+
         const updatedMaterial = await updateMaterial(idMaterial, newMaterial);
         const updateList = listMaterials.map(material => 
           material.id === idMaterial ? updatedMaterial.data : material
@@ -179,10 +179,10 @@ useEffect(() => {
         setMaterials(updateList);
         setTextModal('actualizado');
       } else {
-        // Lógica para creación - Usa la respuesta completa del backend
+
         const response = await createMaterial(newMaterial);
         
-        // Actualiza ambos estados con la respuesta completa
+
         setListMaterials(prev => [...prev, response.data]);
         setMaterials(prev => [...prev, response.data]);
         
@@ -389,6 +389,7 @@ useEffect(() => {
                     <td>{item.cantidad_insumo}</td>
                     <td>{item.peso_insumo} Kg</td>
                     <td>${item.precio_insumo}</td>
+                    {/* aqui se obtiene la categori de insumos */}
                     <td>
                       {categoriasInsumos.find(cat => cat.id === item.categoria_insumos_id)?.nombre_categoria_insumo || 
                       item.categoria || 
