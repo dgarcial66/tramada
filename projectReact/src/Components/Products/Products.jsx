@@ -220,7 +220,7 @@ export function Products({ user, setUser }) {
             onChange={(event) => setGenero(event.target.value)}
             className="input-field"
             aria-label="Género"
-  >
+             >
             <option value="">Selecciona un género</option>
             <option value="Masculino">Masculino</option>
             <option value="Femenino">Femenino</option>
@@ -230,15 +230,15 @@ export function Products({ user, setUser }) {
             </div>
 
 
-             {/*select para el tipo de producto*/ }
-            <div className="input-group">
-            <span className="input-label" id="basic-addon1">Tipo </span>
-            <select
-             value={tipo}
-             onChange={(event) => setTipo(event.target.value)}
-             className="input-field"
-            aria-label="Tipo de producto"
-            >
+                    {/*select para el tipo de producto*/ }
+                    <div className="input-group">
+                    <span className="input-label" id="basic-addon1">Tipo </span>
+                    <select
+                    value={tipo}
+                    onChange={(event) => setTipo(event.target.value)}
+                    className="input-field"
+                    aria-label="Tipo de producto"
+                    >
                   <option value="" disabled>Seleccione el tipo de producto</option>
                   <option value="Camiseta">Camiseta</option>
                   <option value="Camisa">Camisa</option>
@@ -384,8 +384,8 @@ export function Products({ user, setUser }) {
                     <td>{val.cantidad_producto}</td>
                     <td>{val.precio_producto}</td>
                     <td>
-  {categorias.find(cat => cat.id === val.categoria_productos_id)?.nombre_categoria || val.categoria_productos_id}
-</td>
+                        {categorias.find(cat => cat.id === val.categoria_productos_id)?.nombre_categoria || val.categoria_productos_id}
+                      </td>
 
 
                     <td>{val.fecha_actualizacion}</td>
