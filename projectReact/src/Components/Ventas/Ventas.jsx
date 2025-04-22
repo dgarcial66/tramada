@@ -16,6 +16,8 @@ export function Ventas({ setUser, user }) {
   const [ventalist, setVentalist] = useState([]);
   const [editar, setEditar] = useState(false);
 
+  const [clients, setClients] = useState([]); 
+ 
 
   const [showDetailModal, setShowDetailModal] = useState(false);
   const [selectedSale, setSelectedSale] = useState(null);
@@ -23,6 +25,8 @@ export function Ventas({ setUser, user }) {
   const [precio, setPrecio] = useState("");
   const [subtotal, setSubtotal] = useState("");
   const [productoid, setProductoid] = useState("");
+  const [productos, setProductos] = useState([]);
+
 
   const navigate = useNavigate();
 
@@ -35,6 +39,20 @@ export function Ventas({ setUser, user }) {
     setClient("");
     setEditar(false);
   };
+
+
+  useEffect(() => {
+    Axios.get("http://localhost:3000/api/v1/clients").then((response) => {
+      setClients(response.data);  
+    });
+  }, []);
+  
+  useEffect(() => {
+    Axios.get("http://localhost:3000/api/v1/products").then((response) => {
+      setProductos(response.data);
+    });
+  }, []);
+
 
   useEffect(() => {
     if (Object.values(user).every(value => value === '' || value === null || value === undefined)) {
@@ -88,14 +106,16 @@ export function Ventas({ setUser, user }) {
 
   const editSale = (val) => {
     setEditar(true);
-
-    setFecha(val.fecha_actualizacion);
+    setId(val.id); 
+  
+    setFecha(val.fecha_venta);
     setEstado(val.estado_pago);
     setTipoV(val.tipo_venta);
     setTotalV(val.total_venta);
     setComentarios(val.comentarios);
     setClient(val.clientes_id);
   };
+  
 
   const updateSales = () => {
     Axios.put("http://localhost:3000/api/v1/sales", {
@@ -170,6 +190,15 @@ export function Ventas({ setUser, user }) {
       });
   };
 
+  function formatDateForInput(dateString) {
+    if (!dateString) return ''; // para evitar errores si es null o undefined
+    const date = new Date(dateString);
+    const offset = date.getTimezoneOffset();
+    const localDate = new Date(date.getTime() - offset * 60 * 1000);
+    return localDate.toISOString().slice(0, 16); // formato "YYYY-MM-DDTHH:mm"
+  }
+  
+
 
   return (
     <>
@@ -183,27 +212,56 @@ export function Ventas({ setUser, user }) {
               GESTION VENTAS
             </div>
             <div className="card-body">
+              
+            <div className="input-group">
+              <span className="input-label" id="basic-addon1">Fecha venta</span>
+              <input
+                type="datetime-local"
+                value={formatDateForInput(fecha)}
+                onChange={(event) => {
+                  setFecha(event.target.value);
+                }}
+                className="input-field"
+                placeholder="Fecha venta"
+                aria-label="Fecha venta"
+                aria-describedby="basic-addon1"
+              />
+            </div>
+
+
+                
+                   {/* Aquí esta el select para tipo de venta */}
               <div className="input-group">
-                <span className="input-label" id="basic-addon1">Fecha venta </span>
-                <input type="datetime-local" value={fecha}
-                  onChange={(event) => {
-                    setFecha(event.target.value)
-                  }} className="input-field" placeholder="Fecha venta" aria-label="Username" aria-describedby="basic-addon1" />
+                <span className="input-label" id="basic-addon1">Estado de pago</span>
+                <select
+                  value={estado}
+                  onChange={(event) => setEstado(event.target.value)}
+                  className="input-field"
+                  aria-label="Estado de pago"
+                >
+                  <option value="">Selecciona estado</option>
+                  <option value="Pagado">Pagado</option>
+                  <option value="Pendiente">Pendiente</option>
+                  <option value="Anulado">Anulado</option>
+                </select>
               </div>
+
+
+                {/* Aquí esta el select para tipo de venta */}
               <div className="input-group">
-                <span className="input-label" id="basic-addon1">Estado de pago </span>
-                <input type="text" value={estado}
-                  onChange={(event) => {
-                    setEstado(event.target.value)
-                  }} className="input-field" placeholder="Estado de pago" aria-label="Username" aria-describedby="basic-addon1" />
+                <span className="input-label" id="basic-addon1">Tipo de venta</span>
+                <select
+                  value={tipoV}
+                  onChange={(event) => setTipoV(event.target.value)}
+                  className="input-field"
+                  aria-label="Tipo de venta"
+                >
+                  <option value="">Selecciona tipo de venta</option>
+                  <option value="Al Por Mayor">Al Por Mayor</option>
+                  <option value="Al Detal">Al Detal</option>
+                </select>
               </div>
-              <div className="input-group">
-                <span className="input-label" id="basic-addon1">Tipo de venta </span>
-                <input type="text" value={tipoV}
-                  onChange={(event) => {
-                    setTipoV(event.target.value)
-                  }} className="input-field" placeholder="Tipo de venta" aria-label="Username" aria-describedby="basic-addon1" />
-              </div>
+
               <div className="input-group">
                 <span className="input-label" id="basic-addon1">Total venta </span>
                 <input type="number" value={totalV}
@@ -218,13 +276,25 @@ export function Ventas({ setUser, user }) {
                     setComentarios(event.target.value)
                   }} className="input-field" placeholder="Comentarios" aria-label="Username" aria-describedby="basic-addon1" />
               </div>
+
+               {/* Aquí esta el select para el nombre del cliente */}     
               <div className="input-group">
-                <span className="input-label" id="basic-addon1">Codigo cliente</span>
-                <input type="number" value={client}
-                  onChange={(event) => {
-                    setClient(event.target.value)
-                  }} className="input-field" placeholder="Codigo cliente" aria-label="Username" aria-describedby="basic-addon1" />
+                <span className="input-label" id="basic-addon1">Cliente</span>
+                <select
+                  value={client}
+                  onChange={(event) => setClient(event.target.value)}
+                  className="input-field"
+                  aria-label="Cliente"
+                >
+                  <option value="">Selecciona un cliente</option>
+                  {clients.map((cliente) => (
+                    <option key={cliente.id} value={cliente.id}>
+                      {cliente.nombre_cliente} 
+                    </option>
+                  ))}
+                </select>
               </div>
+
             </div>
             <div className="card-footer">
               {
@@ -247,7 +317,7 @@ export function Ventas({ setUser, user }) {
                   <th scope="col">Tipo venta</th>
                   <th scope="col">Total Venta</th>
                   <th scope="col">Comentarios</th>
-                  <th scope="col">Codigo cliente</th>
+                  <th scope="col">Nombre Cliente</th>
                   <th scope="col">Acciones</th>
                 </tr>
               </thead>
@@ -261,7 +331,10 @@ export function Ventas({ setUser, user }) {
                       <td>{val.tipo_venta}</td>
                       <td>{val.total_venta}</td>
                       <td>{val.comentarios}</td>
-                      <td>{val.clientes_id}</td>
+                      <td>{
+                              clients.find(c => c.id === val.clientes_id)?.nombre_cliente || "Sin nombre"
+                            }
+                          </td>
                       <td>
                         <div className="btn-group" role="group" aria-label="Basic example">
                           <button type="button" className="btn btn-edit"
@@ -327,16 +400,27 @@ export function Ventas({ setUser, user }) {
                       placeholder="Añade el detalle de la venta"
                     />
                   </div>
+
+                  {/*aqui esta el select para productos en detalle de venta */}
                   <div className="input-group">
-                    <span className="input-label">Codigo Producto</span>
-                    <input
-                      type="text"
-                      className="input-field"
+                    <span className="input-label">Producto</span>
+                    <select
                       value={productoid}
                       onChange={(e) => setProductoid(e.target.value)}
-                      placeholder="Añade el detalle de la venta"
-                    />
+                      className="input-field"
+                    >
+                      <option value="">Selecciona un producto</option>
+                      {productos.map((producto) => (
+                        <option key={producto.id} value={producto.id}>
+                          {producto.nombre_producto}
+                        </option>
+                      ))}
+                    </select>
                   </div>
+
+
+
+
                 </div>
                 <div className="modal-footer">
                   <button type="button" className="btn btn-cancel" onClick={closeDetailModal}>

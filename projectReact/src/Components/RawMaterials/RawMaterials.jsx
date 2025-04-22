@@ -7,7 +7,9 @@ import { updateMaterial, deleteMaterial, createMaterial } from "../../actions/ra
 import { Modal } from "../Modal/Modal.jsx";
 import './rawMaterials.css';
 import { UpdateItems } from "../UpdateItems/UpdateItems.jsx";
-import fondoInsumos from "../../../asset/img/fondo_insumos.png"
+import fondoInsumos from "../../../asset/img/fondo_insumos.png";
+import axios from "axios";
+
 
 export function RawMaterials({ user, setUser }) {
   const [id, setId] = useState(null);
@@ -25,6 +27,10 @@ export function RawMaterials({ user, setUser }) {
   const [notModify, setNotModify] = useState(false);
   const [textModal, setTextModal] = useState('Agregar');
   const [textInfo, setTextInfo] = useState('material');
+  const [proveedores, setProveedores] = useState([]);
+  
+  const [categoriasInsumos, setCategoriasInsumos] = useState([]);
+  
   const { search,
     setSearch,
     materials,
@@ -38,6 +44,56 @@ export function RawMaterials({ user, setUser }) {
   const [listMaterials, setListMaterials] = useState(filteredMaterials());
 
   const navigate = useNavigate();
+
+// aqui se obtienen los nombres para los proveedores 
+  useEffect(() => {
+    const fetchProveedores = async () => {
+      try {
+        const response = await axios.get('http://localhost:3000/api/v1/supplier');
+        setProveedores(response.data);
+      } catch (error) {
+        console.error('Error fetching proveedores:', error);
+      }
+    };
+
+    fetchProveedores();
+  }, []);
+
+// aqui se obtienen las categorias de insumos 
+useEffect(() => {
+  const fetchCategorias = async () => {
+    try {
+      const response = await axios.get("http://localhost:3000/api/v1/raw-categories");
+      
+      // Manejo específico para MariaDB
+      let categorias = [];
+      if (response.data.success) {
+        categorias = Array.isArray(response.data.data) 
+          ? response.data.data 
+          : response.data.data 
+            ? [response.data.data] 
+            : [];
+      }
+
+      setCategoriasInsumos(categorias.map(cat => ({
+        id: cat.id,
+        nombre_categoria_insumo: cat.nombre || cat.nombre_categoria_insumo
+      })));
+      
+    } catch (error) {
+      console.error("Error al obtener categorías:", error);
+      // Datos mock de respaldo
+      setCategoriasInsumos([
+        { id: 1, nombre_categoria_insumo: "Materiales para tejidos" },
+        { id: 2, nombre_categoria_insumo: "Herramientas de confección" },
+        { id: 3, nombre_categoria_insumo: "Equipos de maquinaria textil" }
+      ]);
+    }
+  };
+
+  fetchCategorias();
+}, []);
+
 
   useEffect(() => {
     if (Object.values(user).every(value => value === '' || value === null || value === undefined)) {
@@ -83,66 +139,72 @@ export function RawMaterials({ user, setUser }) {
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
-      const newMaterials = {
+      
+    
+      const peso = parseFloat(weight);
+      const cantidad = parseFloat(stock);
+      const precio = parseFloat(price);
+      
+      if (isNaN(peso) || isNaN(cantidad) || isNaN(precio)) {
+        throw new Error("Los valores de peso, stock y precio deben ser números válidos");
+      }
+  
+      // aqui obtenemos los nombres para  proveedor y categoría
+      const proveedorSeleccionado = proveedores.find(p => p.id === vendor);
+      const categoriaSeleccionada = categoriasInsumos.find(c => c.id === category);
+  
+      if (!proveedorSeleccionado || !categoriaSeleccionada) {
+        throw new Error("Proveedor o categoría no válidos");
+      }
+  
+      const newMaterial = {
         nombre_insumo: name,
         color_insumo: color,
-        cantidad_insumo: stock,
-        peso_insumo: weight,
-        precio_insumo: price,
-        id_proveedor: vendor,
-        categoria_insumos_id: category
+        peso_insumo: peso,
+        cantidad_insumo: cantidad,
+        precio_insumo: precio,
+        nombre_proveedor: proveedorSeleccionado.nombre_proveedor,
+        nombre_categoria_insumo: categoriaSeleccionada.nombre_categoria_insumo,
+        id_proveedor: proveedorSeleccionado.id,
+        categoria_insumos_id: categoriaSeleccionada.id,
       };
-      const values = Object.values(newMaterials);
+      
+      if (idMaterial !== null) {
 
-      console.log('CALENTURA: ', values === undefined);
+        const updatedMaterial = await updateMaterial(idMaterial, newMaterial);
+        const updateList = listMaterials.map(material => 
+          material.id === idMaterial ? updatedMaterial.data : material
+        );
+        setListMaterials(updateList);
+        setMaterials(updateList);
+        setTextModal('actualizado');
+      } else {
 
-      if (values !== undefined) {
-        if (idMaterial !== null) {
-          try {
-            await updateMaterial(idMaterial, newMaterials);
-            const updateList = listMaterials.map(material => material.id === idMaterial ? { ...material, ...newMaterials } : material);
-            setListMaterials(updateList);
-            setMaterials(updateList);
-            setTextModal('actualizado');
-            setIsOpen(true);
-          } catch (error) {
-            console.log(error);
-            throw error;
-          }
-        } else {
-          try {
-            console.log('THE KILLERS');
-            const newArrayMaterials = Object.values(newMaterials);
-            await createMaterial(newArrayMaterials);
-            const updateList = [...listMaterials, newMaterials];
-            setListMaterials(updateList);
-            setMaterials(updateList);
-            setTextModal('creado');
-            setIsOpen(true);
-          } catch (error) {
-            console.log(error);
-            throw error;
-          }
-        }
+        const response = await createMaterial(newMaterial);
+        
 
-        formatValues({
-          setName,
-          setColor,
-          setStock,
-          setWeight,
-          setPrice,
-          setVendor,
-          setCategory,
-          setIdMaterial
-        });
-        console.log('Áqui 3');
-
-        setNotModify(false);
-        return;
+        setListMaterials(prev => [...prev, response.data]);
+        setMaterials(prev => [...prev, response.data]);
+        
+        setTextModal('creado');
       }
+  
+      setIsOpen(true);
+      formatValues({
+        setName,
+        setColor,
+        setStock,
+        setWeight,
+        setPrice,
+        setVendor,
+        setCategory,
+        setIdMaterial
+      });
+      setNotModify(false);
+      
     } catch (error) {
+      console.error("Error en handleSubmit:", error);
       setNotModify(true);
-      throw error;
     }
   };
 
@@ -213,28 +275,47 @@ export function RawMaterials({ user, setUser }) {
                   style={{ backgroundColor: "white", color: "black" }}
                 />
               </div>
-              <div className="input-group">
-                <span className="input-label" id="basic-addon1">Proveedor</span>
-                <input placeholder="Proveedor"
-                  type="text"
-                  value={vendor}
-                  onChange={(e) => setVendor(e.target.value)}
-                  required
-                  className="input-field"
-                  style={{ backgroundColor: "white", color: "black" }}
-                />
-              </div>
-              <div className="input-group">
-                <span className="input-label" id="basic-addon1">Categoría</span>
-                <input placeholder="Categoría"
-                  type="text"
-                  value={category}
-                  onChange={(e) => setCategory(e.target.value)}
-                  required
-                  className="input-field"
-                  style={{ backgroundColor: "white", color: "black" }}
-                />
-              </div>
+
+
+                          <div className="input-group">
+              <span className="input-label">Proveedor</span>
+              <select
+                id="proveedor"
+                name="proveedor"
+                value={vendor}
+                onChange={(e) => setVendor(Number(e.target.value))}
+                className="input-field"
+                required
+                style={{ backgroundColor: "white", color: "black" }}
+              >
+                <option value="">Seleccione un proveedor</option>
+                {proveedores.map((proveedor) => (
+                  <option key={proveedor.id} value={proveedor.id}>
+                    {proveedor.nombre_proveedor}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+              
+              
+            <div className="input-group">
+              <span className="input-label">Categoría</span>
+              <select
+                value={category}
+                onChange={(e) => setCategory(Number(e.target.value))}
+                className="input-field"
+                required
+                style={{ backgroundColor: "white", color: "black" }}
+              >
+                <option value="">Seleccione una categoría</option>
+                {categoriasInsumos.map((cat) => (
+                  <option key={cat.id} value={cat.id}>
+                    {cat.nombre_categoria_insumo}
+                  </option>
+                ))}
+              </select>
+            </div>
 
               <div className="form-btn-edit">
                 <button
@@ -308,7 +389,13 @@ export function RawMaterials({ user, setUser }) {
                     <td>{item.cantidad_insumo}</td>
                     <td>{item.peso_insumo} Kg</td>
                     <td>${item.precio_insumo}</td>
-                    <td>{item.categoria ? item.categoria : item.categoria_insumos_id}</td>
+                    {/* aqui se obtiene la categori de insumos */}
+                    <td>
+                      {categoriasInsumos.find(cat => cat.id === item.categoria_insumos_id)?.nombre_categoria_insumo || 
+                      item.categoria || 
+                      item.categoria_insumos_id}
+                    </td>
+
                     <td>
                       <button
                         onClick={async () => {
