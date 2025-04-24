@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    card_view:cardCornerRadius="12dp"
+    card_view:cardElevation="6dp"
+    android:layout_margin="8dp"
+    android:background="@color/white">
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:columnCount="2"
+        android:rowCount="10">
+
+        <!-- Nombre -->
+        <TextView
+            android:text="Nombre:"
+            android:textStyle="bold"
+            android:layout_marginBottom="4dp"/>
+        <TextView
+            android:id="@+id/tvNombre"
+            android:layout_marginBottom="4dp" />
+
+        <!-- Género -->
+        <TextView
+            android:text="Género:"
+            android:textStyle="bold"
+            android:layout_marginBottom="4dp"/>
+        <TextView
+            android:id="@+id/tvGenero"
+            android:layout_marginBottom="4dp" />
+
+        <!-- Tipo -->
+        <TextView
+            android:text="Tipo:"
+            android:textStyle="bold"
+            android:layout_marginBottom="4dp"/>
+        <TextView
+            android:id="@+id/tvTipo"
+            android:layout_marginBottom="4dp" />
+
+        <!-- Talla -->
+        <TextView
+            android:text="Talla:"
+            android:textStyle="bold"
+            android:layout_marginBottom="4dp"/>
+        <TextView
+            android:id="@+id/tvTalla"
+            android:layout_marginBottom="4dp" />
+
+        <!-- Color -->
+        <TextView
+            android:text="Color:"
+            android:textStyle="bold"
+            android:layout_marginBottom="4dp"/>
+        <TextView
+            android:id="@+id/tvColor"
+            android:layout_marginBottom="4dp" />
+
+        <!-- Peso -->
+        <TextView
+            android:text="Peso:"
+            android:textStyle="bold"
+            android:layout_marginBottom="4dp"/>
+        <TextView
+            android:id="@+id/tvPeso"
+            android:layout_marginBottom="4dp" />
+
+        <!-- Cantidad -->
+        <TextView
+            android:text="Cantidad:"
+            android:textStyle="bold"
+            android:layout_marginBottom="4dp"/>
+        <TextView
+            android:id="@+id/tvCantidad"
+            android:layout_marginBottom="4dp" />
+
+        <!-- Precio -->
+        <TextView
+            android:text="Precio:"
+            android:textStyle="bold"
+            android:layout_marginBottom="4dp"/>
+        <TextView
+            android:id="@+id/tvPrecio"
+            android:layout_marginBottom="4dp" />
+
+        <!-- Categoría -->
+        <TextView
+            android:text="Categoría:"
+            android:textStyle="bold"
+            android:layout_marginBottom="4dp"/>
+        <TextView
+            android:id="@+id/tvCategoria"
+            android:layout_marginBottom="4dp" />
+
+        <!-- Fecha -->
+        <TextView
+            android:text="Fecha:"
+            android:textStyle="bold"
+            android:layout_marginBottom="4dp"/>
+        <TextView
+            android:id="@+id/tvFecha"
+            android:layout_marginBottom="4dp" />
+
+    </GridLayout>
+</androidx.cardview.widget.CardView>

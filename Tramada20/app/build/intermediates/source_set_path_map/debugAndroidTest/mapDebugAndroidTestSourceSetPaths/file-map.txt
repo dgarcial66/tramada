@@ -1,0 +1,6 @@
+com.example.tramada20.test.app-annotation-experimental-1.3.1-0 C:\Users\Aprendiz\.gradle\caches\8.11.1\transforms\3f53128f6dd5222c4a9d0f4984f008f7\transformed\annotation-experimental-1.3.1\res
+com.example.tramada20.test.app-core-1.5.0-1 C:\Users\Aprendiz\.gradle\caches\8.11.1\transforms\74f4e037a783960029dcd7d0485a15a2\transformed\core-1.5.0\res
+com.example.tramada20.test.app-androidTest-2 C:\Users\Aprendiz\Desktop\Tramada20\app\build\generated\res\resValues\androidTest\debug
+com.example.tramada20.test.app-mergeDebugAndroidTestResources-3 C:\Users\Aprendiz\Desktop\Tramada20\app\build\intermediates\incremental\debugAndroidTest\mergeDebugAndroidTestResources\merged.dir
+com.example.tramada20.test.app-mergeDebugAndroidTestResources-4 C:\Users\Aprendiz\Desktop\Tramada20\app\build\intermediates\incremental\debugAndroidTest\mergeDebugAndroidTestResources\stripped.dir
+com.example.tramada20.test.app-debugAndroidTest-5 C:\Users\Aprendiz\Desktop\Tramada20\app\build\intermediates\merged_res\debugAndroidTest\mergeDebugAndroidTestResources
