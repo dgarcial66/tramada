@@ -43,6 +43,7 @@ class ApiRawMaterials {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(body),
+          include: "credentials",
         }
       );
       console.log(res);

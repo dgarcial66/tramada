@@ -42,7 +42,7 @@ export function RawMaterials({ user, setUser }) {
     categories,
     filteredMaterials
   } = useMaterials();
-  const [listMaterials, setListMaterials] = useState(filteredMaterials());
+  const [listMaterials, setListMaterials] = useState([]);
 
   const navigate = useNavigate();
 
@@ -63,22 +63,24 @@ export function RawMaterials({ user, setUser }) {
     const fetchCategorias = async () => {
       try {
         const response = await axios.get("http://localhost:3000/api/v1/raw-categories");
-
+     
         let categorias = [];
         if (response.data.success) {
-          categorias = Array.isArray(response.data.data)
-            ? response.data.data
-            : response.data.data
-              ? [response.data.data]
+          categorias = Array.isArray(response.data.data) 
+            ? response.data.data 
+            : response.data.data 
+              ? [response.data.data] 
               : [];
         }
-
+  
         setCategoriasInsumos(categorias.map(cat => ({
           id: cat.id,
           nombre_categoria_insumo: cat.nombre || cat.nombre_categoria_insumo
         })));
-
+        
       } catch (error) {
+        console.error("Error al obtener categorías:", error);
+   
         setCategoriasInsumos([
           { id: 1, nombre_categoria_insumo: "Materiales para tejidos" },
           { id: 2, nombre_categoria_insumo: "Herramientas de confección" },
@@ -86,7 +88,7 @@ export function RawMaterials({ user, setUser }) {
         ]);
       }
     };
-
+  
     fetchCategorias();
   }, []);
 
@@ -108,6 +110,7 @@ export function RawMaterials({ user, setUser }) {
 
   useEffect(() => {
     if (idMaterial !== null) {
+      console.log("SOY LA VERGA: ", materials);
       const material = materials.find(item => item.id === idMaterial);
       if (material) {
         setName(material.nombre_insumo);
@@ -121,50 +124,79 @@ export function RawMaterials({ user, setUser }) {
     }
   }, [materials, idMaterial, isOpenModal]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = async (e) => {
+    try {
+      e.preventDefault();
+      
+    
+      const peso = parseFloat(weight);
+      const cantidad = parseFloat(stock);
+      const precio = parseFloat(price);
+      
+      if (isNaN(peso) || isNaN(cantidad) || isNaN(precio)) {
+        throw new Error("Los valores de peso, stock y precio deben ser números válidos");
+      }
+  
+      // aqui obtenemos los nombres para  proveedor y categoría
+      const proveedorSeleccionado = proveedores.find(p => p.id === vendor);
+      const categoriaSeleccionada = categoriasInsumos.find(c => c.id === category);
 
-    if (!name || !color || !category || !weight || !stock || !price || !vendor) {
-      return Swal.fire({
-        icon: "warning",
-        title: "Campos incompletos",
-        text: "Por favor, completa todos los campos.",
-      });
-    }
+      console.log(proveedorSeleccionado, "Proveedor seleccionado----xx");
+      console.log(categoriaSeleccionada, "Categoria seleccionada----xxxxx");
+  
+      if (!proveedorSeleccionado || !categoriaSeleccionada) {
+        throw new Error("Proveedor o categoría no válidos");
+      }
+  
+      const newMaterial = {
+        nombre_insumo: name,
+        color_insumo: color,
+        peso_insumo: peso,
+        cantidad_insumo: cantidad,
+        precio_insumo: precio,
+        nombre_proveedor: proveedorSeleccionado.nombre_proveedor,
+        nombre_categoria_insumo: categoriaSeleccionada.nombre_categoria_insumo,
+      };
 
-    const newMaterials = {
-      name,
-      color,
-      category,
-      weight: Number(weight),
-      stock: Number(stock),
-      price: Number(price),
-      vendor,
-    };
+      console.log(newMaterial, "Nuevo material");
+      
+      if (idMaterial !== null) {
 
-    if (idMaterial !== null) {
-      const updatedMaterial = { id: idMaterial, ...newMaterials };
-      const updatedList = materials.map((m) =>
-        m.id === idMaterial ? updatedMaterial : m
-      );
-      setListMaterials(updatedList);
-      setMaterials(updatedList);
-      Swal.fire({
-        icon: "success",
-        title: "Material modificado correctamente",
-      });
-      setNotModify(false);
-    } else {
-      const id = new Date().getTime();
-      const newMaterial = { id, ...newMaterials };
-      const updatedList = [...materials, newMaterial];
-      setListMaterials(updatedList);
-      setMaterials(updatedList);
-      Swal.fire({
-        icon: "success",
-        title: "Material registrado correctamente",
-      });
-    }
+      console.log(newMaterial, "Nuevo material X10");
+       const updatedMaterial = await updateMaterial(newMaterial, idMaterial);
+       console.log(updateMaterial, "updateMaterial---------X11");
+       console.log(updateMaterial, "updateMaterial---------1");
+       console.log(categoriasInsumos, "ESTAS SON LAS CATEGORIAS");
+       const updateList = listMaterials.map(material => 
+         material.id === idMaterial ? {...newMaterial} : material
+       );
+       console.log(listMaterials, "Lista de materiales");
+       console.log(updateList, "Lista de updateMaterials");
+       setListMaterials(updateList);
+       setMaterials(updateList);
+       setTextModal('actualizado');
+       console.log(listMaterials, "Lista de materiales ACTUALIZADA");
+     } else {
+
+       const response = await createMaterial(newMaterial);
+       
+       setListMaterials(prev => [...prev, response.data]);
+       setMaterials(prev => [...prev, response.data]);
+       
+       setTextModal('creado');
+     }
+     setIsOpen(true);
+     formatValues({
+       setName,
+       setColor,
+       setStock,
+       setWeight,
+       setPrice,
+       setVendor,
+       setCategory,
+       setIdMaterial
+     });
+     setNotModify(false);
 
     formatValues({
       setName,
@@ -176,7 +208,11 @@ export function RawMaterials({ user, setUser }) {
       setCategory,
       setIdMaterial,
     });
-  };
+  }catch (error) {
+    console.error("Error en handleSubmit:", error);
+    setNotModify(true);
+  }
+};
 
 
   return (
@@ -377,9 +413,12 @@ export function RawMaterials({ user, setUser }) {
                     <td>${item.precio_insumo}</td>
                     {/* aqui se obtiene la categori de insumos */}
                     <td>
-                      {categoriasInsumos.find(cat => cat.id === item.categoria_insumos_id)?.nombre_categoria_insumo ||
-                        item.categoria ||
-                        item.categoria_insumos_id}
+                      {item.nombre_categoria_insumo? item.nombre_categoria_insumo : categoriasInsumos.find(cat =>
+                          cat.id === item.categoria_insumos_id
+                        )?.nombre_categoria_insumo || 
+                          item.categoria ||
+                          item.categoria_insumos_id
+                      }
                     </td>
 
                     <td>
