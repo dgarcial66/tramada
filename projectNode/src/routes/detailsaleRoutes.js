@@ -26,5 +26,21 @@ detailsalesRoutes.get("/", async (req, res) => {
   }
 });
 
+detailsalesRoutes.get("/venta/:id", async (req, res) => {
+  try {
+      const ventaId = req.params.id;
+      const detalle = await detailsalesModel.getDetailSalesByVentaId(ventaId);
+
+      if (detalle.length === 0) {
+          return res.status(404).json({ message: "No se encontraron detalles para esta venta." });
+      }
+
+      res.status(200).json(detalle);
+  } catch (err) {
+      console.error("Error al obtener los detalles de la venta:", err.message);
+      res.status(500).json({ error: "Error al obtener los detalles de la venta" });
+  }
+});
+
 module.exports = { detailsalesRoutes };
 
