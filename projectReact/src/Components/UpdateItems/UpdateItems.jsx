@@ -1,6 +1,7 @@
 import { createPortal } from "react-dom";
 import { handlerUpdateItem } from "../../utils/handleUpdate";
 import { useState } from "react";
+import Swal from "sweetalert2";
 import './updateItems.css';
 
 function UpdateItems({
@@ -19,8 +20,6 @@ function UpdateItems({
     const [deductStock, setDeductStock] = useState(0);
     const [deductWeight, setDeductWeight] = useState(0);
 
-    console.log(id);
-
     function handlerClick(e) {
         e.preventDefault();
         const objBody = {
@@ -29,21 +28,37 @@ function UpdateItems({
             precio_insumo: deductWeight
         };
 
-        console.log(objBody);
         if (objBody.peso_insumo === 0 && objBody.cantidad_insumo === 0 && objBody.precio_insumo === 0) {
             setIsOpenModal(false);
             return;
         }
-        handlerUpdateItem(id, objBody);
-        setIsOpenModal(false);
-        setName("");
-        setColor("");
-        setStock("");
-        setWeight("");
-        setPrice("");
-        setVendor("");
-        setCategory("");
-        setIdMaterial(null);
+
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: 'Vas a descontar cantidades del insumo',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, descontar',
+            cancelButtonText: 'Cancelar',
+            customClass: {
+                confirmButton: 'btn btn-cancel',
+                cancelButton: 'btn btn-cancel'
+            },
+            buttonsStyling: false
+        }).then((result) => {
+            if (result.isConfirmed) {
+                handlerUpdateItem(id, objBody);
+                setIsOpenModal(false);
+                setName("");
+                setColor("");
+                setStock("");
+                setWeight("");
+                setPrice("");
+                setVendor("");
+                setCategory("");
+                setIdMaterial(null);
+            }
+        });
     }
 
     return createPortal(
@@ -97,7 +112,6 @@ function UpdateItems({
         </section>,
         document.body
     );
-
 }
 
 export { UpdateItems };
