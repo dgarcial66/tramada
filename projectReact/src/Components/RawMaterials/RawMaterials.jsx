@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Header } from "../Header/Header";
 import { useMaterials } from "../../hooks/useMaterial.jsx";
+import Swal from 'sweetalert2';
 import { formatValues, handleDelete, handleEdit } from "../../utils/utils.js";
 import { updateMaterial, deleteMaterial, createMaterial } from "../../actions/rawMaterial.js";
 import { Modal } from "../Modal/Modal.jsx";
@@ -28,9 +29,9 @@ export function RawMaterials({ user, setUser }) {
   const [textModal, setTextModal] = useState('Agregar');
   const [textInfo, setTextInfo] = useState('material');
   const [proveedores, setProveedores] = useState([]);
-  
+
   const [categoriasInsumos, setCategoriasInsumos] = useState([]);
-  
+
   const { search,
     setSearch,
     materials,
@@ -45,7 +46,6 @@ export function RawMaterials({ user, setUser }) {
 
   const navigate = useNavigate();
 
-// aqui se obtienen los nombres para los proveedores 
   useEffect(() => {
     const fetchProveedores = async () => {
       try {
@@ -59,40 +59,36 @@ export function RawMaterials({ user, setUser }) {
     fetchProveedores();
   }, []);
 
-// aqui se obtienen las categorias de insumos 
-useEffect(() => {
-  const fetchCategorias = async () => {
-    try {
-      const response = await axios.get("http://localhost:3000/api/v1/raw-categories");
-      
-      // Manejo específico para MariaDB
-      let categorias = [];
-      if (response.data.success) {
-        categorias = Array.isArray(response.data.data) 
-          ? response.data.data 
-          : response.data.data 
-            ? [response.data.data] 
-            : [];
+  useEffect(() => {
+    const fetchCategorias = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/api/v1/raw-categories");
+
+        let categorias = [];
+        if (response.data.success) {
+          categorias = Array.isArray(response.data.data)
+            ? response.data.data
+            : response.data.data
+              ? [response.data.data]
+              : [];
+        }
+
+        setCategoriasInsumos(categorias.map(cat => ({
+          id: cat.id,
+          nombre_categoria_insumo: cat.nombre || cat.nombre_categoria_insumo
+        })));
+
+      } catch (error) {
+        setCategoriasInsumos([
+          { id: 1, nombre_categoria_insumo: "Materiales para tejidos" },
+          { id: 2, nombre_categoria_insumo: "Herramientas de confección" },
+          { id: 3, nombre_categoria_insumo: "Equipos de maquinaria textil" }
+        ]);
       }
+    };
 
-      setCategoriasInsumos(categorias.map(cat => ({
-        id: cat.id,
-        nombre_categoria_insumo: cat.nombre || cat.nombre_categoria_insumo
-      })));
-      
-    } catch (error) {
-      console.error("Error al obtener categorías:", error);
-      // Datos mock de respaldo
-      setCategoriasInsumos([
-        { id: 1, nombre_categoria_insumo: "Materiales para tejidos" },
-        { id: 2, nombre_categoria_insumo: "Herramientas de confección" },
-        { id: 3, nombre_categoria_insumo: "Equipos de maquinaria textil" }
-      ]);
-    }
-  };
-
-  fetchCategorias();
-}, []);
+    fetchCategorias();
+  }, []);
 
 
   useEffect(() => {
@@ -125,92 +121,67 @@ useEffect(() => {
     }
   }, [materials, idMaterial, isOpenModal]);
 
-  const handlerDeleteMaterial = async (id) => {
-    try {
-      const rta = await deleteMaterial(id);
-      console.log(rta);
-      return rta;
-    } catch (err) {
-      console.log(err);
-      throw err;
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (!name || !color || !category || !weight || !stock || !price || !vendor) {
+      return Swal.fire({
+        icon: "warning",
+        title: "Campos incompletos",
+        text: "Por favor, completa todos los campos.",
+      });
     }
-  };
 
-  const handleSubmit = async (e) => {
-    try {
-      e.preventDefault();
-      
-    
-      const peso = parseFloat(weight);
-      const cantidad = parseFloat(stock);
-      const precio = parseFloat(price);
-      
-      if (isNaN(peso) || isNaN(cantidad) || isNaN(precio)) {
-        throw new Error("Los valores de peso, stock y precio deben ser números válidos");
-      }
-  
-      // aqui obtenemos los nombres para  proveedor y categoría
-      const proveedorSeleccionado = proveedores.find(p => p.id === vendor);
-      const categoriaSeleccionada = categoriasInsumos.find(c => c.id === category);
-  
-      if (!proveedorSeleccionado || !categoriaSeleccionada) {
-        throw new Error("Proveedor o categoría no válidos");
-      }
-  
-      const newMaterial = {
-        nombre_insumo: name,
-        color_insumo: color,
-        peso_insumo: peso,
-        cantidad_insumo: cantidad,
-        precio_insumo: precio,
-        nombre_proveedor: proveedorSeleccionado.nombre_proveedor,
-        nombre_categoria_insumo: categoriaSeleccionada.nombre_categoria_insumo,
-        id_proveedor: proveedorSeleccionado.id,
-        categoria_insumos_id: categoriaSeleccionada.id,
-      };
-      
-      if (idMaterial !== null) {
+    const newMaterials = {
+      name,
+      color,
+      category,
+      weight: Number(weight),
+      stock: Number(stock),
+      price: Number(price),
+      vendor,
+    };
 
-        const updatedMaterial = await updateMaterial(idMaterial, newMaterial);
-        const updateList = listMaterials.map(material => 
-          material.id === idMaterial ? updatedMaterial.data : material
-        );
-        setListMaterials(updateList);
-        setMaterials(updateList);
-        setTextModal('actualizado');
-      } else {
-
-        const response = await createMaterial(newMaterial);
-        
-
-        setListMaterials(prev => [...prev, response.data]);
-        setMaterials(prev => [...prev, response.data]);
-        
-        setTextModal('creado');
-      }
-  
-      setIsOpen(true);
-      formatValues({
-        setName,
-        setColor,
-        setStock,
-        setWeight,
-        setPrice,
-        setVendor,
-        setCategory,
-        setIdMaterial
+    if (idMaterial !== null) {
+      const updatedMaterial = { id: idMaterial, ...newMaterials };
+      const updatedList = materials.map((m) =>
+        m.id === idMaterial ? updatedMaterial : m
+      );
+      setListMaterials(updatedList);
+      setMaterials(updatedList);
+      Swal.fire({
+        icon: "success",
+        title: "Material modificado correctamente",
       });
       setNotModify(false);
-      
-    } catch (error) {
-      console.error("Error en handleSubmit:", error);
-      setNotModify(true);
+    } else {
+      const id = new Date().getTime();
+      const newMaterial = { id, ...newMaterials };
+      const updatedList = [...materials, newMaterial];
+      setListMaterials(updatedList);
+      setMaterials(updatedList);
+      Swal.fire({
+        icon: "success",
+        title: "Material registrado correctamente",
+      });
     }
+
+    formatValues({
+      setName,
+      setColor,
+      setStock,
+      setWeight,
+      setPrice,
+      setVendor,
+      setCategory,
+      setIdMaterial,
+    });
   };
+
 
   return (
     <>
-      <section className="container-father-services" style={{backgroundImage:`url(${fondoInsumos})`}}>
+      <section className="container-father-services" style={{ backgroundImage: `url(${fondoInsumos})` }}>
         <Header user={user} setUser={setUser} />
         <img className="back" src="https://img.icons8.com/?size=100&id=26194&format=png&color=000000" onClick={() => navigate("/home")} />
         <div className="container">
@@ -277,60 +248,75 @@ useEffect(() => {
               </div>
 
 
-                          <div className="input-group">
-              <span className="input-label">Proveedor</span>
-              <select
-                id="proveedor"
-                name="proveedor"
-                value={vendor}
-                onChange={(e) => setVendor(Number(e.target.value))}
-                className="input-field"
-                required
-                style={{ backgroundColor: "white", color: "black" }}
-              >
-                <option value="">Seleccione un proveedor</option>
-                {proveedores.map((proveedor) => (
-                  <option key={proveedor.id} value={proveedor.id}>
-                    {proveedor.nombre_proveedor}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-              
-              
-            <div className="input-group">
-              <span className="input-label">Categoría</span>
-              <select
-                value={category}
-                onChange={(e) => setCategory(Number(e.target.value))}
-                className="input-field"
-                required
-                style={{ backgroundColor: "white", color: "black" }}
-              >
-                <option value="">Seleccione una categoría</option>
-                {categoriasInsumos.map((cat) => (
-                  <option key={cat.id} value={cat.id}>
-                    {cat.nombre_categoria_insumo}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-              <div className="form-btn-edit">
-                <button
-                  className="btn btn-register"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleSubmit(e);
-                  }}
+              <div className="input-group">
+                <span className="input-label">Proveedor</span>
+                <select
+                  id="proveedor"
+                  name="proveedor"
+                  value={vendor}
+                  onChange={(e) => setVendor(Number(e.target.value))}
+                  className="input-field"
+                  required
+                  style={{ backgroundColor: "white", color: "black" }}
                 >
-                  {idMaterial !== null ? "Modificar" : "Agregar"} Material
-                </button>
-                {notModify && <p className="text-danger">El proveedor o la categoria no existen para el insumo.</p>}
+                  <option value="">Seleccione un proveedor</option>
+                  {proveedores.map((proveedor) => (
+                    <option key={proveedor.id} value={proveedor.id}>
+                      {proveedor.nombre_proveedor}
+                    </option>
+                  ))}
+                </select>
               </div>
 
 
+
+              <div className="input-group">
+                <span className="input-label">Categoría</span>
+                <select
+                  value={category}
+                  onChange={(e) => setCategory(Number(e.target.value))}
+                  className="input-field"
+                  required
+                  style={{ backgroundColor: "white", color: "black" }}
+                >
+                  <option value="">Seleccione una categoría</option>
+                  {categoriasInsumos.map((cat) => (
+                    <option key={cat.id} value={cat.id}>
+                      {cat.nombre_categoria_insumo}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <form onSubmit={handleSubmit}>
+                {/* todos los inputs aquí */}
+                <div className="form-btn-edit">
+                  <button className="btn btn-register" type="submit">
+                    {idMaterial !== null ? "Modificar" : "Agregar"} Material
+                  </button>
+                  {idMaterial !== null && (
+                    <button
+                      className="btn btn-cancel"
+                      type="button"
+                      onClick={() => {
+                        formatValues({
+                          setName,
+                          setColor,
+                          setStock,
+                          setWeight,
+                          setPrice,
+                          setVendor,
+                          setCategory,
+                          setIdMaterial,
+                        });
+                        setNotModify(false);
+                      }}
+                    >
+                      Cancelar
+                    </button>
+                  )}
+                </div>
+              </form>
 
               <div className="input-group">
                 <span className="input-label">Buscar Material</span>
@@ -367,9 +353,9 @@ useEffect(() => {
             </div>
           </div>
 
-          <h1 style={{color:"white"}}>Lista de materiales</h1>
+          <h1 style={{ color: "white" }}>Lista de materiales</h1>
           {listMaterials ? (
-            <table className="table" style={{marginTop:"1px"}} >
+            <table className="table" style={{ marginTop: "1px" }} >
               <thead>
                 <tr>
                   <th>Nombre</th>
@@ -391,9 +377,9 @@ useEffect(() => {
                     <td>${item.precio_insumo}</td>
                     {/* aqui se obtiene la categori de insumos */}
                     <td>
-                      {categoriasInsumos.find(cat => cat.id === item.categoria_insumos_id)?.nombre_categoria_insumo || 
-                      item.categoria || 
-                      item.categoria_insumos_id}
+                      {categoriasInsumos.find(cat => cat.id === item.categoria_insumos_id)?.nombre_categoria_insumo ||
+                        item.categoria ||
+                        item.categoria_insumos_id}
                     </td>
 
                     <td>

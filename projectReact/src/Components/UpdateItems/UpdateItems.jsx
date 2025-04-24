@@ -1,6 +1,7 @@
 import { createPortal } from "react-dom";
 import { handlerUpdateItem } from "../../utils/handleUpdate";
 import { useState } from "react";
+import Swal from "sweetalert2";
 import './updateItems.css';
 
 function UpdateItems({
@@ -13,37 +14,75 @@ function UpdateItems({
     setPrice,
     setVendor,
     setCategory,
-    setIdMaterial
+    setIdMaterial,
+    onUpdate
 }) {
     const [deductPrice, setDeductPrice] = useState(0);
     const [deductStock, setDeductStock] = useState(0);
     const [deductWeight, setDeductWeight] = useState(0);
 
-    console.log(id);
-
-    function handlerClick(e) {
+    async function handlerClick(e) {
         e.preventDefault();
+
         const objBody = {
             peso_insumo: deductPrice,
             cantidad_insumo: deductStock,
             precio_insumo: deductWeight
         };
 
-        console.log(objBody);
-        if (objBody.peso_insumo === 0 && objBody.cantidad_insumo === 0 && objBody.precio_insumo === 0) {
+        if (
+            objBody.peso_insumo === 0 &&
+            objBody.cantidad_insumo === 0 &&
+            objBody.precio_insumo === 0
+        ) {
             setIsOpenModal(false);
             return;
         }
-        handlerUpdateItem(id, objBody);
-        setIsOpenModal(false);
-        setName("");
-        setColor("");
-        setStock("");
-        setWeight("");
-        setPrice("");
-        setVendor("");
-        setCategory("");
-        setIdMaterial(null);
+
+        const result = await Swal.fire({
+            title: '¿Confirmar descuento?',
+            text: 'Esta acción descontará cantidades del insumo.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, descontar',
+            cancelButtonText: 'Cancelar',
+            customClass: {
+                confirmButton: 'btn btn-cancel',
+                cancelButton: 'btn btn-cancel'
+            },
+            buttonsStyling: false
+        });
+
+        if (!result.isConfirmed) return;
+
+        try {
+            await handlerUpdateItem(id, objBody);
+
+            if (onUpdate) onUpdate(); 
+
+            Swal.fire({
+                icon: 'success',
+                title: 'Descuento realizado correctamente',
+                showConfirmButton: false,
+                timer: 1500
+            });
+
+            setIsOpenModal(false);
+            setName("");
+            setColor("");
+            setStock("");
+            setWeight("");
+            setPrice("");
+            setVendor("");
+            setCategory("");
+            setIdMaterial(null);
+        } catch (error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error al descontar',
+                text: 'Verifica tu conexión o intenta más tarde.'
+            });
+        }
     }
 
     return createPortal(
@@ -51,53 +90,56 @@ function UpdateItems({
             <form>
                 <h1>Actualiza Cantidades</h1>
                 <p>Aquí actualiza la cantidad del stock, peso y precio para un insumo específico.</p>
+
                 <div className="input-group">
-                    <span className="input-label" id="basic-addon1">Stock</span>
+                    <span className="input-label">Stock</span>
                     <input
-                        type="text"
+                        type="number"
                         className="input-field"
                         value={deductStock}
                         onChange={(e) => setDeductStock(Number(e.target.value))}
                         placeholder="Stock disponible"
-                        aria-label="Stock"
-                        aria-describedby="basic-addon1"
                     />
                 </div>
+
                 <div className="input-group">
-                    <span className="input-label" id="basic-addon1">Peso (Kg)</span>
+                    <span className="input-label">Peso (Kg)</span>
                     <input
-                        type="text"
+                        type="number"
                         className="input-field"
                         value={deductPrice}
                         onChange={(e) => setDeductPrice(Number(e.target.value))}
                         placeholder="Peso del insumo"
-                        aria-label="Peso"
-                        aria-describedby="basic-addon1"
                     />
                 </div>
+
                 <div className="input-group">
-                    <span className="input-label" id="basic-addon1">Precio</span>
+                    <span className="input-label">Precio</span>
                     <input
-                        type="text"
+                        type="number"
                         className="input-field"
                         value={deductWeight}
                         onChange={(e) => setDeductWeight(Number(e.target.value))}
                         placeholder="Precio unitario"
-                        aria-label="Precio"
-                        aria-describedby="basic-addon1"
                     />
                 </div>
-                <button
-                    className="btn btn-cancel"
-                    onClick={handlerClick}
-                >
-                    Descontar
-                </button>
+
+                <div className="btn-group">
+                    <button className="btn btn-cancel" onClick={handlerClick}>
+                        Descontar
+                    </button>
+                    <button
+                        type="button"
+                        className="btn btn-cancel"
+                        onClick={() => setIsOpenModal(false)}
+                    >
+                        Cancelar
+                    </button>
+                </div>
             </form>
         </section>,
         document.body
     );
-
 }
 
 export { UpdateItems };
