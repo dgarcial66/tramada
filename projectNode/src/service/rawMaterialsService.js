@@ -26,7 +26,17 @@ class RawMaterialsService {
 
   async updateRaw(id, body) {
     try {
-      const data = await model.update(id, body);
+      const { nombre_proveedor, nombre_categoria_insumo } = body;
+      delete body.nombre_proveedor;
+      delete body.nombre_categoria_insumo;
+      console.log("SOY BODY EN OTRA MALDITA PARTE: ", body);
+
+      const data = await model.update(
+        id,
+        body,
+        nombre_proveedor,
+        nombre_categoria_insumo
+      );
       return data;
     } catch (error) {
       throw error;

@@ -30,6 +30,7 @@ rawMaterialsRouter.post("/", async (req, res, next) => {
 rawMaterialsRouter.patch("/:id", async (req, res, next) => {
   try {
     const { body, params } = req;
+    console.log(body, "SOY BODY PARA UPDATEEEEEEEEEX@");
     const result = await service.updateRaw(params.id, body);
     console.log("RESPUESTA PARAMS: ", params);
     console.log("RESPUESTA: ", result);
