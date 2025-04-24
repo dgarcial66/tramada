@@ -45,6 +45,22 @@ async getDetailSales() {
     conn.release();
   }
 }
+
+async getDetailSalesByVentaId(ventaId) {
+  const conn = await pool.getConnection();
+
+  try {
+    const query = "SELECT * FROM detalle_venta WHERE ventas_id = ?";
+    const data = await conn.query(query, [ventaId]);
+
+    return data;
+  } catch (err) {
+    throw new Error(err);
+  } finally {
+    conn.release();
+  }
+}
+
 }
 
 module.exports = { DetailSales };
