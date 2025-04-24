@@ -45,12 +45,12 @@ export function Suppliers({ user, setUser }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     const newSupplier = {
-      nombre_proveedor: name?.trim() || "",
-      telefono: phone ? Number(phone) : null,
-      direccion: address?.trim() || "",
-      correo: email?.trim() || "",
+      nombre_proveedor: name?.trim() || "", 
+      telefono: phone ? Number(phone) : null, 
+      direccion: address?.trim() || "", 
+      correo: email?.trim() || "", 
     };
 
     const validated = (
@@ -58,7 +58,7 @@ export function Suppliers({ user, setUser }) {
       newSupplier.telefono &&
       newSupplier.direccion
     );
-
+  
     if (!validated) {
       Swal.fire({
         icon: 'warning',
@@ -68,29 +68,29 @@ export function Suppliers({ user, setUser }) {
       });
       return;
     }
-
+  
     if (editIndex !== null) {
       try {
         const newList = [...listSuppliers];
         newList[editIndex] = newSupplier;
-
-
+  
+    
         await supplierUpdate(newSupplier, id);
         setListSuppliers(newList);
         setText('Actualizado');
         setTextModal('Actualizado');
         setCreateSupplier(true);
         setIsOpen(true);
-
-
+  
+        
         Swal.fire({
           icon: 'success',
           title: 'Proveedor actualizado',
           text: 'El proveedor se ha actualizado correctamente.',
           confirmButtonColor: '#3085d6',
         });
-
-
+  
+        
         formatInputs({
           setName,
           setPhone,
@@ -126,7 +126,7 @@ export function Suppliers({ user, setUser }) {
           text: 'El proveedor se ha registrado correctamente.',
           confirmButtonColor: '#3085d6',
         });
-
+  
         formatInputs({
           setName,
           setPhone,
@@ -239,6 +239,7 @@ export function Suppliers({ user, setUser }) {
               }
 
             </div>
+
           </div>
           <table className="table">
             <thead>
