@@ -46,7 +46,6 @@ export function RawMaterials({ user, setUser }) {
 
   const navigate = useNavigate();
 
-  // aqui se obtienen los nombres para los proveedores 
   useEffect(() => {
     const fetchProveedores = async () => {
       try {
@@ -60,13 +59,11 @@ export function RawMaterials({ user, setUser }) {
     fetchProveedores();
   }, []);
 
-  // aqui se obtienen las categorias de insumos 
   useEffect(() => {
     const fetchCategorias = async () => {
       try {
         const response = await axios.get("http://localhost:3000/api/v1/raw-categories");
 
-        // Manejo específico para MariaDB
         let categorias = [];
         if (response.data.success) {
           categorias = Array.isArray(response.data.data)
@@ -82,8 +79,6 @@ export function RawMaterials({ user, setUser }) {
         })));
 
       } catch (error) {
-        console.error("Error al obtener categorías:", error);
-        // Datos mock de respaldo
         setCategoriasInsumos([
           { id: 1, nombre_categoria_insumo: "Materiales para tejidos" },
           { id: 2, nombre_categoria_insumo: "Herramientas de confección" },
@@ -148,7 +143,6 @@ export function RawMaterials({ user, setUser }) {
     };
 
     if (idMaterial !== null) {
-      // Estamos modificando
       const updatedMaterial = { id: idMaterial, ...newMaterials };
       const updatedList = materials.map((m) =>
         m.id === idMaterial ? updatedMaterial : m
@@ -161,7 +155,6 @@ export function RawMaterials({ user, setUser }) {
       });
       setNotModify(false);
     } else {
-      // Estamos agregando
       const id = new Date().getTime();
       const newMaterial = { id, ...newMaterials };
       const updatedList = [...materials, newMaterial];
