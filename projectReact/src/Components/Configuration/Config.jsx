@@ -21,7 +21,7 @@ export function Config({ user, setUser }) {
     return (
         <>
             <section className='container-father-services'>
-                <Header setUser={setUser} />
+                <Header user={user} setUser={setUser} />
                 <img className="back" src="https://img.icons8.com/?size=100&id=26194&format=png&color=000000" onClick={() => navigate("/home")} />
                 <div className='container'>
                     <section className="container-config">
@@ -41,13 +41,10 @@ export function Config({ user, setUser }) {
 
                             <form action="submit" className='card-body'>
                                 <div className='input-group'>
-                                    <label htmlFor="name" className='input-label'>Nombre</label>
-                                    <input type="text" defaultValue={user.name} className='input-field' placeholder='Nombre usuario' />
-                                    <label htmlFor="password" className='input-label'>Contraseña</label>
-                                    <input type="text" defaultValue={user.password} className='input-field' placeholder='Contraseña' />
-                                    <label htmlFor="rol" className='input-label'>Rol</label>
-                                    <input type="text" defaultValue={user.role} className='input-field' placeholder='Rol usuario' />
-                                    <button className='btn btn-register'>Confirmar</button>
+                                    <label htmlFor="name" className='input-label'>Email: {user.email}</label>
+                                    <label htmlFor="password" className='input-label'>Actualizar  Contraseña</label>
+                                    <input type="text" defaultValue={user.password} className='input-field' placeholder='Nueva Contraseña' />
+                                    <button className='btn btn-register'>Actualizar contraseña</button>
 
                                 </div>
 

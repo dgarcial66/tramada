@@ -62,3 +62,7 @@
     border: 2px solid #fff;
     box-shadow: 0 2px 4px rgba(54, 231, 193, 0.1);
 }
+.user-email {
+  font-weight: bold;
+  margin-right: 10px;
+}

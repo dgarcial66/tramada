@@ -5,7 +5,7 @@ import { Header } from "../Header/Header";
 import "./menu.css"
 
 
-export function Menu({ setUser }) {
+export function Menu({ user, setUser }) {
   const [ClickProducts, setClickProducts] = useState(false);
   const navigate = useNavigate()
   return (
@@ -14,7 +14,7 @@ export function Menu({ setUser }) {
         <MenuProductos />
       ) : (
         <section className="container-father-menu">
-          <Header setUser={setUser} />
+          <Header user={user} setUser={setUser} />
           <section className="container-menu">
             <img className="menu-logo-main" src="../../../asset/Icono.PNG" alt="" />
             <h1 >MENU PRINCIPAL</h1>

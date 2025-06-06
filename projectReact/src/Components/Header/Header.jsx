@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { ApiFetch } from "../../services/api";
 import './header.css'
 
-export const Header = ({ setUser }) => {
+export const Header = ({user, setUser }) => {
 
   const navigate = useNavigate();
 
@@ -24,6 +24,7 @@ export const Header = ({ setUser }) => {
         </figure>
       </section>
       <section className="perfil-menu">
+        {user?.email && <span> {user.email}</span>}
         <button
           onClick={() => handlelogout()}
         >Cerrar sesión</button>

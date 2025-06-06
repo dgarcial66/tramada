@@ -58,7 +58,7 @@ authRouter.post("/login", async (req, res, next) => {
     const userInfo = req.user;
     console.log(userInfo);
     console.log("INFO USER: ", userInfo);
-D
+
     return res.status(200).json(userInfo[0]);
 
 

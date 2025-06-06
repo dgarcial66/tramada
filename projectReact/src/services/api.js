@@ -19,6 +19,7 @@ class ApiFetch {
       );
       console.log("AQUI RESPONDEMOS CON UN: ", res.status);
       const data = await res.json();
+      console.log("aqui tenemos otro",data);
       return { data, status: res.status };
     } catch (error) {
       if (

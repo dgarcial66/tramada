@@ -203,7 +203,7 @@ export function Ventas({ setUser, user }) {
   return (
     <>
       <section className="container-father-services">
-        <Header setUser={setUser} />
+        <Header user={user} setUser={setUser} />
         <img className="back" src="https://img.icons8.com/?size=100&id=26194&format=png&color=000000" onClick={() => navigate("/home")} />
 
         <div className="container">
