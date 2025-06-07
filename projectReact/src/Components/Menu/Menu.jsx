@@ -79,14 +79,7 @@ export function Menu({ setUser }) {
                 <h2>HISTÓRICO DE PRECIOS</h2>
               </figure>
 
-              <figure onClick={() => navigate('/Config')} className="container-hijo">
-                <img                 
-                  className="Configuración"
-                  src="https://img.icons8.com/?size=100&id=11360&format=png&color=000000"
-                  alt="icono-configuracion"
-                />
-                <h2>CONFIGURACION</h2>
-              </figure>
+              
 
 
             </div>
