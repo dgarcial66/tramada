@@ -1,9 +1,11 @@
 class ApiRawMaterials {
   constructor() {}
 
+  static pathUrl = import.meta.env.VITE_API_URL;
+
   async getMaterials() {
     try {
-      const res = await fetch("http://localhost:3000/api/v1/rawMaterials", {
+      const res = await fetch(`${this.pathUrl}/api/v1/rawMaterials`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -17,7 +19,7 @@ class ApiRawMaterials {
 
   async createRawMaterials(body) {
     try {
-      const res = await fetch("http://localhost:3000/api/v1/rawMaterials", {
+      const res = await fetch(`${this.pathUrl}/api/v1/rawMaterials`, {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -35,7 +37,7 @@ class ApiRawMaterials {
   async updateMaterial(body, id) {
     try {
       const res = await fetch(
-        `http://localhost:3000/api/v1/rawMaterials/${id}`,
+        `${this.pathUrl}/api/v1/rawMaterials/${id}`,
         {
           method: "PATCH",
           headers: {
@@ -57,7 +59,7 @@ class ApiRawMaterials {
     console.log("SOY BODY ULTIMO: ", body);
     try {
       const res = await fetch(
-        `http://localhost:3000/api/v1/rawMaterials/deduct/${id}`,
+        `${this.pathUrl}/api/v1/rawMaterials/deduct/${id}`,
         {
           method: "PATCH",
           headers: {

@@ -1,0 +1,42 @@
+services:
+  frontend:
+    image: mikejoya/mi-frontend-t:latest
+    ports:
+      - "80:80" # se puede quitar si lo usarás tras un proxy como Traefik
+    networks:
+      - public
+    restart: always
+
+  backend:
+    image: mikejoya/mi-backend-t:latest
+    env_file:
+      - ./.env
+    ports:
+      - "3000:3000"
+    networks:
+      - public
+      - internal
+    depends_on:
+      - db
+    restart: always
+
+  db:
+    image: mikejoya/mi-db-t:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD_ROOT}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    networks:
+      - internal
+    restart: always
+
+volumes:
+  mariadb_data:
+
+networks:
+  internal:
+    internal: true
+  public:
