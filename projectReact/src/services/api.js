@@ -1,9 +1,11 @@
 class ApiFetch {
   constructor() {}
 
+  static pathUrl = import.meta.env.VITE_API_URL;
+
   static async isLogin() {
     try {
-      const res = await fetch("http://localhost:3000/api/v1/auth/verify", {
+      const res = await fetch(`${this.pathUrl}/api/v1/auth/verify`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -39,7 +41,7 @@ class ApiFetch {
 
   static async authUser(body) {
     try {
-      const res = await fetch("http://localhost:3000/api/v1/auth/login", {
+      const res = await fetch(`${this.pathUrl}/api/v1/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -67,7 +69,7 @@ class ApiFetch {
 
   static async create(body) {
     try {
-      const res = await fetch("http://localhost:3000/api/v1/user", {
+      const res = await fetch(`${this.pathUrl}/api/v1/user`, {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -92,7 +94,7 @@ class ApiFetch {
 
   static async logOut() {
     try {
-      const res = await fetch("http://localhost:3000/api/v1/auth/logout", {
+      const res = await fetch(`${this.pathUrl}/api/v1/auth/logout`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

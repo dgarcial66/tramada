@@ -1,9 +1,11 @@
 class CategoriesService {
   constructor() {}
 
+    static pathUrl = import.meta.env.VITE_API_URL;
+
   async getCategoryRaw() {
     try {
-      const res = await fetch("http://localhost:3000/api/v1/categories/raw", {
+      const res = await fetch(`${this.pathUrl}/api/v1/categories/raw`, {
         method: "GET",
         headers: {
           "Content-type": "application/json",

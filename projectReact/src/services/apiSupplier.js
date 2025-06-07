@@ -1,9 +1,11 @@
 class ApiSupplier {
   constructor() {}
 
+  static pathUrl = import.meta.env.VITE_API_URL;
+
   async getSupplier() {
     try {
-      const res = await fetch("http://localhost:3000/api/v1/supplier", {
+      const res = await fetch(`${this.pathUrl}/api/v1/supplier`, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
       });
@@ -16,7 +18,7 @@ class ApiSupplier {
 
   async createSupplier(body) {
     try {
-      const res = await fetch(`http://localhost:3000/api/v1/supplier`, {
+      const res = await fetch(`${this.pathUrl}/api/v1/supplier`, {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -32,7 +34,7 @@ class ApiSupplier {
 
   async updateSupplier(body, id) {
     try {
-      const res = await fetch(`http://localhost:3000/api/v1/supplier/${id}`, {
+      const res = await fetch(`${this.pathUrl}/api/v1/supplier/${id}`, {
         method: "PATCH",
         headers: {
           Accept: "application/json",
@@ -47,7 +49,7 @@ class ApiSupplier {
 
   async suppliesDelete(id) {
     try {
-      const res = await fetch(`http://localhost:3000/api/v1/supplier/${id}`, {
+      const res = await fetch(`${this.pathUrl}/api/v1/supplier/${id}`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
       });
