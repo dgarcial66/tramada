@@ -1,9 +1,11 @@
 class ApiRawMaterials {
-  constructor() {}
-
-  static pathUrl = import.meta.env.VITE_API_URL;
+  constructor() {
+    this.pathUrl = import.meta.env.VITE_API_URL;
+  }
+  
 
   async getMaterials() {
+    console.log("URL POR AQUI: ", `${this.pathUrl}/api/v1/rawMaterials`);
     try {
       const res = await fetch(`${this.pathUrl}/api/v1/rawMaterials`, {
         method: "GET",
@@ -11,7 +13,11 @@ class ApiRawMaterials {
           "Content-Type": "application/json",
         },
       });
-      return res;
+      if (!res.ok) {
+      throw new Error(`Error HTTP: ${res.status}`); // Maneja errores de la API
+    }
+    const data = await res.json();
+      return data;
     } catch (error) {
       throw new Error(error.message);
     }
