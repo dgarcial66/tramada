@@ -11,8 +11,10 @@ import { UpdateItems } from "../UpdateItems/UpdateItems.jsx";
 import fondoInsumos from "../../../asset/img/fondo_insumos.png";
 import axios from "axios";
 
-
 export function RawMaterials({ user, setUser }) {
+
+  const pathUrl = import.meta.env.VITE_API_URL;
+
   const [id, setId] = useState(null);
   const [name, setName] = useState("");
   const [color, setColor] = useState("");
@@ -46,10 +48,12 @@ export function RawMaterials({ user, setUser }) {
 
   const navigate = useNavigate();
 
+  console.log("OTRA URL DE COMPONENTE: ", pathUrl);
+
   useEffect(() => {
     const fetchProveedores = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/api/v1/supplier');
+        const response = await axios.get(`${pathUrl}/api/v1/supplier`);
         setProveedores(response.data);
       } catch (error) {
         console.error('Error fetching proveedores:', error);
@@ -62,7 +66,7 @@ export function RawMaterials({ user, setUser }) {
   useEffect(() => {
     const fetchCategorias = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/api/v1/raw-categories");
+        const response = await axios.get(`${pathUrl}/api/v1/raw-categories`);
      
         let categorias = [];
         if (response.data.success) {
@@ -102,15 +106,18 @@ export function RawMaterials({ user, setUser }) {
   useEffect(() => {
     const fetchMaterial = () => {
       const result = filteredMaterials();
+      console.log("SOY LA VERGAResult: ", result);
       setListMaterials(result);
     };
     setTextInfo('material');
     fetchMaterial();
+
+    console.log("SOY LA VERGA1: ", materials);
   }, [materials, search, nameSupplier]);
 
   useEffect(() => {
     if (idMaterial !== null) {
-      console.log("SOY LA VERGA: ", materials);
+      console.log("SOY LA VERGA2: ", materials);
       const material = materials.find(item => item.id === idMaterial);
       if (material) {
         setName(material.nombre_insumo);

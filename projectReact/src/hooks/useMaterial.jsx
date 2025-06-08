@@ -8,6 +8,7 @@ const suppliesService = new ApiSupplier();
 const categoriesRaw = new CategoriesService();
 
 function useMaterials() {
+    console.log("ME ESTOY EJECUTANDO...")
     const [ search, setSearch ] = useState("");
     const [ materials, setMaterials ] = useState([]);
     const [ nameSupplier, setNameSupplier ] = useState('');
@@ -15,10 +16,13 @@ function useMaterials() {
     const [ categories, setCategories ] = useState([]);
 
     const listMaterials =  async () => {
-      
-        const res = await rawMaterialService.getMaterials();
-        const data = await res.json();
-        setMaterials(data)  
+        try {
+            const data = await rawMaterialService.getMaterials();
+            console.log("AQUI ESTA DATA MATE: ", data);
+            setMaterials(data);
+        } catch (error) {
+            console.error("Error fetching materials:", error);
+        }
     }
     const suppliesPromise = async () => {
         const res = await suppliesService.getSupplier();
