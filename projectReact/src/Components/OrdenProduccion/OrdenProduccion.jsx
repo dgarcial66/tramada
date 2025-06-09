@@ -9,7 +9,7 @@ import ReportOrdenProduccion from "../../../asset/Reports/reportOrdenProduccitio
 import { PDFDownloadLink } from '@react-pdf/renderer';
 
 
-
+const API_URL = import.meta.env.VITE_API_URL;
 
 function OrdenProduccion({ user, setUser }) {
   const [fecha_entrega, setFechaEntrega] = useState('');
@@ -33,7 +33,7 @@ function OrdenProduccion({ user, setUser }) {
 
   // // Aquí obtenemos los usuarios
   useEffect(() => {
-    Axios.get("http://localhost:3000/api/v1/user")
+    Axios.get(`${API_URL}/api/v1/user`)
       .then((response) => {
         setUsuarios(response.data);
       })
@@ -51,7 +51,7 @@ function OrdenProduccion({ user, setUser }) {
 
  // Aquí obtenemos los insumos
 useEffect(() => {
-  Axios.get("http://localhost:3000/api/v1/rawMaterials")
+  Axios.get(`${API_URL}/api/v1/rawMaterials`)
     .then((response) => {
       setInsumos(response.data); // ✅ Ahora sí
     })
@@ -68,7 +68,7 @@ useEffect(() => {
 // Aquí obtenemos los productos
 
 useEffect(() => {
-  Axios.get("http://localhost:3000/api/v1/products")
+  Axios.get(`${API_URL}/api/v1/products`)
     .then((response) => {
       setProductos(response.data);
     })
@@ -110,7 +110,7 @@ useEffect(() => {
       return;
     }
 
-    Axios.post("http://localhost:3000/api/v1/order", {
+    Axios.post(`${API_URL}/api/v1/order`, {
       fecha_entrega: fechaEntregadaFormateada,
       cantidad_productos_solicitada: cantidad_productos_solicitada,
       cantidad_insumo_necesaria: cantidad_insumo_necesaria,
@@ -147,7 +147,7 @@ useEffect(() => {
 
 
   const update = () => {
-    Axios.put(`http://localhost:3000/api/v1/order/${id}`, {
+    Axios.put(`${API_URL}/api/v1/order/${id}`, {
       fecha_entrega: fecha_entrega,
       cantidad_productos_solicitada: cantidad_productos_solicitada,
       cantidad_insumo_necesaria: cantidad_insumo_necesaria,
@@ -192,7 +192,7 @@ useEffect(() => {
       confirmButtonText: "Sí, eliminarla!",
     }).then((result) => {
       if (result.isConfirmed) {
-        Axios.delete(`http://localhost:3000/api/v1/order/${val.id}`)
+        Axios.delete(`${API_URL}/api/v1/order/${val.id}`)
           .then(() => {
             getOrdenes();
             limpiarCampos();
@@ -266,7 +266,7 @@ useEffect(() => {
 
   const getOrdenes = async () => {
     try {
-      const response = await Axios.get("http://localhost:3000/api/v1/order");
+      const response = await Axios.get(`${API_URL}/api/v1/order`);
       const ordenesOrdenadas = response.data.sort((a, b) => b.id - a.id); // orden descendente por ID
       setOrdenes(ordenesOrdenadas);
     } catch (error) {

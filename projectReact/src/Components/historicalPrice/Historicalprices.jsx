@@ -7,6 +7,8 @@ import { PDFDownloadLink } from "@react-pdf/renderer";
 import ReportHistorial from "../../../asset/Reports/reportsHistorial/ReportHistorial.jsx";
 import "./historicalprices.css";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 export function Historicalprices({ user, setUser }) {
     const [HistoricalPricesMaterialsList, setHistoricalPricesMaterialsList] = useState([]);
     const [historicalPricesList, setHistoricalPricesList] = useState([]);
@@ -15,7 +17,7 @@ export function Historicalprices({ user, setUser }) {
 
 
     const getHistoricalPricesMaterials = () => {
-        Axios.get("http://localhost:3000/api/v1/historical-prices-materials")
+        Axios.get(`${API_URL}/api/v1/historical-prices-materials`)
             .then((response) => {
                 setHistoricalPricesMaterialsList(response.data);
             })
@@ -26,7 +28,7 @@ export function Historicalprices({ user, setUser }) {
 
 
     const getHistoricalPrices = () => {
-        Axios.get("http://localhost:3000/api/v1/historical-prices")
+        Axios.get(`${API_URL}/api/v1/historical-prices`)
             .then((response) => {
                 setHistoricalPricesList(response.data);
             })

@@ -1,7 +1,7 @@
 class CategoriesService {
-  constructor() {}
-
-    static pathUrl = import.meta.env.VITE_API_URL;
+constructor() {
+    this.pathUrl = import.meta.env.VITE_API_URL;
+  }
 
   async getCategoryRaw() {
     try {

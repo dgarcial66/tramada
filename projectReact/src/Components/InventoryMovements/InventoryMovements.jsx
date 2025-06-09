@@ -7,13 +7,15 @@ import { PDFDownloadLink } from "@react-pdf/renderer";
 import InventoryMovementsPDF from "../../../asset/Reports/reportInventoryMovements/reportInventoryMovements.jsx";
 import "./inventoryMovements.css"
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 export function InventoryMovements({ user, setUser }) {
   const [inventoryList, setInventoryList] = useState([]);
 
   const navigate = useNavigate()
 
   const getInventory = () => {
-    Axios.get("http://localhost:3000/api/v1/inventory")
+    Axios.get(`${API_URL}/api/v1/inventory`)
       .then((response) => {
         setInventoryList(response.data);
       })
