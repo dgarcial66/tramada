@@ -5,6 +5,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Swal from 'sweetalert2';
 import Axios from "axios";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 export function Ventas({ setUser, user }) {
   const [id, setId] = useState("");
   const [fecha, setFecha] = useState("");
@@ -42,13 +44,13 @@ export function Ventas({ setUser, user }) {
 
 
   useEffect(() => {
-    Axios.get("http://localhost:3000/api/v1/clients").then((response) => {
+    Axios.get(`${API_URL}/api/v1/clients`).then((response) => {
       setClients(response.data);  
     });
   }, []);
   
   useEffect(() => {
-    Axios.get("http://localhost:3000/api/v1/products").then((response) => {
+    Axios.get(`${API_URL}/api/v1/products`).then((response) => {
       setProductos(response.data);
     });
   }, []);
@@ -63,7 +65,7 @@ export function Ventas({ setUser, user }) {
   }, [user, navigate]);
 
   const getSales = () => {
-    Axios.get("http://localhost:3000/api/v1/sales").then((response) => {
+    Axios.get(`${API_URL}/api/v1/sales`).then((response) => {
       setVentalist(response.data);
     });
   };
@@ -77,7 +79,7 @@ export function Ventas({ setUser, user }) {
       });
       return;
     }
-    Axios.post("http://localhost:3000/api/v1/sales", {
+    Axios.post(`${API_URL}/api/v1/sales`, {
       fecha_venta: fecha,
       estado_pago: estado,
       tipo_venta: tipoV,
@@ -118,7 +120,7 @@ export function Ventas({ setUser, user }) {
   
 
   const updateSales = () => {
-    Axios.put("http://localhost:3000/api/v1/sales", {
+    Axios.put(`${API_URL}/api/v1/sales`, {
       id: id,
       fecha_venta: fecha,
       estado_pago: estado,
@@ -165,7 +167,7 @@ export function Ventas({ setUser, user }) {
       });
       return;
     }
-    Axios.post("http://localhost:3000/api/v1/detail-sales", {
+    Axios.post(`${API_URL}/api/v1/detail-sales`, {
       cantidad: cantidad,
       precio_unitario: precio,
       subtotal: subtotal,
@@ -203,7 +205,7 @@ export function Ventas({ setUser, user }) {
   return (
     <>
       <section className="container-father-services">
-        <Header setUser={setUser} />
+       <Header user={user} setUser={setUser} />
         <img className="back" src="https://img.icons8.com/?size=100&id=26194&format=png&color=000000" onClick={() => navigate("/home")} />
 
         <div className="container">

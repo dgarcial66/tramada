@@ -5,6 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import Swal from 'sweetalert2'
 import Axios from "axios";
 
+const API_URL = import.meta.env.VITE_API_URL;
 
 export function ListClients({ user, setUser }) {
   const [nombre, setNombre] = useState("");
@@ -38,7 +39,7 @@ export function ListClients({ user, setUser }) {
       });
       return;
     }
-    Axios.post("http://localhost:3000/api/v1/clients", {
+    Axios.post(`${API_URL}/api/v1/clients`, {
       nombre_cliente: nombre,
       telefono_cliente: telefono,
       direccion_cliente: direccion,
@@ -77,7 +78,7 @@ export function ListClients({ user, setUser }) {
 
   const updateClient = () => {
 
-    Axios.put("http://localhost:3000/api/v1/clients", {
+    Axios.put(`${API_URL}/api/v1/clients`, {
       id: id,
       nombre_cliente: nombre,
       telefono_cliente: telefono,
@@ -105,7 +106,7 @@ export function ListClients({ user, setUser }) {
   };
 
   const deleteClient = (id) => {
-    Axios.delete(`http://localhost:3000/api/v1/clients/${id}`)
+    Axios.delete(`${API_URL}/api/v1/clients/${id}`)
       .then(() => {
         getClient();
         clean();
@@ -128,7 +129,7 @@ export function ListClients({ user, setUser }) {
 
 
   const getClient = () => {
-    Axios.get("http://localhost:3000/api/v1/clients").then((response) => {
+    Axios.get(`${API_URL}/api/v1/clients`).then((response) => {
       setClientList(response.data);
     })
   }

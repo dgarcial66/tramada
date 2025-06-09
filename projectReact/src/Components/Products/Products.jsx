@@ -6,6 +6,8 @@ import Swal from 'sweetalert2'
 import Axios from "axios";
 import fondoProductos from "../../../asset/img/fondo_productos.jpeg"
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 export function Products({ user, setUser }) {
   const [id, setId] = useState("");
   const [nombre, setNombre] = useState("");
@@ -48,7 +50,7 @@ export function Products({ user, setUser }) {
       });
       return;
     }
-    Axios.post("http://localhost:3000/api/v1/products", {
+    Axios.post(`${API_URL}/api/v1/products`, {
       nombre_producto: nombre,
       genero_producto: genero,
       tipo_producto: tipo,
@@ -97,7 +99,7 @@ export function Products({ user, setUser }) {
 
   const updateProducts = () => {
 
-    Axios.put("http://localhost:3000/api/v1/products", {
+    Axios.put(`${API_URL}/api/v1/products`, {
       id: id,
       nombre_producto: nombre,
       genero_producto: genero,
@@ -132,14 +134,14 @@ export function Products({ user, setUser }) {
 
 
   const getProducts = () => {
-    Axios.get("http://localhost:3000/api/v1/products").then((response) => {
+    Axios.get(`${API_URL}/api/v1/products`).then((response) => {
       console.log(response.data);
       setProductsList(response.data);
     })
   }
 
   const deleteProducts = (id) => {
-    Axios.delete(`http://localhost:3000/api/v1/products/${id}`)
+    Axios.delete(`${API_URL}/api/v1/products/${id}`)
       .then(() => {
         getProducts();
         clean();
@@ -172,7 +174,7 @@ export function Products({ user, setUser }) {
 
 // aqui se hace el llamado a la api para obtener las categorias
   const getCategorias = () => {
-    return Axios.get("http://localhost:3000/api/v1/products/product-categories")
+    return Axios.get(`${API_URL}/api/v1/products/product-categories`)
       .then((response) => {
         setCategorias(response.data);
       })
