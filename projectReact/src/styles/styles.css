@@ -6,7 +6,7 @@ section.padre-formulario {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: url(../projectReact/asset/img/fondo_tramada.webp);
+  background-image: url(../../public/fondo_tramada.webp);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -15,7 +15,7 @@ section.padre-formulario {
 section.container-father-services{
   min-height: 100vh;
   padding-bottom: 90px;
-  background-image: url(../projectReact/asset/img/fondo_general.png);
+  background-image: url(../../public/fondo_general.png);
 }
 
 /* Estructura del formulario con fondo transparente oscuro */
