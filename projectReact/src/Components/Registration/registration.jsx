@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { ApiFetch } from "../../services/api";
 
-import "./Registration.css"
+
 
 export function Registration ({ setIsRegister }){
     const [ email, setEmail ] = useState('');
@@ -11,10 +11,12 @@ export function Registration ({ setIsRegister }){
     const [ errorEmail, setErrorEmail ] = useState(false);
     const [ errorExistsEmail, setErrorExistsEmail ] = useState(false);
 
+    const apiFetch = new ApiFetch();
+
     const createUser = async (user) => {
         let string = '';
         try {
-            await ApiFetch.create(user);
+            await apiFetch.create(user);
             setIsRegister(true);
             setErrorExistsEmail(false);
         }catch (err) {
@@ -27,32 +29,33 @@ export function Registration ({ setIsRegister }){
 
     const handleRegister = (e) => {
         e.preventDefault();
-
-        if(!(email.length > 0) || !(password.length > 0)||!(repeatPassword.length > 0)) {
+    
+        // Limpiar errores antes de validar
+        setErrorEmail(false);
+        setErrorPass(false);
+        setErrorExistsEmail(false);
+    
+        if (!(email.trim()) || !(password.trim()) || !(repeatPassword.trim())) {
             setErrorEmail(true);
             return;
         }
-
-        if(password !== repeatPassword) {
-            setErrorEmail(false);
+    
+        if (password !== repeatPassword) {
             setErrorPass(true);
             return;
         }
-
-        const newUser = {
-            email: email,
-            password: password
-        }
-
-        try{
+    
+        const newUser = { email, password };
+    
+        try {
             createUser(newUser);
-        }catch(err) {
+        } catch (err) {
             console.log(err);
         }
-    }
+    };
 
     return(
-        <section>
+        <section className="padre-formulario">
             <form className="formulario form-register"
             onSubmit={handleRegister}
             >
@@ -87,7 +90,7 @@ export function Registration ({ setIsRegister }){
                     value={repeatPassword}
                     name="repeatPassword" 
                     id="repeatPassword" 
-                    placeholder="repita Contraseña" autoComplete="current-password"
+                    placeholder="Repita contraseña" autoComplete="current-password"
                     onChange={e => setRepeatPassword(e.target.value)}
                 />
                 <button>Registrarse</button>

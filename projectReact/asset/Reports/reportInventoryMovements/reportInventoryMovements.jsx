@@ -2,7 +2,6 @@ import React from "react";
 import { StyleSheet, View, Text, Page, Document, Image } from "@react-pdf/renderer";
 import logosena from "../../img/logosena.png";
 
-
 const styles = StyleSheet.create({
   page: {
     padding: 20,
@@ -72,10 +71,7 @@ const styles = StyleSheet.create({
     width: "100%",
     marginTop: 5,
   }
-
-
 });
-
 
 const InventoryMovementsPDF = ({ inventoryList }) => {
   return (
@@ -89,8 +85,8 @@ const InventoryMovementsPDF = ({ inventoryList }) => {
         </View>
 
         <View style={styles.table}>
-        <Text style={styles.tableTitle}>movimientos de inventarios</Text> 
-        <View style={styles.titleLine} />
+          <Text style={styles.tableTitle}>Movimientos de Inventarios</Text>
+          <View style={styles.titleLine} />
           <View style={[styles.tableRow, styles.tableHeader]}>
             <Text style={[styles.tableCell, styles.tableText]}>ID</Text>
             <Text style={[styles.tableCell, styles.tableText]}>Tipo de Movimiento</Text>
@@ -101,20 +97,19 @@ const InventoryMovementsPDF = ({ inventoryList }) => {
             <Text style={[styles.tableCell, styles.tableText]}>Producto</Text>
           </View>
 
-
           {inventoryList.map((item, index) => (
-            <View key={index} style={styles.tableRow}>
-              <Text style={[styles.tableCell, styles.tableText]}>{item.id}</Text>
-              <Text style={[styles.tableCell, styles.tableText]}>{item.tipo_movimiento}</Text>
-              <Text style={[styles.tableCell, styles.tableText]}>{item.cantidad}</Text>
-              <Text style={[styles.tableCell, styles.tableText]}>
-                {new Date(item.fecha_movimiento).toLocaleDateString()}
-              </Text>
-              <Text style={[styles.tableCell, styles.tableText]}>{item.motivo || "N/A"}</Text>
-              <Text style={[styles.tableCell, styles.tableText]}>{item.insumos_id}</Text>
-              <Text style={[styles.tableCell, styles.tableText]}>{item.producto_id}</Text>
-            </View>
-          ))}
+              <View key={index} style={styles.tableRow}>
+                <Text style={[styles.tableCell, styles.tableText]}>{item.id}</Text>
+                <Text style={[styles.tableCell, styles.tableText]}>{item.tipo_movimiento}</Text>
+                <Text style={[styles.tableCell, styles.tableText]}>{item.cantidad}</Text>
+                <Text style={[styles.tableCell, styles.tableText]}>
+                  {new Date(item.fecha_movimiento).toLocaleDateString()}
+                </Text>
+                <Text style={[styles.tableCell, styles.tableText]}>{item.motivo || "N/A"}</Text>
+                <Text style={[styles.tableCell, styles.tableText]}>{item.nombre_insumo}</Text> {/* Nombre del insumo */}
+                <Text style={[styles.tableCell, styles.tableText]}>{item.nombre_producto}</Text> {/* Nombre del producto */}
+              </View>
+            ))}
         </View>
       </Page>
     </Document>
@@ -122,3 +117,4 @@ const InventoryMovementsPDF = ({ inventoryList }) => {
 };
 
 export default InventoryMovementsPDF;
+

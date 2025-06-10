@@ -11,7 +11,7 @@ import { Suppliers } from './Components/suppliers/Suppliers.jsx';
 import { InventoryMovements } from './Components/InventoryMovements/InventoryMovements.jsx';
 import { Ventas } from './Components/Ventas/Ventas.jsx';
 import { Historicalprices } from './Components/historicalPrice/Historicalprices.jsx';
-//ClickProducts={ClickProducts} setClickProducts={setClickProducts}
+
 
 function App() {
 

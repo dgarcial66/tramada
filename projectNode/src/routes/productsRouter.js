@@ -51,4 +51,20 @@ productsRouter.delete("/:id", async (req, res) => {
   }
 });
 
+//Aqui se define la ruta para obtener las categorias
+
+productsRouter.get("/product-categories", async (req, res) => {
+  try {
+    const categories = await productsModel.getProductCategories();
+    console.log('Categorías encontradas:', categories);
+    res.status(200).json(categories);
+  } catch (err) {
+    console.error("Error al obtener categorías:", err.message);
+    res.status(500).json({ 
+      error: "Error al obtener las categorías",
+      details: process.env.NODE_ENV === 'development' ? err.message : undefined
+    });
+  }
+});
+
 module.exports = { productsRouter };

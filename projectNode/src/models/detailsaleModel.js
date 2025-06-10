@@ -26,6 +26,41 @@ class DetailSales {
       conn.release();
     }
   }
+
+
+async getDetailSales() {
+  const conn = await pool.getConnection();
+
+  try {
+    const query = `
+      SELECT ds.*, p.nombre_producto
+      FROM detalle_venta ds
+      JOIN productos p ON ds.productos_id = p.id
+    `;
+    const data = await conn.query(query);
+    return data;
+  } catch (err) {
+    throw new Error(err);
+  } finally {
+    conn.release();
+  }
+}
+
+async getDetailSalesByVentaId(ventaId) {
+  const conn = await pool.getConnection();
+
+  try {
+    const query = "SELECT * FROM detalle_venta WHERE ventas_id = ?";
+    const data = await conn.query(query, [ventaId]);
+
+    return data;
+  } catch (err) {
+    throw new Error(err);
+  } finally {
+    conn.release();
+  }
+}
+
 }
 
 module.exports = { DetailSales };

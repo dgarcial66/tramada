@@ -42,32 +42,70 @@ class RawMaterialsModel {
 
   async create(body) {
     const conn = await pool.getConnection();
-    const query =
-      "INSERT INTO insumos (nombre_insumo, color_insumo, peso_insumo, cantidad_insumo, precio_insumo, id_proveedor, categoria_insumos_id) VALUES (?, ?, ?, ?, ?, (SELECT id FROM proveedor WHERE nombre_proveedor = ?), (SELECT id FROM categoria_insumos WHERE nombre_categoria_insumo = ?) )";
+
+    const valoresConvertidos = [
+      body.nombre_insumo,
+      body.color_insumo,
+      parseFloat(body.peso_insumo),
+      parseFloat(body.cantidad_insumo),
+      parseFloat(body.precio_insumo),
+      body.nombre_proveedor,
+      body.nombre_categoria_insumo,
+    ];
+
+    if (valoresConvertidos.slice(2, 5).some(isNaN)) {
+      throw new Error(
+        "Los valores de peso, cantidad y precio deben ser números válidos"
+      );
+    }
+
+    const query = `
+      INSERT INTO insumos 
+      (nombre_insumo, color_insumo, peso_insumo, cantidad_insumo, precio_insumo, id_proveedor, categoria_insumos_id) 
+      VALUES (?, ?, ?, ?, ?, 
+        (SELECT id FROM proveedor WHERE nombre_proveedor = ?), 
+        (SELECT id FROM categoria_insumos WHERE nombre_categoria_insumo = ?)
+      )`;
 
     try {
-      const res = await conn.query(query, body);
-      return res;
+      const res = await conn.query(query, valoresConvertidos);
+
+      return {
+        success: true,
+        data: {
+          id: res.insertId,
+          ...body,
+        },
+      };
     } catch (error) {
+      console.error("Error en create:", error);
       throw error;
     } finally {
       if (conn) conn.release();
     }
   }
 
-  async update(id, body) {
+  async update(id, body, nameSupplier, nameCategory) {
     const conn = await pool.getConnection();
 
-    const objKeysValues = this.dynamicQuery(body);
+    const objKeysValues = this.dynamicQuery({
+      ...body,
+      id_proveedor: nameSupplier,
+      categoria_insumos_id: nameCategory,
+    });
     const query = objKeysValues.query;
     const values = objKeysValues.values;
     const idMaterial = Number(id);
     values.push(idMaterial);
 
-    console.log("SOY BODY: ", body);
+    console.log("SOY BODY: ", { ...body, nameSupplier, nameCategory });
 
     try {
-      const res = await conn.query(query, values);
+      console.log("SOY LA QUERY DE RAWMATERIALS: ", query);
+      console.log("SOY ID NUMBER: ", idMaterial);
+      const valuesTotal = [...values, nameSupplier, nameCategory, idMaterial];
+      console.log("SOY LOS VALORES DE RAWMATERIALS: ", valuesTotal);
+      const res = await conn.query(query, valuesTotal);
       return res;
     } catch (error) {
       console.log("ERROR GENERADO EN MODELO: ", error);
@@ -81,7 +119,6 @@ class RawMaterialsModel {
     const conn = await pool.getConnection();
 
     try {
-      // const query = "SELECT * FROM insumos INNER JOIN proveedor ON insumos.id_proveedor = proveedor.id";
       const query =
         "SELECT id, nombre_insumo, color_insumo, peso_insumo, cantidad_insumo, precio_insumo, (SELECT nombre_proveedor FROM proveedor AS p WHERE i.id_proveedor = p.id) AS proveedor, (SELECT nombre_categoria_insumo FROM categoria_insumos AS c WHERE i.categoria_insumos_id = c.id) AS categoria FROM insumos AS i;";
       const data = await conn.query(query);
@@ -89,6 +126,21 @@ class RawMaterialsModel {
       return data;
     } catch (error) {
       throw new Error(error);
+    } finally {
+      if (conn) conn.release();
+    }
+  }
+
+  //obtener id insumos
+  async getRawMaterialsList() {
+    const conn = await pool.getConnection();
+    try {
+      const query = "SELECT id, nombre_insumo FROM insumos";
+      const data = await conn.query(query);
+      return data;
+    } catch (error) {
+      console.error("Error al obtener la lista de insumos:", error);
+      throw error;
     } finally {
       if (conn) conn.release();
     }

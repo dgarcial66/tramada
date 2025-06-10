@@ -12,7 +12,7 @@ const { salesRoutes } = require("./salesRoutes.js");
 const { detailsalesRoutes } = require("./detailsaleRoutes.js");
 const { historicalPricesRouter } = require("./historicalPricesRoutes.js");
 const { historicalPricesMaterialsRouter } = require("./historicalPricesMaterialsRoutes.js");
-
+const { rawCategoryRouter } = require("./rawCategoryRouter.js");
 
 BigInt.prototype.toJSON = function () {
   return this.toString();
@@ -34,7 +34,7 @@ function routerApi(app) {
   routes.use("/detail-sales", detailsalesRoutes);
   routes.use("/historical-prices", historicalPricesRouter);
   routes.use("/historical-prices-materials", historicalPricesMaterialsRouter);
-
+  routes.use("/raw-categories", rawCategoryRouter);
 }
 
 module.exports = { routerApi };

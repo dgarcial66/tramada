@@ -42,6 +42,7 @@ const styles = StyleSheet.create({
   tableRow: {
     flexDirection: "row",
     width: "100%",
+    minHeight: 20 
   },
   tableCell: {
     padding: 5,
@@ -50,13 +51,15 @@ const styles = StyleSheet.create({
     borderColor: "#000",
     textAlign: "center",
     flex: 1,
+    flexWrap: "wrap", 
+    wordBreak: "break-word",  
   },
   tableHeader: {
     backgroundColor: "#f2f2f2",
     fontWeight: "bold",
   },
   tableText: {
-    fontSize: 10,
+    fontSize: 7,
   },
   tableTitle: {
     fontSize: 14,
@@ -92,30 +95,31 @@ const ReportOrdenProduccion = ({ orden_de_produccion }) => {
         <View style={styles.titleLine} />
           <View style={[styles.tableRow, styles.tableHeader]}>
             <Text style={[styles.tableCell, styles.tableText]}>ID</Text>
-            <Text style={[styles.tableCell, styles.tableText]}>Fecha Orden</Text>
             <Text style={[styles.tableCell, styles.tableText]}>Fecha Entrega</Text>
             <Text style={[styles.tableCell, styles.tableText]}>Cantidad Solicitada</Text>
             <Text style={[styles.tableCell, styles.tableText]}>Cantidad Insumo</Text>
-            <Text style={[styles.tableCell, styles.tableText]}>Usuario ID</Text>
+            <Text style={[styles.tableCell, styles.tableText]}>Email usuario</Text>
             <Text style={[styles.tableCell, styles.tableText]}>Anotaciones</Text>
             <Text style={[styles.tableCell, styles.tableText]}>Estado</Text>
-            <Text style={[styles.tableCell, styles.tableText]}>Insumos ID</Text>
-            <Text style={[styles.tableCell, styles.tableText]}>Producto ID</Text>
+            <Text style={[styles.tableCell, styles.tableText]}>Insumos</Text>
+            <Text style={[styles.tableCell, styles.tableText]}>Producto</Text>
           </View>
 
 
           {orden_de_produccion.map((odp, index) => (
             <View key={index} style={styles.tableRow}>
               <Text style={[styles.tableCell, styles.tableText]}>{odp.id}</Text>
-              <Text style={[styles.tableCell, styles.tableText]}>{new Date(odp.fecha_orden).toLocaleDateString()}</Text>
               <Text style={[styles.tableCell, styles.tableText]}>{odp.fecha_entrega ? new Date(odp.fecha_entrega).toLocaleDateString() : "N/A"}</Text>
               <Text style={[styles.tableCell, styles.tableText]}>{odp.cantidad_productos_solicitada}</Text>
               <Text style={[styles.tableCell, styles.tableText]}>{odp.cantidad_insumo_necesaria}</Text>
-              <Text style={[styles.tableCell, styles.tableText]}>{odp.usuario_id}</Text>
+              <Text style={[styles.tableCell, styles.tableText]}>{odp.nombre_usuario.length > 25 
+                ? odp.nombre_usuario.slice(0, 25) + "..." 
+               : odp.nombre_usuario}
+              </Text>
               <Text style={[styles.tableCell, styles.tableText]}>{odp.anotaciones || "N/A"}</Text>
               <Text style={[styles.tableCell, styles.tableText]}>{odp.estado_orden}</Text>
-              <Text style={[styles.tableCell, styles.tableText]}>{odp.insumos_id}</Text>
-              <Text style={[styles.tableCell, styles.tableText]}>{odp.producto_id}</Text>
+              <Text style={[styles.tableCell, styles.tableText]}>{odp.nombre_insumo}</Text>
+              <Text style={[styles.tableCell, styles.tableText]}>{odp.nombre_producto}</Text>
             </View>
           ))}
         </View>

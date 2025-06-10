@@ -1,6 +1,8 @@
 const mariadb = require("mariadb");
 const { config } = require("../config/config.js");
 
+console.log("OPTION: ", config)
+
 const options = {
   host: config.dbHost,
   user: config.dbUser,

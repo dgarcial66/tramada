@@ -12,7 +12,7 @@ export function Home ({ user, setUser, ClickProducts, setClickProducts}) {
 
   return(
     <>
-      <Menu setUser={setUser}/>
+      <Menu user={user} setUser={setUser}/>
     </>
   )
 }

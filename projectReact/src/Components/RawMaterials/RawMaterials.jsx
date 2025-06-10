@@ -2,13 +2,19 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Header } from "../Header/Header";
 import { useMaterials } from "../../hooks/useMaterial.jsx";
+import Swal from 'sweetalert2';
 import { formatValues, handleDelete, handleEdit } from "../../utils/utils.js";
 import { updateMaterial, deleteMaterial, createMaterial } from "../../actions/rawMaterial.js";
 import { Modal } from "../Modal/Modal.jsx";
 import './rawMaterials.css';
 import { UpdateItems } from "../UpdateItems/UpdateItems.jsx";
+import fondoInsumos from "../../../asset/img/fondo_insumos.png";
+import axios from "axios";
 
 export function RawMaterials({ user, setUser }) {
+
+  const pathUrl = import.meta.env.VITE_API_URL;
+
   const [id, setId] = useState(null);
   const [name, setName] = useState("");
   const [color, setColor] = useState("");
@@ -24,6 +30,10 @@ export function RawMaterials({ user, setUser }) {
   const [notModify, setNotModify] = useState(false);
   const [textModal, setTextModal] = useState('Agregar');
   const [textInfo, setTextInfo] = useState('material');
+  const [proveedores, setProveedores] = useState([]);
+
+  const [categoriasInsumos, setCategoriasInsumos] = useState([]);
+
   const { search,
     setSearch,
     materials,
@@ -34,9 +44,58 @@ export function RawMaterials({ user, setUser }) {
     categories,
     filteredMaterials
   } = useMaterials();
-  const [listMaterials, setListMaterials] = useState(filteredMaterials());
+  const [listMaterials, setListMaterials] = useState([]);
 
   const navigate = useNavigate();
+
+  console.log("OTRA URL DE COMPONENTE: ", pathUrl);
+
+  useEffect(() => {
+    const fetchProveedores = async () => {
+      try {
+        const response = await axios.get(`${pathUrl}/api/v1/supplier`);
+        setProveedores(response.data);
+      } catch (error) {
+        console.error('Error fetching proveedores:', error);
+      }
+    };
+
+    fetchProveedores();
+  }, []);
+
+  useEffect(() => {
+    const fetchCategorias = async () => {
+      try {
+        const response = await axios.get(`${pathUrl}/api/v1/raw-categories`);
+     
+        let categorias = [];
+        if (response.data.success) {
+          categorias = Array.isArray(response.data.data) 
+            ? response.data.data 
+            : response.data.data 
+              ? [response.data.data] 
+              : [];
+        }
+  
+        setCategoriasInsumos(categorias.map(cat => ({
+          id: cat.id,
+          nombre_categoria_insumo: cat.nombre || cat.nombre_categoria_insumo
+        })));
+        
+      } catch (error) {
+        console.error("Error al obtener categorías:", error);
+   
+        setCategoriasInsumos([
+          { id: 1, nombre_categoria_insumo: "Materiales para tejidos" },
+          { id: 2, nombre_categoria_insumo: "Herramientas de confección" },
+          { id: 3, nombre_categoria_insumo: "Equipos de maquinaria textil" }
+        ]);
+      }
+    };
+  
+    fetchCategorias();
+  }, []);
+
 
   useEffect(() => {
     if (Object.values(user).every(value => value === '' || value === null || value === undefined)) {
@@ -47,14 +106,18 @@ export function RawMaterials({ user, setUser }) {
   useEffect(() => {
     const fetchMaterial = () => {
       const result = filteredMaterials();
+      console.log("SOY LA VERGAResult: ", result);
       setListMaterials(result);
     };
     setTextInfo('material');
     fetchMaterial();
+
+    console.log("SOY LA VERGA1: ", materials);
   }, [materials, search, nameSupplier]);
 
   useEffect(() => {
     if (idMaterial !== null) {
+      console.log("SOY LA VERGA2: ", materials);
       const material = materials.find(item => item.id === idMaterial);
       if (material) {
         setName(material.nombre_insumo);
@@ -68,279 +131,346 @@ export function RawMaterials({ user, setUser }) {
     }
   }, [materials, idMaterial, isOpenModal]);
 
-  const handlerDeleteMaterial = async (id) => {
-    try {
-      const rta = await deleteMaterial(id);
-      console.log(rta);
-      return rta;
-    } catch (err) {
-      console.log(err);
-      throw err;
-    }
-  };
-
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
-      const newMaterials = {
+      
+    
+      const peso = parseFloat(weight);
+      const cantidad = parseFloat(stock);
+      const precio = parseFloat(price);
+      
+      if (isNaN(peso) || isNaN(cantidad) || isNaN(precio)) {
+        throw new Error("Los valores de peso, stock y precio deben ser números válidos");
+      }
+  
+      // aqui obtenemos los nombres para  proveedor y categoría
+      const proveedorSeleccionado = proveedores.find(p => p.id === vendor);
+      const categoriaSeleccionada = categoriasInsumos.find(c => c.id === category);
+
+      console.log(proveedorSeleccionado, "Proveedor seleccionado----xx");
+      console.log(categoriaSeleccionada, "Categoria seleccionada----xxxxx");
+  
+      if (!proveedorSeleccionado || !categoriaSeleccionada) {
+        throw new Error("Proveedor o categoría no válidos");
+      }
+  
+      const newMaterial = {
         nombre_insumo: name,
         color_insumo: color,
-        cantidad_insumo: stock,
-        peso_insumo: weight,
-        precio_insumo: price,
-        id_proveedor: vendor,
-        categoria_insumos_id: category
+        peso_insumo: peso,
+        cantidad_insumo: cantidad,
+        precio_insumo: precio,
+        nombre_proveedor: proveedorSeleccionado.nombre_proveedor,
+        nombre_categoria_insumo: categoriaSeleccionada.nombre_categoria_insumo,
       };
-      const values = Object.values(newMaterials);
 
-      console.log('CALENTURA: ', values === undefined);
+      console.log(newMaterial, "Nuevo material");
+      
+      if (idMaterial !== null) {
 
-      if (values !== undefined) {
-        if (idMaterial !== null) {
-          try {
-            await updateMaterial(idMaterial, newMaterials);
-            const updateList = listMaterials.map(material => material.id === idMaterial ? { ...material, ...newMaterials } : material);
-            setListMaterials(updateList);
-            setMaterials(updateList);
-            setTextModal('actualizado');
-            setIsOpen(true);
-          } catch (error) {
-            console.log(error);
-            throw error;
-          }
-        } else {
-          try {
-            console.log('THE KILLERS');
-            const newArrayMaterials = Object.values(newMaterials);
-            await createMaterial(newArrayMaterials);
-            const updateList = [...listMaterials, newMaterials];
-            setListMaterials(updateList);
-            setMaterials(updateList);
-            setTextModal('creado');
-            setIsOpen(true);
-          } catch (error) {
-            console.log(error);
-            throw error;
-          }
-        }
+      console.log(newMaterial, "Nuevo material X10");
+       const updatedMaterial = await updateMaterial(newMaterial, idMaterial);
+       console.log(updateMaterial, "updateMaterial---------X11");
+       console.log(updateMaterial, "updateMaterial---------1");
+       console.log(categoriasInsumos, "ESTAS SON LAS CATEGORIAS");
+       const updateList = listMaterials.map(material => 
+         material.id === idMaterial ? {...newMaterial} : material
+       );
+       console.log(listMaterials, "Lista de materiales");
+       console.log(updateList, "Lista de updateMaterials");
+       setListMaterials(updateList);
+       setMaterials(updateList);
+       setTextModal('actualizado');
+       console.log(listMaterials, "Lista de materiales ACTUALIZADA");
+     } else {
 
-        formatValues({
-          setName,
-          setColor,
-          setStock,
-          setWeight,
-          setPrice,
-          setVendor,
-          setCategory,
-          setIdMaterial
-        });
-        console.log('Áqui 3');
+       const response = await createMaterial(newMaterial);
+       
+       setListMaterials(prev => [...prev, response.data]);
+       setMaterials(prev => [...prev, response.data]);
+       
+       setTextModal('creado');
+     }
+     setIsOpen(true);
+     formatValues({
+       setName,
+       setColor,
+       setStock,
+       setWeight,
+       setPrice,
+       setVendor,
+       setCategory,
+       setIdMaterial
+     });
+     setNotModify(false);
 
-        setNotModify(false);
-        return;
-      }
-    } catch (error) {
-      setNotModify(true);
-      throw error;
-    }
-  };
+    formatValues({
+      setName,
+      setColor,
+      setStock,
+      setWeight,
+      setPrice,
+      setVendor,
+      setCategory,
+      setIdMaterial,
+    });
+  }catch (error) {
+    console.error("Error en handleSubmit:", error);
+    setNotModify(true);
+  }
+};
+
 
   return (
     <>
-      <Header user={user} setUser={setUser} />
-      <button className="button-back" onClick={() => navigate("/home")} />
-      <div className="container mt-4" style={{ backgroundColor: "white", color: "black" }}>
-        <h1>Gestión de Material</h1>
+      <section className="container-father-services" style={{ backgroundImage: `url(${fondoInsumos})` }}>
+        <Header user={user} setUser={setUser} />
+        <img className="back" src="https://img.icons8.com/?size=100&id=26194&format=png&color=000000" onClick={() => navigate("/home")} />
+        <div className="container">
 
-        {/* Formulario para agregar o modificar productos */}
-        <div className="form-producto">
-          <div className="input-group mb-3">
-            <span className="input-group-text" id="basic-addon1">Nombre del Material</span>
-            <input
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-              className="form-control"
-              style={{ backgroundColor: "white", color: "black" }}
-            />
-          </div>
-          <div className="input-group mb-3">
-            <span className="input-group-text" id="basic-addon1">Color</span>
-            <input
-              type="text"
-              value={color}
-              onChange={(e) => setColor(e.target.value)}
-              required
-              className="form-control"
-              style={{ backgroundColor: "white", color: "black" }}
-            />
-          </div>
-          <div className="input-group mb-3">
-            <span className="input-group-text" id="basic-addon1">Stock</span>
-            <input
-              type="text"
-              value={stock}
-              onChange={(e) => setStock(e.target.value)}
-              required
-              className="form-control"
-              style={{ backgroundColor: "white", color: "black" }}
-            />
-          </div>
-          <div className="input-group mb-3">
-            <span className="input-group-text" id="basic-addon1">Peso (kg)</span>
-            <input
-              type="text"
-              value={weight}
-              onChange={(e) => setWeight(e.target.value)}
-              required
-              className="form-control"
-              style={{ backgroundColor: "white", color: "black" }}
-            />
-          </div>
-          <div className="input-group mb-3">
-            <span className="input-group-text" id="basic-addon1">Precio</span>
-            <input
-              type="text"
-              value={price}
-              onChange={(e) => setPrice(e.target.value)}
-              required
-              className="form-control"
-              style={{ backgroundColor: "white", color: "black" }}
-            />
-          </div>
-          <div className="input-group mb-3">
-            <span className="input-group-text" id="basic-addon1">Proveedor</span>
-            <input
-              type="text"
-              value={vendor}
-              onChange={(e) => setVendor(e.target.value)}
-              required
-              className="form-control"
-              style={{ backgroundColor: "white", color: "black" }}
-            />
-          </div>
-          <div className="input-group mb-3">
-            <span className="input-group-text" id="basic-addon1">Categoria</span>
-            <input
-              type="text"
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-              required
-              className="form-control"
-              style={{ backgroundColor: "white", color: "black" }}
-            />
-          </div>
-          <div className="form-btn-info">
-            <button
-              className="btn btn-success"
-              onClick={(e) => {
-                e.preventDefault();
-                handleSubmit(e);
-              }}
-            >
-              {idMaterial !== null ? "Modificar" : "Agregar"} Material
-            </button>
-            {notModify && <p className="text-danger">El proveedor o la categoria no existen para el insumo.</p>}
-          </div>
-        </div>
+          {/* Formulario para agregar o modificar productos */}
+
+          <div className="card">
+            <div className="card-header">Gestión de material</div>
+            <div className="card-body">
+              <div className="input-group">
+                <span className="input-label" id="basic-addon1">Nombre del Material</span>
+                <input placeholder="Nombre del material"
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                  className="input-field"
+                  style={{ backgroundColor: "white", color: "black" }}
+                />
+              </div>
+              <div className="input-group">
+                <span className="input-label" id="basic-addon1">Color</span>
+                <input placeholder="Color"
+                  type="text"
+                  value={color}
+                  onChange={(e) => setColor(e.target.value)}
+                  required
+                  className="input-field"
+                  style={{ backgroundColor: "white", color: "black" }}
+                />
+              </div>
+              <div className="input-group">
+                <span className="input-label" id="basic-addon1">Stock</span>
+                <input placeholder="Stock"
+                  type="text"
+                  value={stock}
+                  onChange={(e) => setStock(e.target.value)}
+                  required
+                  className="input-field"
+                  style={{ backgroundColor: "white", color: "black" }}
+                />
+              </div>
+              <div className="input-group">
+                <span className="input-label" id="basic-addon1">Peso (kg)</span>
+                <input placeholder="Peso en kg"
+                  type="text"
+                  value={weight}
+                  onChange={(e) => setWeight(e.target.value)}
+                  required
+                  className="input-field"
+                  style={{ backgroundColor: "white", color: "black" }}
+                />
+              </div>
+              <div className="input-group">
+                <span className="input-label" id="basic-addon1">Precio</span>
+                <input placeholder="Precio en COP"
+                  type="text"
+                  value={price}
+                  onChange={(e) => setPrice(e.target.value)}
+                  required
+                  className="input-field"
+                  style={{ backgroundColor: "white", color: "black" }}
+                />
+              </div>
 
 
-        <div className="search-container">
-          <label><h6>Buscar Material</h6></label>
-          <input
-            type="text"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="form-control"
-          />
-        </div>
+              <div className="input-group">
+                <span className="input-label">Proveedor</span>
+                <select
+                  id="proveedor"
+                  name="proveedor"
+                  value={vendor}
+                  onChange={(e) => setVendor(Number(e.target.value))}
+                  className="input-field"
+                  required
+                  style={{ backgroundColor: "white", color: "black" }}
+                >
+                  <option value="">Seleccione un proveedor</option>
+                  {proveedores.map((proveedor) => (
+                    <option key={proveedor.id} value={proveedor.id}>
+                      {proveedor.nombre_proveedor}
+                    </option>
+                  ))}
+                </select>
+              </div>
 
-        <div className="btn-filter--supplier">
-          <button
-            className="btn btn-success"
-            onClick={() => {
-              if (listType === "none") setListType("block");
-              else if (listType === "block") setListType("none");
-            }}
-          >
-            Filtrar
-          </button>
-          <ul className={`list-btn-supplier ${listType} `} style={{ backgroundColor: "white" }}>
-            {supplies?.map((supplies) => (
-              <li
-                className="list-group-item"
-                key={supplies.id} onClick={() => setNameSupplier(supplies.nombre_proveedor)}
-                style={{ backgroundColor: "white", color: "black" }}>
-                {supplies.nombre_proveedor}
-              </li>
-            ))}
-            <li onClick={() => setNameSupplier('')} style={{ backgroundColor: "white", color: "black" }}>todos</li>
-          </ul>
-        </div>
-        <h2>Lista de Material</h2>
 
-        {listMaterials ? (
-          <table className="table table-striped">
-            <thead>
-              <tr>
-                <th>Nombre</th>
-                <th>Color</th>
-                <th>Stock</th>
-                <th>Peso</th>
-                <th>Precio</th>
-                <th>Categoria</th>
-                <th>Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              {listMaterials?.map((item, index) => (
-                <tr key={item.id}>
-                  <td>{item.nombre_insumo}</td>
-                  <td>{item.color_insumo}</td>
-                  <td>{item.cantidad_insumo}</td>
-                  <td>{item.peso_insumo} Kg</td>
-                  <td>${item.precio_insumo}</td>
-                  <td>{item.categoria ? item.categoria : item.categoria_insumos_id}</td>
-                  <td>
+
+              <div className="input-group">
+                <span className="input-label">Categoría</span>
+                <select
+                  value={category}
+                  onChange={(e) => setCategory(Number(e.target.value))}
+                  className="input-field"
+                  required
+                  style={{ backgroundColor: "white", color: "black" }}
+                >
+                  <option value="">Seleccione una categoría</option>
+                  {categoriasInsumos.map((cat) => (
+                    <option key={cat.id} value={cat.id}>
+                      {cat.nombre_categoria_insumo}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <form onSubmit={handleSubmit}>
+                {/* todos los inputs aquí */}
+                <div className="form-btn-edit">
+                  <button className="btn btn-register" type="submit">
+                    {idMaterial !== null ? "Modificar" : "Agregar"} Material
+                  </button>
+                  {idMaterial !== null && (
                     <button
-                      onClick={async () => {
-                        const selectedMaterial = materials[index];
-                        setIdMaterial(selectedMaterial.id);
-                        await handleEdit({
-                          materials,
-                          index,
+                      className="btn btn-cancel"
+                      type="button"
+                      onClick={() => {
+                        formatValues({
                           setName,
-                          setStock,
                           setColor,
+                          setStock,
                           setWeight,
                           setPrice,
                           setVendor,
-                          setCategory
+                          setCategory,
+                          setIdMaterial,
                         });
+                        setNotModify(false);
                       }}
-                      className="btn btn-info"
                     >
-                      Editar
+                      Cancelar
                     </button>
-                    <button
-                      onClick={() => {
-                        setIdMaterial(item.id);
-                        setIsOpenModal(true);
-                      }}
-                      className="btn btn-danger"
-                    >
-                      Descontar
-                    </button>
-                  </td>
+                  )}
+                </div>
+              </form>
+
+              <div className="input-group">
+                <span className="input-label">Buscar Material</span>
+                <input
+                  type="text"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  className="input-field"
+                />
+              </div>
+
+              <div className="btn-filter--supplier">
+                <button
+                  className="btn btn-register"
+                  onClick={() => {
+                    if (listType === "none") setListType("block");
+                    else if (listType === "block") setListType("none");
+                  }}
+                >
+                  Filtrar
+                </button>
+                <ul className={`list-btn-supplier ${listType} `} style={{ backgroundColor: "white" }}>
+                  {supplies?.map((supplies) => (
+                    <li
+                      className="list-group-item"
+                      key={supplies.id} onClick={() => setNameSupplier(supplies.nombre_proveedor)}
+                      style={{ backgroundColor: "white", color: "black" }}>
+                      {supplies.nombre_proveedor}
+                    </li>
+                  ))}
+                  <li onClick={() => setNameSupplier('')} style={{ backgroundColor: "white", color: "black" }}>todos</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <h1 style={{ color: "white" }}>Lista de materiales</h1>
+          {listMaterials ? (
+            <table className="table" style={{ marginTop: "1px" }} >
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Color</th>
+                  <th>Stock</th>
+                  <th>Peso</th>
+                  <th>Precio</th>
+                  <th>Categoria</th>
+                  <th>Acciones</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        ) : (
-          <p>No hay Material disponibles.</p>
-        )}
-      </div>
+              </thead>
+              <tbody>
+                {listMaterials?.map((item, index) => (
+                  <tr key={item.id}>
+                    <td>{item.nombre_insumo}</td>
+                    <td>{item.color_insumo}</td>
+                    <td>{item.cantidad_insumo}</td>
+                    <td>{item.peso_insumo} Kg</td>
+                    <td>${item.precio_insumo}</td>
+                    {/* aqui se obtiene la categori de insumos */}
+                    <td>
+                      {item.nombre_categoria_insumo? item.nombre_categoria_insumo : categoriasInsumos.find(cat =>
+                          cat.id === item.categoria_insumos_id
+                        )?.nombre_categoria_insumo || 
+                          item.categoria ||
+                          item.categoria_insumos_id
+                      }
+                    </td>
+
+                    <td>
+                      <button
+                        onClick={async () => {
+                          const selectedMaterial = materials[index];
+                          setIdMaterial(selectedMaterial.id);
+                          await handleEdit({
+                            materials,
+                            index,
+                            setName,
+                            setStock,
+                            setColor,
+                            setWeight,
+                            setPrice,
+                            setVendor,
+                            setCategory
+                          });
+                        }}
+                        className="btn btn-edit"
+                      >
+                        Editar
+                      </button>
+                      <button
+                        onClick={() => {
+                          setIdMaterial(item.id);
+                          setIsOpenModal(true);
+                        }}
+                        className="btn btn-delete"
+                      >
+                        Descontar
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <p>No hay Material disponibles.</p>
+          )}
+        </div>
+
+
+      </section>
+
 
       <Modal
         isOpen={isOpen}

@@ -4,13 +4,32 @@ class orderModels {
   async getAllOrder() {
     const conn = await pool.getConnection();
     try {
-      const query = "SELECT * FROM orden_de_produccion";
+      const query = `
+        SELECT 
+          o.id,
+          o.fecha_orden,
+          o.fecha_entrega,
+          o.cantidad_productos_solicitada,
+          o.cantidad_insumo_necesaria,
+          o.anotaciones,
+          o.estado_orden,
+            u.email AS nombre_usuario,
+          i.nombre_insumo AS nombre_insumo,
+          p.nombre_producto AS nombre_producto
+        FROM orden_de_produccion o
+        JOIN usuario u ON o.usuario_id = u.id
+        JOIN insumos i ON o.insumos_id = i.id
+        JOIN productos p ON o.producto_id = p.id
+      `;
       const data = await conn.query(query);
       return data;
+    } catch (err) {
+      throw new Error("Error al obtener órdenes de producción: " + err.message);
     } finally {
       conn.release();
     }
   }
+  
 
   async getOrderById(id) {
     const conn = await pool.getConnection();
@@ -109,6 +128,8 @@ class orderModels {
     }
   }
 }
+
+
 
 
 module.exports = { orderModels };
