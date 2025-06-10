@@ -4,10 +4,12 @@ import './header.css'
 
 export const Header = ({user, setUser }) => {
 
+  const apiFetch = new ApiFetch();
+
   const navigate = useNavigate();
 
   const handlelogout = async () => {
-    await ApiFetch.logOut();
+    await apiFetch.logOut();
     setUser({
       email: '',
       roles: ''

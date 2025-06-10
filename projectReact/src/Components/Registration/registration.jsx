@@ -11,10 +11,12 @@ export function Registration ({ setIsRegister }){
     const [ errorEmail, setErrorEmail ] = useState(false);
     const [ errorExistsEmail, setErrorExistsEmail ] = useState(false);
 
+    const apiFetch = new ApiFetch();
+
     const createUser = async (user) => {
         let string = '';
         try {
-            await ApiFetch.create(user);
+            await apiFetch.create(user);
             setIsRegister(true);
             setErrorExistsEmail(false);
         }catch (err) {
