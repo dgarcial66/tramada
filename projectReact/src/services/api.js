@@ -1,9 +1,10 @@
 class ApiFetch {
-  constructor() {}
+  constructor() {
+    this.pathUrl = import.meta.env.VITE_API_URL;
+  }
 
-  static pathUrl = import.meta.env.VITE_API_URL;
-
-  static async isLogin() {
+  async isLogin() {
+    console.log("QUE NOS LLEGO: ", this.pathUrl);
     try {
       const res = await fetch(`${this.pathUrl}/api/v1/auth/verify`, {
         method: "GET",
@@ -39,7 +40,7 @@ class ApiFetch {
     }
   }
 
-  static async authUser(body) {
+  async authUser(body) {
     try {
       const res = await fetch(`${this.pathUrl}/api/v1/auth/login`, {
         method: "POST",
@@ -67,7 +68,7 @@ class ApiFetch {
     }
   }
 
-  static async create(body) {
+  async create(body) {
     try {
       const res = await fetch(`${this.pathUrl}/api/v1/user`, {
         method: "POST",
@@ -92,7 +93,7 @@ class ApiFetch {
     }
   }
 
-  static async logOut() {
+  async logOut() {
     try {
       const res = await fetch(`${this.pathUrl}/api/v1/auth/logout`, {
         method: "POST",

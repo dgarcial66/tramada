@@ -10,9 +10,12 @@ export function Login({ setUser, setIsRegister }) {
     const [errorUser, setErrorUser] = useState(false)
     const [errorPassword, setErrorPassword] = useState(false);
 
+    const apiFetch = new ApiFetch();
+
     useEffect(() => {
         async function getInfo() {
-            const infoUser = await ApiFetch.isLogin();
+            console.log("FACTORIA: ", import.meta.env.VITE_API_URL);
+            const infoUser = await apiFetch.isLogin();
             console.log("SOY USER EN USEFFECT: ", infoUser);
             console.log("SOY USER EN USEFFECT STATUS: ", infoUser.status);
             if (infoUser.status !== 200) {
@@ -27,7 +30,7 @@ export function Login({ setUser, setIsRegister }) {
     const userAuth = async (body) => {
         let string = '';
         try {
-            const info = await ApiFetch.authUser(body)
+            const info = await apiFetch.authUser(body)
             setToken(info.token);
             setUser(info.data)
             console.log(info);

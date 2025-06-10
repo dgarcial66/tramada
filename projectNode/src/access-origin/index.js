@@ -1,4 +1,4 @@
-const ACCESS_ORIGIN = ["http://localhost:5173", "http://127.0.0.1:5173", "https://super-giggle-6q946rq55vxcjqv-5173.app.github.dev/", "https://super-giggle-6q946rq55vxcjqv-5173.app.github.dev"];
+const ACCESS_ORIGIN = ["http://localhost:5173", "http://127.0.0.1:5173", "http://tramada.zapto.org"];
 
 const options = {
   origin: (origin, callback) => {
