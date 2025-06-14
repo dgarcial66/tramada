@@ -16,7 +16,7 @@ export const handleEdit = async ({
   setVendor,
   setCategory,
 }) => {
-  console.log(products);
+  console.log("ESTO ES PRODUCTOS PROPS: ", products);
   console.log(clients);
 
   if (products) {

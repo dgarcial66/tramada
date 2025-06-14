@@ -2,9 +2,8 @@ import { useNavigate } from "react-router-dom";
 import { ApiFetch } from "../../services/api";
 import './header.css'
 
-export const Header = ({user, setUser }) => {
 
-  const apiFetch = new ApiFetch();
+export const Header = ({user, setUser }) => {
 
   const navigate = useNavigate();
 

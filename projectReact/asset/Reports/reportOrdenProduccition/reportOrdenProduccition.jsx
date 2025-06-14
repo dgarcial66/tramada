@@ -78,7 +78,15 @@ const styles = StyleSheet.create({
 
 
 const ReportOrdenProduccion = ({ orden_de_produccion }) => {
-  console.log("orden de produccion:", orden_de_produccion);
+   if (!Array.isArray(orden_de_produccion)) {
+    return (
+      <Document>
+        <Page style={styles.page}>
+          <Text>No hay datos de producción disponibles.</Text>
+        </Page>
+      </Document>
+    );
+  }
 
   return (
     <Document>
@@ -106,8 +114,8 @@ const ReportOrdenProduccion = ({ orden_de_produccion }) => {
           </View>
 
 
-          {orden_de_produccion.map((odp, index) => (
-            <View key={index} style={styles.tableRow}>
+          {orden_de_produccion.map((odp,) => (
+            <View key={odp.id} style={styles.tableRow}>
               <Text style={[styles.tableCell, styles.tableText]}>{odp.id}</Text>
               <Text style={[styles.tableCell, styles.tableText]}>{odp.fecha_entrega ? new Date(odp.fecha_entrega).toLocaleDateString() : "N/A"}</Text>
               <Text style={[styles.tableCell, styles.tableText]}>{odp.cantidad_productos_solicitada}</Text>

@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
   }
 });
 
-const ReportHistorial = ({ HistoricalPricesMaterialsList, historicalPricesList, filter }) => {
+const ReportHistorial = ({ HistoricalPricesMaterialsList = [], historicalPricesList = [], filter = "all" }) => {
   return (
     <Document>
       <Page style={styles.page}>
