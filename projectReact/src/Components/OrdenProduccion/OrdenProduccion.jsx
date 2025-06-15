@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import './ordenproduccion.css';
 import { useState, useEffect } from "react";
 import Axios from "axios";

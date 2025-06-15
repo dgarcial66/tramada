@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import '../../styles/styles.css'
 import { useEffect, useState } from "react"
 import { ApiFetch } from "../../services/api.js"

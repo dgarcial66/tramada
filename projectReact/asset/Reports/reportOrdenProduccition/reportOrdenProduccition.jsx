@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from "react"; 
 import { StyleSheet, View, Text, Page, Document, Image } from "@react-pdf/renderer";
 import logosena from "../../img/logosena.png";

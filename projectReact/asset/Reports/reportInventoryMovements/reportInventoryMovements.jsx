@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from "react";
 import { StyleSheet, View, Text, Page, Document, Image } from "@react-pdf/renderer";
 import logosena from "../../img/logosena.png";
@@ -108,7 +109,7 @@ const InventoryMovementsPDF = ({ inventoryList }) => {
             <Text style={[styles.tableCell, styles.tableText]}>Producto</Text>
           </View>
 
-
+          // eslint-disable-next-line react/prop-types
           { Array.isArray(inventoryList) &&
           inventoryList.map((item) => (
               <View key={item.id} style={styles.tableRow}>
