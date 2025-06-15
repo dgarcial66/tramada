@@ -1,7 +1,7 @@
 const { pool } = require("../db/config.js");
 
 class ProductsModel {
-    constructor(){}
+
 
 
     async getProducts() {

@@ -4,7 +4,7 @@ const bcrypt = require("bcryptjs");
 let conn;
 
 class UserModel {
-  constructor() {}
+
   async getUser() {
     try {
       conn = await pool.getConnection();

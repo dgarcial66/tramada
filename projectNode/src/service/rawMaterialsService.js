@@ -3,7 +3,6 @@ const { RawMaterialsModel } = require("../models/rawMaterialsModel.js");
 const model = new RawMaterialsModel();
 
 class RawMaterialsService {
-  constructor() {}
 
   async getRawMaterials() {
     try {

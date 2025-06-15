@@ -4,7 +4,6 @@ let conn;
 const model = new UserModel();
 
 class UserService {
-  constructor() {}
 
   async getUser() {
     try {
