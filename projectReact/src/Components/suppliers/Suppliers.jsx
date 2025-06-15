@@ -8,7 +8,7 @@ import { handleDelete } from "../../utils/utilsSuppliers.js";
 import 'bootstrap/dist/css/bootstrap.min.css'
 import "./suppliers.css";
 
-// NOSONAR
+// eslint-disable-next-line react/prop-types
 export function Suppliers({ user, setUser }) {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");

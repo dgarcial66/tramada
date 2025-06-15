@@ -6,7 +6,7 @@ import Swal from 'sweetalert2'
 import Axios from "axios";
 
 const API_URL = import.meta.env.VITE_API_URL;
-// NOSONAR
+// eslint-disable-next-line react/prop-types
 export function ListClients({ user, setUser }) {
   const [nombre, setNombre] = useState("");
   const [telefono, setTelefono] = useState("");

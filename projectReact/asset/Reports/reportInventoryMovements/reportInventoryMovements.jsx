@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
   }
 });
 
-// NOSONAR
+// eslint-disable-next-line react/prop-types
 const InventoryMovementsPDF = ({ inventoryList }) => {
  if (!Array.isArray(inventoryList)) {
     return (

@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { ApiFetch } from "../../services/api";
 import './header.css'
 
-// NOSONAR
+// eslint-disable-next-line react/prop-types
 export const Header = ({user, setUser }) => {
 
   const navigate = useNavigate();
@@ -17,7 +17,7 @@ export const Header = ({user, setUser }) => {
     navigate('/');
   }
 
-  // NOSONAR
+
   return (
     <header className="iconos-menu">
       <section className="logo-menu">

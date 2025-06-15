@@ -10,7 +10,7 @@ import "./inventoryMovements.css"
 const API_URL = import.meta.env.VITE_API_URL;
 
 
-// NOSONAR
+// eslint-disable-next-line react/prop-types
 export function InventoryMovements({ user, setUser }) {
   const [inventoryList, setInventoryList] = useState([]);
 

@@ -11,7 +11,7 @@ import { PDFDownloadLink } from '@react-pdf/renderer';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-// NOSONAR
+// eslint-disable-next-line react/prop-types
 function OrdenProduccion({ user, setUser }) {
   const [fecha_entrega, setFechaEntrega] = useState('');
   const [cantidad_productos_solicitada, setCantidadProductosSolicitada] = useState('');

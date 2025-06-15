@@ -8,7 +8,7 @@ import fondoProductos from "../../../asset/img/fondo_productos.jpeg"
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-// NOSONAR
+// eslint-disable-next-line react/prop-types
 export function Products({ user, setUser }) {
   const [id, setId] = useState("");
   const [nombre, setNombre] = useState("");

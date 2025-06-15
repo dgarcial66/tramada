@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {Menu} from '../../Components/Menu/Menu.jsx'
 
-// NOSONAR
+// eslint-disable-next-line react/prop-types
 export function Home ({ user, setUser, ClickProducts, setClickProducts}) {
   const navigate = useNavigate()
 

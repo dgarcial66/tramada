@@ -7,7 +7,7 @@ import Axios from "axios";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-// NOSONAR
+// eslint-disable-next-line react/prop-types
 export function Ventas({ setUser, user }) {
   const [id, setId] = useState("");
   const [fecha, setFecha] = useState("");
