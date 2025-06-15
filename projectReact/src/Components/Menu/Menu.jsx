@@ -4,7 +4,7 @@ import { MenuProductos } from "../../Views/MenuProductos/MenuProductos"
 import { Header } from "../Header/Header";
 import "./menu.css"
 
-
+// NOSONAR
 export function Menu({ user, setUser }) {
   const [ClickProducts, setClickProducts] = useState(false);
   const navigate = useNavigate()

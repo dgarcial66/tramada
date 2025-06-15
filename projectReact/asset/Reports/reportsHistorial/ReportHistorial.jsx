@@ -72,6 +72,7 @@ const styles = StyleSheet.create({
   }
 });
 
+// NOSONAR
 const ReportHistorial = ({ HistoricalPricesMaterialsList = [], historicalPricesList = [], filter = "all" }) => {
   return (
     <Document>

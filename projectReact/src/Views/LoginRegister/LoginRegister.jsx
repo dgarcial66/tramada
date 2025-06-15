@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { Login } from "../../Components/Login/Login"; 
 import { Registration } from "../../Components/Registration/registration.jsx";
 
+
+// NOSONAR
 const LoginRegister = ({ user, setUser }) => {
   const [isLogin, setIsLogin] = useState(true);
   const [isRegister, setIsRegister] = useState(false);

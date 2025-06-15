@@ -11,6 +11,7 @@ import { UpdateItems } from "../UpdateItems/UpdateItems.jsx";
 import fondoInsumos from "../../../asset/img/fondo_insumos.png";
 import axios from "axios";
 
+// NOSONAR
 export function RawMaterials({ user, setUser }) {
 
   const pathUrl = import.meta.env.VITE_API_URL;

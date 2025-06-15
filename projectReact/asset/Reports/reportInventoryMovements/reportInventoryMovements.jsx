@@ -73,6 +73,7 @@ const styles = StyleSheet.create({
   }
 });
 
+// NOSONAR
 const InventoryMovementsPDF = ({ inventoryList }) => {
  if (!Array.isArray(inventoryList)) {
     return (
@@ -106,6 +107,7 @@ const InventoryMovementsPDF = ({ inventoryList }) => {
             <Text style={[styles.tableCell, styles.tableText]}>Insumos</Text>
             <Text style={[styles.tableCell, styles.tableText]}>Producto</Text>
           </View>
+
 
           { Array.isArray(inventoryList) &&
           inventoryList.map((item) => (

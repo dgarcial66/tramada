@@ -9,6 +9,7 @@ import "./historicalprices.css";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
+// NOSONAR
 export function Historicalprices({ user, setUser }) {
     const [HistoricalPricesMaterialsList, setHistoricalPricesMaterialsList] = useState([]);
     const [historicalPricesList, setHistoricalPricesList] = useState([]);

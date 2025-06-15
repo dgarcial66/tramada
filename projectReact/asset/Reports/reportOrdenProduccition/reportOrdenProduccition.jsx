@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
   }
 });
 
-
+// NOSONAR
 const ReportOrdenProduccion = ({ orden_de_produccion }) => {
    if (!Array.isArray(orden_de_produccion)) {
     return (

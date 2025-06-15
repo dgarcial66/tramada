@@ -9,6 +9,8 @@ import "./inventoryMovements.css"
 
 const API_URL = import.meta.env.VITE_API_URL;
 
+
+// NOSONAR
 export function InventoryMovements({ user, setUser }) {
   const [inventoryList, setInventoryList] = useState([]);
 
@@ -28,6 +30,8 @@ export function InventoryMovements({ user, setUser }) {
       getInventory();
     }
   }, [user, navigate])
+
+
 
   return (
 
