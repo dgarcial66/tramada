@@ -2,7 +2,7 @@ const { pool } = require("../db/config.js");
 
 
 class ClientsModel {
-    constructor() {}
+
   
     async create(body) {
       const conn = await pool.getConnection();

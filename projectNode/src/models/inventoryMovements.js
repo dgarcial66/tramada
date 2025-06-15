@@ -1,7 +1,7 @@
 const {pool} = require("../db/config.js");
 
 class InventoryMovements {
-    constructor(){}
+
 
     async getInventoryMovements() {
       const conn = await pool.getConnection();
