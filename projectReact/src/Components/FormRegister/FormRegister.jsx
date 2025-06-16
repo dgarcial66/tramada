@@ -55,7 +55,7 @@ export function FormRegister ({
 
   
  
-  const [ supplier, setSupplier ] = useState();
+
   const navigate = useNavigate()
   
   const filterLists = filteredProducts?.length ? filteredProducts : filteredClients;
