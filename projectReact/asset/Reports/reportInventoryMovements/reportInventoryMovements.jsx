@@ -74,7 +74,6 @@ const styles = StyleSheet.create({
   }
 });
 
-// eslint-disable-next-line react/prop-types
 const InventoryMovementsPDF = ({ inventoryList }) => {
  if (!Array.isArray(inventoryList)) {
     return (
@@ -109,7 +108,6 @@ const InventoryMovementsPDF = ({ inventoryList }) => {
             <Text style={[styles.tableCell, styles.tableText]}>Producto</Text>
           </View>
 
-          // eslint-disable-next-line react/prop-types
           { Array.isArray(inventoryList) &&
           inventoryList.map((item) => (
               <View key={item.id} style={styles.tableRow}>
