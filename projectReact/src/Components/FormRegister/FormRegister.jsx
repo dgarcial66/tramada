@@ -4,20 +4,17 @@ import { useNavigate } from "react-router-dom";;
 import { handleDelete, handleEdit } from '../../utils/utils';
 import { Header } from "../Header/Header";
 import { ApiSupplier } from '../../services/apiSupplier.js';
-import { formRegisterSchema } from './FormRegister.schema';
+
 const suppliesService = new ApiSupplier();
 
-export function FormRegister(props) {
-  formRegisterSchema.parse(props); // 💥 Validación aquí
-
-  const {
+export function FormRegister ({ 
     handleSubmit,
     products,
     setProducts,
     name,
-    price,
-    editIndex,
-    search,
+    price, 
+    editIndex, 
+    search, 
     filteredProducts,
     setName,
     setPrice,
@@ -54,9 +51,7 @@ export function FormRegister(props) {
     materials,
     setMaterials,
     setIdSupplier
-  } = props;
- {
-  console.log("PRODUCTOS PROPS: ", products);
+}) {
 
   
  
@@ -292,5 +287,4 @@ export function FormRegister(props) {
       </>
     )
   } 
-}
 }
