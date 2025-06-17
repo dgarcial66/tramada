@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Header } from "../Header/Header";
@@ -9,6 +10,7 @@ import "./historicalprices.css";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
+// eslint-disable-next-line react/prop-types
 export function Historicalprices({ user, setUser }) {
     const [HistoricalPricesMaterialsList, setHistoricalPricesMaterialsList] = useState([]);
     const [historicalPricesList, setHistoricalPricesList] = useState([]);

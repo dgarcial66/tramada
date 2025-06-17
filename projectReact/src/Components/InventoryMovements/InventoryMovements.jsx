@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Header } from "../Header/Header";
@@ -9,6 +10,8 @@ import "./inventoryMovements.css"
 
 const API_URL = import.meta.env.VITE_API_URL;
 
+
+// eslint-disable-next-line react/prop-types
 export function InventoryMovements({ user, setUser }) {
   const [inventoryList, setInventoryList] = useState([]);
 
@@ -28,6 +31,8 @@ export function InventoryMovements({ user, setUser }) {
       getInventory();
     }
   }, [user, navigate])
+
+
 
   return (
 

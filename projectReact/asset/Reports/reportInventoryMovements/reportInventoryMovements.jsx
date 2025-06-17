@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from "react";
 import { StyleSheet, View, Text, Page, Document, Image } from "@react-pdf/renderer";
 import logosena from "../../img/logosena.png";
@@ -74,6 +75,16 @@ const styles = StyleSheet.create({
 });
 
 const InventoryMovementsPDF = ({ inventoryList }) => {
+ if (!Array.isArray(inventoryList)) {
+    return (
+      <Document>
+        <Page style={styles.page}>
+          <Text>No hay datos de inventario disponibles.</Text>
+        </Page>
+      </Document>
+    );
+  }
+
   return (
     <Document>
       <Page style={styles.page}>
@@ -97,8 +108,9 @@ const InventoryMovementsPDF = ({ inventoryList }) => {
             <Text style={[styles.tableCell, styles.tableText]}>Producto</Text>
           </View>
 
-          {inventoryList.map((item, index) => (
-              <View key={index} style={styles.tableRow}>
+          { Array.isArray(inventoryList) &&
+          inventoryList.map((item) => (
+              <View key={item.id} style={styles.tableRow}>
                 <Text style={[styles.tableCell, styles.tableText]}>{item.id}</Text>
                 <Text style={[styles.tableCell, styles.tableText]}>{item.tipo_movimiento}</Text>
                 <Text style={[styles.tableCell, styles.tableText]}>{item.cantidad}</Text>

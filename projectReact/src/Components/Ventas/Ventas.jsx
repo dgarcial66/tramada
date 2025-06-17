@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Header } from "../Header/Header";
@@ -7,6 +8,7 @@ import Axios from "axios";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
+// eslint-disable-next-line react/prop-types
 export function Ventas({ setUser, user }) {
   const [id, setId] = useState("");
   const [fecha, setFecha] = useState("");

@@ -1,7 +1,9 @@
+/* eslint-disable react/prop-types */
 import '../../styles/styles.css'
 import { useEffect, useState } from "react"
 import { ApiFetch } from "../../services/api.js"
 
+// eslint-disable-next-line react/prop-types
 export function Login({ setUser, setIsRegister }) {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")

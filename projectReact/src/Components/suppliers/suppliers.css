@@ -58,13 +58,13 @@
   }
   
   .search-container1 {
-    padding-bottom: 20px;;
+    padding-bottom: 20px;
     max-width: 1000px;
     margin: 0 auto;
     
   }
   .ppp {
-    padding-bottom: 20px;;
+    padding-bottom: 20px;
     width: 53%;
     margin: 0 auto;
   }
@@ -72,7 +72,7 @@
   .supplier-list1 {
     list-style-type: none;
     padding: 0;
-    padding-bottom: 20px;;
+    padding-bottom: 20px;
     max-width: 1000px;
     margin: 0 auto;
   }
@@ -86,8 +86,6 @@
     margin-bottom: 10px;
     border-radius: 5px;
     box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
-    display: flex;
-    justify-content: space-between;
     align-items: center;
   }
   

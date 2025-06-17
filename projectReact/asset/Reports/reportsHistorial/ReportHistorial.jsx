@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from "react";  
 import { StyleSheet, View, Text, Page, Document, Image } from "@react-pdf/renderer";
 import logosena from "../../img/logosena.png";
@@ -72,7 +73,8 @@ const styles = StyleSheet.create({
   }
 });
 
-const ReportHistorial = ({ HistoricalPricesMaterialsList, historicalPricesList, filter }) => {
+// eslint-disable-next-line react/prop-types
+const ReportHistorial = ({ HistoricalPricesMaterialsList = [], historicalPricesList = [], filter = "all" }) => {
   return (
     <Document>
       <Page style={styles.page}>

@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Header } from "../Header/Header";
@@ -8,6 +9,7 @@ import fondoProductos from "../../../asset/img/fondo_productos.jpeg"
 
 const API_URL = import.meta.env.VITE_API_URL;
 
+// eslint-disable-next-line react/prop-types
 export function Products({ user, setUser }) {
   const [id, setId] = useState("");
   const [nombre, setNombre] = useState("");

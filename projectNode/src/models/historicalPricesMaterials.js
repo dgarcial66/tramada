@@ -1,7 +1,7 @@
 const { pool } = require("../db/config.js");
 
 class HistoricalPricesMaterials {
-  constructor() {}
+
 
   async getHistoricalPricesMaterials() {
     const conn = await pool.getConnection();

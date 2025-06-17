@@ -1,5 +1,7 @@
 import { createPortal } from 'react-dom';
 import Swal from 'sweetalert2';
+
+// eslint-disable-next-line react/prop-types
 function Modal({ isOpen, textModal, setIsOpen, textInfo}) {
     if(isOpen) {
         Swal.fire({

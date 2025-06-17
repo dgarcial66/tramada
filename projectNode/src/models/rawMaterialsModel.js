@@ -1,7 +1,7 @@
 const { pool } = require("../db/config.js");
 
 class RawMaterialsModel {
-  constructor() {}
+
 
   dynamicQuery(body) {
     const fields = [];

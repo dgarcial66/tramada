@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSuppliers } from "../../hooks/useSuppliers";
@@ -8,6 +9,7 @@ import { handleDelete } from "../../utils/utilsSuppliers.js";
 import 'bootstrap/dist/css/bootstrap.min.css'
 import "./suppliers.css";
 
+// eslint-disable-next-line react/prop-types
 export function Suppliers({ user, setUser }) {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");

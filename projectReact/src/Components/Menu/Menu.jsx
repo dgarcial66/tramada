@@ -1,10 +1,11 @@
+/* eslint-disable react/prop-types */
 import { useState } from "react"
 import { useNavigate } from 'react-router-dom'
 import { MenuProductos } from "../../Views/MenuProductos/MenuProductos"
 import { Header } from "../Header/Header";
 import "./menu.css"
 
-
+// eslint-disable-next-line react/prop-types
 export function Menu({ user, setUser }) {
   const [ClickProducts, setClickProducts] = useState(false);
   const navigate = useNavigate()

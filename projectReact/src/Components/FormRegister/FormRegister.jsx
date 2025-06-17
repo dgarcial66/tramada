@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";;
 import { handleDelete, handleEdit } from '../../utils/utils';
@@ -54,7 +55,7 @@ export function FormRegister ({
 
   
  
-  const [ supplier, setSupplier ] = useState();
+
   const navigate = useNavigate()
   
   const filterLists = filteredProducts?.length ? filteredProducts : filteredClients;

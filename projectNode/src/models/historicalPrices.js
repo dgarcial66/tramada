@@ -1,7 +1,6 @@
 const { pool } = require("../db/config.js");
 
 class HistoricalPrices {
-    constructor() {}
 
 
     async getHistoricalPrices() {

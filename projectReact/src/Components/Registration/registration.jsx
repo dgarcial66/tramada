@@ -1,8 +1,9 @@
+/* eslint-disable react/prop-types */
 import { useState } from "react";
 import { ApiFetch } from "../../services/api";
 
 
-
+// eslint-disable-next-line react/prop-types
 export function Registration ({ setIsRegister }){
     const [ email, setEmail ] = useState('');
     const [ password, setPassword ] = useState('');

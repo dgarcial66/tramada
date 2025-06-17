@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import './ordenproduccion.css';
 import { useState, useEffect } from "react";
 import Axios from "axios";
@@ -11,6 +12,7 @@ import { PDFDownloadLink } from '@react-pdf/renderer';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
+// eslint-disable-next-line react/prop-types
 function OrdenProduccion({ user, setUser }) {
   const [fecha_entrega, setFechaEntrega] = useState('');
   const [cantidad_productos_solicitada, setCantidadProductosSolicitada] = useState('');

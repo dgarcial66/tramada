@@ -1,7 +1,7 @@
 const { pool } = require("../db/config.js");
 
 class DetailSales {
-  constructor() {}
+
 
   async addDetailSales(body) {
     const conn = await pool.getConnection();

@@ -2,7 +2,6 @@ const { SupplierModel } = require("../models/supplierModel.js");
 
 const model = new SupplierModel();
 class SupplierService {
-  constructor() {}
 
   async getSupplier() {
     try {
