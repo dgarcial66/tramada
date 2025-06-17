@@ -228,7 +228,9 @@ export function RawMaterials({ user, setUser }) {
     <>
       <section className="container-father-services" style={{ backgroundImage: `url(${fondoInsumos})` }}>
         <Header user={user} setUser={setUser} />
-        <img className="back" src="https://img.icons8.com/?size=100&id=26194&format=png&color=000000" onClick={() => navigate("/home")} />
+        <button onClick={() => navigate("/home")}>
+          <img className="back" src="https://img.icons8.com/?size=100&id=26194&format=png&color=000000" />
+        </button>
         <div className="container">
 
           {/* Formulario para agregar o modificar productos */}
