@@ -39,7 +39,9 @@ export function InventoryMovements({ user, setUser }) {
     <>
       <section className="container-father-services">
         <Header user={user} setUser={setUser} />
-        <img className="back" src="https://img.icons8.com/?size=100&id=26194&format=png&color=000000" onClick={() => navigate("/home")} />
+        <button onClick={() => navigate("/home")}>
+          <img className="back" src="https://img.icons8.com/?size=100&id=26194&format=png&color=000000" />
+        </button>
         <div className="container">
           <div className="cardmin">
             <button className="btn btn-edit" style={{ color: "white" }}>
