@@ -3,9 +3,8 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Header } from "../Header/Header";
 import { useMaterials } from "../../hooks/useMaterial.jsx";
-import Swal from 'sweetalert2';
-import { formatValues, handleDelete, handleEdit } from "../../utils/utils.js";
-import { updateMaterial, deleteMaterial, createMaterial } from "../../actions/rawMaterial.js";
+import { formatValues,  handleEdit } from "../../utils/utils.js";
+import { updateMaterial, createMaterial } from "../../actions/rawMaterial.js";
 import { Modal } from "../Modal/Modal.jsx";
 import './rawMaterials.css';
 import { UpdateItems } from "../UpdateItems/UpdateItems.jsx";
@@ -17,7 +16,7 @@ export function RawMaterials({ user, setUser }) {
 
   const pathUrl = import.meta.env.VITE_API_URL;
 
-  const [id, setId] = useState(null);
+
   const [name, setName] = useState("");
   const [color, setColor] = useState("");
   const [stock, setStock] = useState("");
@@ -29,7 +28,6 @@ export function RawMaterials({ user, setUser }) {
   const [listType, setListType] = useState('none');
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenModal, setIsOpenModal] = useState(false);
-  const [notModify, setNotModify] = useState(false);
   const [textModal, setTextModal] = useState('Agregar');
   const [textInfo, setTextInfo] = useState('material');
   const [proveedores, setProveedores] = useState([]);
@@ -43,7 +41,6 @@ export function RawMaterials({ user, setUser }) {
     nameSupplier,
     setNameSupplier,
     supplies,
-    categories,
     filteredMaterials
   } = useMaterials();
   const [listMaterials, setListMaterials] = useState([]);
@@ -65,38 +62,42 @@ export function RawMaterials({ user, setUser }) {
     fetchProveedores();
   }, []);
 
-  useEffect(() => {
-    const fetchCategorias = async () => {
-      try {
-        const response = await axios.get(`${pathUrl}/api/v1/raw-categories`);
-     
-        let categorias = [];
-        if (response.data.success) {
-          categorias = Array.isArray(response.data.data) 
-            ? response.data.data 
-            : response.data.data 
-              ? [response.data.data] 
-              : [];
+useEffect(() => {
+  const fetchCategorias = async () => {
+    try {
+      const response = await axios.get(`${pathUrl}/api/v1/raw-categories`);
+      
+      let categorias = [];
+
+      if (response.data.success) {
+        const datos = response.data.data;
+
+        if (Array.isArray(datos)) {
+          categorias = datos;
+        } else if (datos) {
+          categorias = [datos];
         }
-  
-        setCategoriasInsumos(categorias.map(cat => ({
-          id: cat.id,
-          nombre_categoria_insumo: cat.nombre || cat.nombre_categoria_insumo
-        })));
-        
-      } catch (error) {
-        console.error("Error al obtener categorías:", error);
-   
-        setCategoriasInsumos([
-          { id: 1, nombre_categoria_insumo: "Materiales para tejidos" },
-          { id: 2, nombre_categoria_insumo: "Herramientas de confección" },
-          { id: 3, nombre_categoria_insumo: "Equipos de maquinaria textil" }
-        ]);
       }
-    };
-  
-    fetchCategorias();
-  }, []);
+
+      setCategoriasInsumos(categorias.map(cat => ({
+        id: cat.id,
+        nombre_categoria_insumo: cat.nombre || cat.nombre_categoria_insumo
+      })));
+
+    } catch (error) {
+      console.error("Error al obtener categorías:", error);
+
+      setCategoriasInsumos([
+        { id: 1, nombre_categoria_insumo: "Materiales para tejidos" },
+        { id: 2, nombre_categoria_insumo: "Herramientas de confección" },
+        { id: 3, nombre_categoria_insumo: "Equipos de maquinaria textil" }
+      ]);
+    }
+  };
+
+  fetchCategorias();
+}, []);
+
 
 
   useEffect(() => {
@@ -172,7 +173,7 @@ export function RawMaterials({ user, setUser }) {
       if (idMaterial !== null) {
 
       console.log(newMaterial, "Nuevo material X10");
-       const updatedMaterial = await updateMaterial(newMaterial, idMaterial);
+      await updateMaterial(newMaterial, idMaterial);
        console.log(updateMaterial, "updateMaterial---------X11");
        console.log(updateMaterial, "updateMaterial---------1");
        console.log(categoriasInsumos, "ESTAS SON LAS CATEGORIAS");
@@ -228,7 +229,7 @@ export function RawMaterials({ user, setUser }) {
     <>
       <section className="container-father-services" style={{ backgroundImage: `url(${fondoInsumos})` }}>
         <Header user={user} setUser={setUser} />
-        <button onClick={() => navigate("/home")}>
+        <button style={{ all: 'unset', cursor: 'pointer' }}  onClick={() => navigate("/home")}>
           <img className="back" src="https://img.icons8.com/?size=100&id=26194&format=png&color=000000" />
         </button>
         <div className="container">
@@ -387,12 +388,22 @@ export function RawMaterials({ user, setUser }) {
                 </button>
                 <ul className={`list-btn-supplier ${listType} `} style={{ backgroundColor: "white" }}>
                   {supplies?.map((supplies) => (
-                    <li
-                      className="list-group-item"
-                      key={supplies.id} onClick={() => setNameSupplier(supplies.nombre_proveedor)}
-                      style={{ backgroundColor: "white", color: "black" }}>
-                      {supplies.nombre_proveedor}
-                    </li>
+                   <li key={supplies.id} className="list-group-item" style={{ backgroundColor: "white" }}>
+                  <button
+                    onClick={() => setNameSupplier(supplies.nombre_proveedor)}
+                    style={{
+                      backgroundColor: "white",
+                      color: "black",
+                      border: "none",
+                      width: "100%",
+                      textAlign: "left",
+                      padding: "0.5em",
+                    }}
+                  >
+                    {supplies.nombre_proveedor}
+                  </button>
+                </li>
+
                   ))}
                   <li onClick={() => setNameSupplier('')} style={{ backgroundColor: "white", color: "black" }}>todos</li>
                 </ul>
