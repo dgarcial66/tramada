@@ -28,7 +28,7 @@ export function Registration ({ setIsRegister }){
         }
     }
 
-    const handleRegister = (e) => {
+    const handleRegister = async (e) => {
         e.preventDefault();
     
         // Limpiar errores antes de validar
@@ -49,7 +49,7 @@ export function Registration ({ setIsRegister }){
         const newUser = { email, password };
     
         try {
-            createUser(newUser);
+           await createUser(newUser);
         } catch (err) {
             console.log(err);
         }
