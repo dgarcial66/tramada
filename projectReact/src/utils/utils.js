@@ -44,8 +44,8 @@ export const handleEdit = async ({
       setColor(material.color_insumo);
       setStock(material.cantidad_insumo);
       setWeight(material.peso_insumo);
-      setPrice(material.precio_insumo),
-        setVendor(material.proveedor),
+      setPrice(material.precio_insumo);
+        setVendor(material.proveedor);
         setCategory(material.categoria);
     }
   }

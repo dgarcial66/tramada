@@ -60,12 +60,19 @@ export function Registration ({ setIsRegister }){
             <form className="formulario form-register"
             onSubmit={handleRegister}
             >
-                <img 
-                    className="arrow"
-                    src="https://img.icons8.com/?size=100&id=26194&format=png&color=000000" 
-                    alt="arrow left"
+                <button
+                    type="button"
                     onClick={() => setIsRegister(false)}
-                />
+                    className="arrow-button"
+                    style={{ all: 'unset', cursor: 'pointer' }} // puedes mover esto a tu CSS
+                    >
+                    <img
+                        className="arrow"
+                        src="https://img.icons8.com/?size=100&id=26194&format=png&color=000000"
+                        alt="Volver"
+                    />
+                    </button>
+
                 <h1>REGISTRARSE</h1>
             
                 <input 

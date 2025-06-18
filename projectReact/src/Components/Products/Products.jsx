@@ -199,8 +199,9 @@ export function Products({ user, setUser }) {
     <>
       <section className="container-father-services" style={{backgroundImage:`url(${fondoProductos})`}}>
         <Header user={user} setUser={setUser} />
-        <button onClick={() => navigate("/home")}>
+        <button  style={{ all: 'unset', cursor: 'pointer' }} onClick={() => navigate("/home")}>
           <img className="back" src="https://img.icons8.com/?size=100&id=26194&format=png&color=000000" />
+
         </button>
         <div className="container">
           <div className="card ">
