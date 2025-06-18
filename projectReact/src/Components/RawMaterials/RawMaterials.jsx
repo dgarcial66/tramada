@@ -405,7 +405,23 @@ useEffect(() => {
                 </li>
 
                   ))}
-                  <li onClick={() => setNameSupplier('')} style={{ backgroundColor: "white", color: "black" }}>todos</li>
+                  <li style={{ backgroundColor: "white" }}>
+                    <button
+                      onClick={() => setNameSupplier('')}
+                      style={{
+                        backgroundColor: "white",
+                        color: "black",
+                        border: "none",
+                        width: "100%",
+                        textAlign: "left",
+                        padding: "0.5em",
+                        cursor: "pointer"
+                      }}
+                    >
+                      Todos
+                    </button>
+                  </li>
+
                 </ul>
               </div>
             </div>

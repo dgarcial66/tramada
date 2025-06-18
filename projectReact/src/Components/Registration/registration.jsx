@@ -78,7 +78,7 @@ export function Registration ({ setIsRegister }){
                 <input 
                     type="text"
                     value={email}
-                    autoComplete="current-email"
+                    autoComplete="email"
                     name="usuario" 
                     id="correo"  
                     placeholder="Correo electronico"
@@ -87,7 +87,7 @@ export function Registration ({ setIsRegister }){
                 <input 
                     type="password"
                     value={password}
-                    autoComplete="current-password"
+                    autoComplete="new-password"
                     name="password" 
                     id="password" 
                     placeholder="Contraseña"
@@ -98,7 +98,7 @@ export function Registration ({ setIsRegister }){
                     value={repeatPassword}
                     name="repeatPassword" 
                     id="repeatPassword" 
-                    placeholder="Repita contraseña" autoComplete="current-password"
+                    placeholder="Repita contraseña" autoComplete="new-password"
                     onChange={e => setRepeatPassword(e.target.value)}
                 />
                 <button>Registrarse</button>
